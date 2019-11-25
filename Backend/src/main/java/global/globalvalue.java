@@ -10,4 +10,6 @@ public class globalvalue {
     public static String neo4japi = "bolt://10.60.38.173";
     //public static String neo4japi = "bolt://localhost";
 
+
+
 }

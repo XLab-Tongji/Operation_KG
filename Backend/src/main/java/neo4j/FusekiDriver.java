@@ -35,6 +35,7 @@ import global.globalvalue;
 
 import static neo4j.MongoDriver.*;
 import static neo4j.prometheusDriver.getProInfor;
+import static util.CommonUtil.getAlertNum;
 import static util.FileUtil.saveClusterResult;
 import static util.HttpPostUtil.getImage;
 
@@ -1942,8 +1943,8 @@ public class FusekiDriver {
             System.out.println(timeList);
             System.out.println(proInfor);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("file4", 1);
             jsonObject.put("file3", strings[strings.length-1]);
+            jsonObject.put("file4", getAlertNum(strings[strings.length-1]));
             jsonObject.put("file1",timeList);
             jsonObject.put("file2", proInfor);
 
