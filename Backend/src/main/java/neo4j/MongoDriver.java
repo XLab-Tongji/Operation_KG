@@ -376,6 +376,51 @@ public class MongoDriver {
         return re;
     }
 
+    public static boolean saveKPI2mongo(String kpi, String event, String co){
+        try {
+            //连接到mongodb服务
+            //MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
+            MongoClient mongoClient = new MongoClient("10.60.38.173", 27020);
+            //连接到数据库
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("correlation");
+            Map<String, Object> data = new HashMap<>();
+            data.put("sid",kpi);
+            data.put("tid",event);
+            data.put("value",co);
+            //插入文档
+            Document document = new Document(data);
+            collection.insertOne(document);
+            mongoClient.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static JSONArray getCorrelation(){
+        JSONArray re = new JSONArray();
+        try {
+            //连接到mongodb服务
+            //MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
+            MongoClient mongoClient = new MongoClient("10.60.38.173", 27020);
+            //连接到数据库
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("correlation");
+            FindIterable<Document> findIterable = collection.find();
+            MongoCursor<Document> mongoCursor = findIterable.iterator();
+            while (mongoCursor.hasNext()){
+                Document d=mongoCursor.next();
+                re.add(JSONObject.parseObject(d.toJson()));
+            }
+            mongoClient.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return re;
+    }
+
     public static void main(String[] args) {
         saveSystemTypeAndNameFile("1","2");
     }

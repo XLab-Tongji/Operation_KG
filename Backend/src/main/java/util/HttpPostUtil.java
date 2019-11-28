@@ -26,7 +26,7 @@ public class HttpPostUtil {
 
         try {
             Response response = client.newCall(request).execute();
-            System.out.println(response);
+//            System.out.println(response);
             if (response.code() == 200){
                 return response.body().string();
             }

@@ -20,10 +20,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.jena.riot.web.HttpOp;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
@@ -36,6 +33,7 @@ import global.globalvalue;
 import static neo4j.MongoDriver.*;
 import static neo4j.prometheusDriver.getProInfor;
 import static util.CommonUtil.getAlertNum;
+import static util.CommonUtil.hasAlert;
 import static util.FileUtil.saveClusterResult;
 import static util.HttpPostUtil.getImage;
 
@@ -1939,6 +1937,7 @@ public class FusekiDriver {
                 }
             }
             String[] strings = i.toString().split("/");
+            if (hasAlert(strings[strings.length-1])) continue;
             System.out.println(strings[strings.length-1]);
             System.out.println(timeList);
             System.out.println(proInfor);
@@ -1947,14 +1946,14 @@ public class FusekiDriver {
             jsonObject.put("file4", getAlertNum(strings[strings.length-1]));
             jsonObject.put("file1",timeList);
             jsonObject.put("file2", proInfor);
-
             String re =  util.HttpPostUtil.postData(jsonObject.toJSONString());
             System.out.println(re);
             if (re != null){
                 JSONObject jsonRe = JSON.parseObject(re);
-//                String correlation = jsonRe.getString("Correlation");
-//                List<List> SST = JSONArray.parseArray(jsonRe.getString("SST"), List.class);
-//                List<List> alarm = JSONArray.parseArray(jsonRe.getString("Alarm"), List.class);
+                String correlation = jsonRe.getString("Correlation");
+                //事件与kpi关联存入mongo
+                saveKPI2mongo(strings[strings.length-1], "DailyTesing_HW", correlation);
+                //其他结果存入本地文件
                 saveClusterResult(jsonRe.toJSONString(), strings[strings.length-1]);
 
             }
@@ -1962,13 +1961,30 @@ public class FusekiDriver {
     }
 
     public static void main(String[] args) {
-//        for (int i = 30; i <= 31; i++) {
-//            getDate(10,i);
-//        }
-//        for (int i = 1; i <= 14; i++) {
-//            getDate(11,i);
-//        }
+        File file = new File("/Users/jiang/data/data.txt");
+        try{
+            InputStreamReader reader = new InputStreamReader(new FileInputStream(file));
+            BufferedReader br = new BufferedReader(reader); // 建立一个对象，它把文件内容转成计算机能读懂的语言
+            while (br.ready()) {
+                String kpi = br.readLine();
+                JSONObject request = JSONObject.parseObject(br.readLine());
+                request.put("file3", kpi);
+                request.put("file4", getAlertNum(kpi));
+                String re =  util.HttpPostUtil.postData(request.toJSONString());
+                System.out.println(re);
+                if (re != null){
+                    JSONObject jsonRe = JSON.parseObject(re);
+                    String correlation = jsonRe.getString("Correlation");
+                    //事件与kpi关联存入mongo
+                    saveKPI2mongo(kpi, "DailyTesing_HW", correlation);
+                    //其他结果存入本地文件
+                    saveClusterResult(jsonRe.toJSONString(), kpi);
+                }
+            }
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 }
