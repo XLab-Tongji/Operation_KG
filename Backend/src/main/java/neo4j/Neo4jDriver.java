@@ -1146,7 +1146,7 @@ public class Neo4jDriver {
                 String systemFileName=systemPath.substring(systemPath.lastIndexOf("/")+1);
                 String systemName=systemFileName.substring(0,systemFileName.lastIndexOf("."));
                 String createSystemNode="create(n:System{name:'"+systemName+"',uri:'www.tongji.edu.cn/"+systemName+"'})return n";
-                String addRelation= "match(a:System),(b)where(not b:System and not (a)-->(b))create (a)-[r:has]->(b) return r";
+                String addRelation= "match(a:System),(b),(c:System)where(not b:System and not b:NamespacePrefixDefinition)create (a)-[r:has]->(b) return r";
                 System.out.println(ontology);
                 System.out.println(system);
 
@@ -1181,6 +1181,7 @@ public class Neo4jDriver {
                         HashMap<String,Object> nod = new HashMap();
                         nod.put("id",node.id());
                         nod.put("properties", node.asMap());
+                        if (!node.asMap().containsKey("uri"))continue;
                         String[] name = node.asMap().get("uri").toString().split("#");
                         nod.put("name", name[name.length-1]);
                         Iterator iterator = node.labels().iterator();
@@ -1218,7 +1219,7 @@ public class Neo4jDriver {
 
     public static void main(String[] args) {
 
-        new Neo4jDriver().getAllNodesandlinks("0000");
+        new Neo4jDriver().getAllNodesandlinks("hkjh");
 //        importTtl("F:/Xlab/ontology.ttl",
 //                "F:/Xlab/system.ttl");
 
