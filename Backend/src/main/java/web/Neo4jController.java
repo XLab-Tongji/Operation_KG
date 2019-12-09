@@ -164,6 +164,7 @@ public class Neo4jController {
     //获取结点、连接
     @RequestMapping(value = "/api/getSystemNodesAndLinks",method = RequestMethod.GET,produces = "application/json")
     public Map getNodeAndLink(@RequestParam("systemName")String systemName){
+        System.out.println(111);
         return getAllNodesandlinks(systemName);
     }
 
