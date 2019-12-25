@@ -47,40 +47,48 @@
         </marker>
       </defs>
     </svg>
+
     <!-- 右下角的对节点进行操作的 button -->
     <div id="button-group">
-      <el-radio-group v-model="radio">
-        <!-- 普通点击 -->
-        <el-tooltip class="item" effect="dark" content="查看" placement="top-start">
-          <el-radio-button label="1">
-            <i class="el-icon-view"></i>
-          </el-radio-button>
-        </el-tooltip>
-        <!-- 添加节点 -->
-        <el-tooltip class="item" effect="dark" content="添加节点" placement="top-start">
-          <el-radio-button label="2">
-            <i class="el-icon-plus"></i>
-          </el-radio-button>
-        </el-tooltip>
-        <!-- 添加关系 -->
-        <el-tooltip class="item" effect="dark" content="添加关系" placement="top-start">
-          <el-radio-button label="3">
-            <i class="el-icon-share"></i>
-          </el-radio-button>
-        </el-tooltip>
-        <!-- 删除 -->
-        <el-tooltip class="item" effect="dark" content="删除" placement="top-start">
-          <el-radio-button label="4">
-            <i class="el-icon-delete"></i>
-          </el-radio-button>
-        </el-tooltip>
-        <!-- 修改 -->
-        <el-tooltip class="item" effect="dark" content="修改" placement="top-start">
-          <el-radio-button label="5">
-            <i class="el-icon-edit"></i>
-          </el-radio-button>
-        </el-tooltip>
-      </el-radio-group>
+      <el-row>
+        <el-col :span="6">
+          <el-button @click="back">重新导入</el-button>
+        </el-col>
+        <el-col :span="18">
+          <el-radio-group v-model="radio">
+            <!-- 普通点击 -->
+            <el-tooltip class="item" effect="dark" content="查看" placement="top-start">
+              <el-radio-button label="1">
+                <i class="el-icon-view"></i>
+              </el-radio-button>
+            </el-tooltip>
+            <!-- 添加节点 -->
+            <el-tooltip class="item" effect="dark" content="添加节点" placement="top-start">
+              <el-radio-button label="2">
+                <i class="el-icon-plus"></i>
+              </el-radio-button>
+            </el-tooltip>
+            <!-- 添加关系 -->
+            <el-tooltip class="item" effect="dark" content="添加关系" placement="top-start">
+              <el-radio-button label="3">
+                <i class="el-icon-share"></i>
+              </el-radio-button>
+            </el-tooltip>
+            <!-- 删除 -->
+            <el-tooltip class="item" effect="dark" content="删除" placement="top-start">
+              <el-radio-button label="4">
+                <i class="el-icon-delete"></i>
+              </el-radio-button>
+            </el-tooltip>
+            <!-- 修改 -->
+            <el-tooltip class="item" effect="dark" content="修改" placement="top-start">
+              <el-radio-button label="5">
+                <i class="el-icon-edit"></i>
+              </el-radio-button>
+            </el-tooltip>
+          </el-radio-group>
+        </el-col>
+      </el-row>
     </div>
     <!-- 右侧属性卡片 -->
     <el-card class="display-property">
@@ -167,15 +175,17 @@
 import D3Network from "../../components/vue-d3-network/src/d3-systemOverview.vue";
 import SearchTree from "../../components/SearchTree.vue";
 import Timeline from "../../components/Timeline";
-import axios from "axios";
 import { nodeIcons } from "@/lib/nodeIcons.js";
 import $ from "jquery";
 import LoadingEffect from "../../components/LoadingEffect";
 import backurl from "../../Global";
 
-HTMLCollection.prototype.forEach = Array.prototype.forEach;
+import axios from "axios";
+import global from '../global'
 
-const reqUrl = "http://localhost:8088/bbs";
+const reqUrl = global.base_url;
+
+HTMLCollection.prototype.forEach = Array.prototype.forEach;
 Array.prototype.indexOf = function(val) {
   for (var i = 0; i < this.length; i++) {
     if (this[i] == val) return i;
@@ -493,20 +503,32 @@ export default {
       }
     }
   },
-  created() {
-  },
+  created() {},
   methods: {
+    back() {
+      console.log("fsag");
+      console.log(this.$router);
+      this.$router.push({
+        path: "/import"
+      });
+    },
     getData() {
       $("#fountainG").show();
       this.nodes = [];
       this.links = [];
 
       let formData = new FormData();
-      formData.append('systemName', this.$route.query.env);
+      formData.append("systemName", this.$route.query.env);
 
       axios
-        .get(reqUrl + "/api/getSystemNodesAndLinks"+'?systemName='+this.$route.query.env)
+        .get(
+          reqUrl +
+            "/getSystemNodesAndLinks" +
+            "?systemName=" +
+            this.$route.query.env
+        )
         .then(response => {
+          console.log(response.data)
           $("#fountainG").hide();
           response.data.nodes.forEach(x => {
             x.svgSym = nodeIcons[x.type];
@@ -639,10 +661,10 @@ export default {
           });
           // 删除请求（先删除关系->怕后端出问题
           axios
-            .post(reqUrl + "/api/delLinks", removeLinkList)
+            .post(reqUrl + "/delLinks", removeLinkList)
             .then(response => {
               axios
-                .post(reqUrl + "/api/delNodes", removeNodeList)
+                .post(reqUrl + "/delNodes", removeNodeList)
                 .then(response => {})
                 .catch(error => {
                   console.log(error);
@@ -664,7 +686,7 @@ export default {
               if (value) {
                 node.name = value;
                 axios
-                  .post(reqUrl + "/api/modifyOneNode", node)
+                  .post(reqUrl + "/modifyOneNode", node)
                   .then(response => {
                     if (response) {
                       _this.$message({
@@ -701,7 +723,7 @@ export default {
             // value 不为空
             if (value) {
               link.name = value;
-              axios.post(reqUrl + "/api/modifyOneLink", link).then(response => {
+              axios.post(reqUrl + "/modifyOneLink", link).then(response => {
                 if (response) {
                   this.$message({
                     type: "success",
@@ -948,10 +970,10 @@ export default {
         this.links.push(newLink);
 
         axios
-          .post(reqUrl + "/api/addNewNode", newNode)
+          .post(reqUrl + "/addNewNode", newNode)
           .then(response => {
             axios
-              .post(reqUrl + "/api/addNewLink", newLink)
+              .post(reqUrl + "/addNewLink", newLink)
               .then(response => {})
               .catch(function(error) {
                 console.log(error);
@@ -1001,7 +1023,7 @@ export default {
 
         this.nodes.push(newNode);
         axios
-          .post(reqUrl + "/api/addNewNode", newNode)
+          .post(reqUrl + "/addNewNode", newNode)
           .then(response => {})
           .catch(function(error) {
             console.log(error);
