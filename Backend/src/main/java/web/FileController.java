@@ -26,6 +26,7 @@ public class FileController {
         try{
             if (springUpload(request, savePath, name)) {
                 res.put("succees",1);
+                readOntologyJson(name);
                 saveSystemTypeAndNameFile(name,"");
             }
         }catch (Exception e) {
