@@ -168,6 +168,12 @@ public class Neo4jController {
         return getAllNodesandlinks(systemName);
     }
 
+    //事件发送接口
+    @RequestMapping(value = "/api/sendEvent",method = RequestMethod.POST,produces = "application/json")
+    public void sendEvent(@RequestParam("type")String type,@RequestParam("time")String time,
+                          @RequestParam("situation")String situation,@RequestParam("timeout")String timeout,@RequestParam("command")String command,@RequestParam("id")String id){
+        Neo4jDriver.sendEvent(type,time,situation,timeout,command,id);
+    }
 
     //以下为Fuseki部分
     @RequestMapping(value = "/api/getNodesAndLinks",method = RequestMethod.GET,produces = "application/json")
