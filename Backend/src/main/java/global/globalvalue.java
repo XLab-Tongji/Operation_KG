@@ -2,7 +2,6 @@ package global;
 
 public class globalvalue {
 
-//    public  static  String fusekiapi = "http://fuseki";
     public static String fusekiapi = "http://10.60.38.173";
     public static String mongosapi = "mongos";
     public static Integer mongosPort = 27017;

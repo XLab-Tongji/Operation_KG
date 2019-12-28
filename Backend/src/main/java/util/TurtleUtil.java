@@ -36,14 +36,14 @@ public class TurtleUtil {
             folder.mkdirs();
         }
         File ontologyTtlFile=new File(savePath + fileName + ".ttl");
-        ontologyTtlFile.setExecutable(true);
-        ontologyTtlFile.setReadable(true);
-        ontologyTtlFile.setWritable(true);
+//        ontologyTtlFile.setExecutable(true);
+//        ontologyTtlFile.setReadable(true);
+//        ontologyTtlFile.setWritable(true);
         if(!ontologyTtlFile.exists()){
             ontologyTtlFile.createNewFile();
-            ontologyTtlFile.setExecutable(true);
-            ontologyTtlFile.setReadable(true);
-            ontologyTtlFile.setWritable(true);
+//            ontologyTtlFile.setExecutable(true);
+//            ontologyTtlFile.setReadable(true);
+//            ontologyTtlFile.setWritable(true);
         }
         FileWriter ontologyTtlWriter =new FileWriter(ontologyTtlFile);
         //命名空间声明
@@ -66,6 +66,7 @@ public class TurtleUtil {
                 "@prefix services_rel: <http://services/10.60.38.181/> .\n\n");
         ontologyTtlWriter.flush();
         ontologyJsonToTurtle(ontology,ontologyTtlWriter);
+        Runtime.getRuntime().exec("chmod 777 "+ savePath + fileName + ".ttl");
 
     }
 
@@ -122,14 +123,14 @@ public class TurtleUtil {
             folder.mkdirs();
         }
         File systemTtlFile=new File(savePath + fileName + ".ttl");
-        systemTtlFile.setExecutable(true);
-        systemTtlFile.setReadable(true);
-        systemTtlFile.setWritable(true);
+//        systemTtlFile.setExecutable(true);
+//        systemTtlFile.setReadable(true);
+//        systemTtlFile.setWritable(true);
         if(!systemTtlFile.exists()){
             systemTtlFile.createNewFile();
-            systemTtlFile.setExecutable(true);
-            systemTtlFile.setReadable(true);
-            systemTtlFile.setWritable(true);
+//            systemTtlFile.setExecutable(true);
+//            systemTtlFile.setReadable(true);
+//            systemTtlFile.setWritable(true);
         }
         FileWriter systemTtlWriter =new FileWriter(systemTtlFile);
         //命名空间声明
@@ -152,6 +153,7 @@ public class TurtleUtil {
                 "@prefix services_rel: <http://services/10.60.38.181/> .\n\n");
         systemTtlWriter.flush();
         systemJsonToTurtle(system,systemTtlWriter);
+        Runtime.getRuntime().exec("chmod 777 "+ savePath + fileName + ".ttl");
     }
 
     public static void systemJsonToTurtle(JSONObject object,FileWriter writer) throws IOException {
