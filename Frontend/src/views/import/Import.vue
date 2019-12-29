@@ -38,14 +38,14 @@ export default {
     };
   },
   mounted() {
-    // axios.get(url + "/getSystemTypeAndNameFile").then(res => {
-    //   this.options = res.data.options;
-    //   this.types = res.data.types;
-    // });
-    axios.get("/api/getSystemTypeAndNameFile").then(res => {
+    axios.get(url + "/getSystemTypeAndNameFile").then(res => {
       this.options = res.data.options;
       this.types = res.data.types;
     });
+    // axios.get("/api/getSystemTypeAndNameFile").then(res => {
+    //   this.options = res.data.options;
+    //   this.types = res.data.types;
+    // });
   },
   methods: {
     back1() {
@@ -66,34 +66,35 @@ export default {
     },
     returntonewenv() {
       setTimeout(() => {
-        // axios.get(url + "/getSystemTypeAndNameFile").then(res => {
-        //   // console.log(res.data)
-        //   this.options = res.data.options;
-        //   this.types = res.data.types;
-        //   console.log(this.options[0].children);
-        //   // console.log(this.options)
-        // });
-        axios.get("/api/getSystemTypeAndNameFile").then(res => {
+        axios.get(url + "/getSystemTypeAndNameFile").then(res => {
           // console.log(res.data)
           this.options = res.data.options;
           this.types = res.data.types;
           console.log(this.options[0].children);
           // console.log(this.options)
         });
+        // axios.get("/api/getSystemTypeAndNameFile").then(res => {
+        //   // console.log(res.data)
+        //   this.options = res.data.options;
+        //   this.types = res.data.types;
+        //   console.log(this.options[0].children);
+        //   // console.log(this.options)
+        // });
         let displayProps = document.getElementsByClassName("container")[0];
         displayProps.style.left = "-100%";
       }, 500);
     },
     returntoenv() {
       setTimeout(() => {
-        // axios.get(url + "/getSystemTypeAndNameFile").then(res => {
-        //   this.options = res.data.options;
-        //   this.types = res.data.types;
-        // });
-        axios.get("/api/getSystemTypeAndNameFile").then(res => {
+        axios.get(url + "/getSystemTypeAndNameFile").then(res => {
+          console.log(res.data)
           this.options = res.data.options;
           this.types = res.data.types;
         });
+        // axios.get("/api/getSystemTypeAndNameFile").then(res => {
+        //   this.options = res.data.options;
+        //   this.types = res.data.types;
+        // });
         let displayProps = document.getElementsByClassName("container")[0];
         displayProps.style.left = "0%";
       }, 500);

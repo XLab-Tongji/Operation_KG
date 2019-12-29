@@ -85,10 +85,10 @@ export default {
         formData.append("name", this.form.name);
         formData.append("file", this.files[0]);
 
-        // axios.post(url + "/uploadSystemFile", formData).then();
-        axios.post("/api/uploadSystemFile", formData).then(res=>{
-          console.log(res.data)
-        });
+        axios.post(url + "/uploadSystemFile", formData).then();
+        // axios.post("/api/uploadSystemFile", formData).then(res=>{
+        //   console.log(res.data)
+        // });
         // for (let i = 0; i < this.files.length; i++) {
         //   formData.append("files[]", this.files[i]);
         // }
