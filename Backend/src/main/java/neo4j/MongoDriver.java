@@ -19,7 +19,7 @@ import java.util.*;
 public class MongoDriver {
 
     //连接到mongodb服务
-    private MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
+    private MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
     //连接到数据库
     private MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
     private MongoCollection<Document> collection = mongoDatabase.getCollection("query_statements");
@@ -63,7 +63,7 @@ public class MongoDriver {
     public static boolean save2Mongo(Map<String, Object> data){
         try {
             //连接到mongodb服务
-            MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
             //连接到数据库
             MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
             MongoCollection<Document> collection = mongoDatabase.getCollection("info");
@@ -90,7 +90,7 @@ public class MongoDriver {
     public static boolean save2MongoByTime(Map<String, Object> data, String time){
         try {
             //连接到mongodb服务
-            MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
             //连接到数据库
             MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
             MongoCollection<Document> collection = mongoDatabase.getCollection("info");
@@ -112,7 +112,7 @@ public class MongoDriver {
     public static boolean saveKapacitor2Mongo(String message){
         try {
             //连接到mongodb服务
-            MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
             //连接到数据库
             MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
             MongoCollection<Document> collection = mongoDatabase.getCollection("Kapacitor");
@@ -142,7 +142,7 @@ public class MongoDriver {
     public static boolean saveEvent2Mongo(String content, String source){
         try {
             //连接到mongodb服务
-            MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
             //MongoClient mongoClient = new MongoClient("10.60.38.173", 27020);
             //连接到数据库
             MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
@@ -181,7 +181,7 @@ public class MongoDriver {
     public static Map<String, Object> getOneFromMongo(String time){
         try {
             //连接到mongodb服务
-            MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
             //连接到数据库
             MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
             MongoCollection<Document> collection = mongoDatabase.getCollection("info");
@@ -213,8 +213,7 @@ public class MongoDriver {
         List<List> result = new ArrayList<>();
         try {
             //连接到mongodb服务
-            MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
-            //连接到数据库
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);//连接到数据库
             MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
             MongoCollection<Document> collection = mongoDatabase.getCollection("info");
             //多条件查询
@@ -293,7 +292,7 @@ public class MongoDriver {
     }
 
     public static List<String> getTimesFromMongo(){
-        MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
+        MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
         MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
         MongoCollection<Document> collection = mongoDatabase.getCollection("info");
         FindIterable<Document> findIterable = collection.find();
@@ -311,8 +310,8 @@ public class MongoDriver {
     public static boolean saveSystemTypeAndNameFile(String type, String name){
         try {
             //连接到mongodb服务
-            //MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
-            MongoClient mongoClient = new MongoClient("10.60.38.173", 27020);
+//            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
+            MongoClient mongoClient = new MongoClient("10.60.38.173", 27117);
             //连接到数据库
             MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
             MongoCollection<Document> collection = mongoDatabase.getCollection("SystemTypeAndName");
@@ -343,7 +342,7 @@ public class MongoDriver {
                 res.put("name", JSONObject.parseArray(jsonArray.toString(), String.class));
 //                System.out.println("将数据集中的所有文档的age修改成40！");
                 doc.put("$set", res);
-                collection.findOneAndUpdate(query,doc);
+                collection.updateMany(query,doc);
                 System.out.println("文档修改成功");
                 mongoClient.close();
             }
@@ -358,8 +357,8 @@ public class MongoDriver {
         JSONArray re = new JSONArray();
         try {
             //连接到mongodb服务
-            //MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
-            MongoClient mongoClient = new MongoClient("10.60.38.173", 27020);
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
+//            MongoClient mongoClient = new MongoClient("10.60.38.173", 27020);
             //连接到数据库
             MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
             MongoCollection<Document> collection = mongoDatabase.getCollection("SystemTypeAndName");
@@ -379,8 +378,8 @@ public class MongoDriver {
     public static boolean saveKPI2mongo(String kpi, String event, String co){
         try {
             //连接到mongodb服务
-            //MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
-            MongoClient mongoClient = new MongoClient("10.60.38.173", 27020);
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
+//            MongoClient mongoClient = new MongoClient("10.60.38.173", 27020);
             //连接到数据库
             MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
             MongoCollection<Document> collection = mongoDatabase.getCollection("correlation");
@@ -403,8 +402,8 @@ public class MongoDriver {
         JSONArray re = new JSONArray();
         try {
             //连接到mongodb服务
-            //MongoClient mongoClient = new MongoClient(globalvalue.mongoapi, 27017);
-            MongoClient mongoClient = new MongoClient("10.60.38.173", 27020);
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
+//            MongoClient mongoClient = new MongoClient("10.60.38.173", 27020);
             //连接到数据库
             MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
             MongoCollection<Document> collection = mongoDatabase.getCollection("correlation");

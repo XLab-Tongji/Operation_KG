@@ -14,6 +14,8 @@ import java.util.*;
 import static neo4j.MongoDriver.saveSystemTypeAndNameFile;
 import static neo4j.Neo4jDriver.importTtl;
 import static util.TurtleUtil.*;
+import static global.globalvalue.*;
+
 
 @RestController
 public class FileController {
@@ -21,7 +23,8 @@ public class FileController {
     @RequestMapping(value = "/api/uploadTypeFile",method = RequestMethod.POST,produces = "application/json")
     //上传系统的tpye文件
     public Map<String, Object> postType(HttpServletRequest request, HttpServletResponse response, @RequestParam("name") String name){
-        String savePath = FileController.class.getResource("/").getPath().replace("classes","upload/type");
+//        String savePath = FileController.class.getResource("/").getPath().replace("classes","upload/type");
+        String savePath = path2TypeJson;
         Map<String, Object> res = new HashMap<>();
         try{
             if (springUpload(request, savePath, name)) {
@@ -42,7 +45,8 @@ public class FileController {
     @RequestMapping(value = "/api/uploadSystemFile",method = RequestMethod.POST,produces = "application/json")
     //上传系统的system文件
     public Map<String, Object> postSystem(HttpServletRequest request, HttpServletResponse response, @RequestParam("name") String name, @RequestParam("type") String type){
-        String savePath = FileController.class.getResource("/").getPath().replace("classes","upload/system");
+//        String savePath = FileController.class.getResource("/").getPath().replace("classes","upload/system");
+        String savePath = path2SystemJson;
         Map<String, Object> res = new HashMap<>();
         try{
             if (springUpload(request, savePath, name)) {
@@ -55,8 +59,9 @@ public class FileController {
             res.put("succees", 0);
             res.put("Reason",e.toString());
         }
-        importTtl(FileController.class.getResource("/").getPath().replace("classes","turtle/type")+type+".ttl",
-                FileController.class.getResource("/").getPath().replace("classes","turtle/system")+name+".ttl");
+//        importTtl(FileController.class.getResource("/").getPath().replace("classes","turtle/type")+type+".ttl",
+//                FileController.class.getResource("/").getPath().replace("classes","turtle/system")+name+".ttl");
+        importTtl(path2TypeTtl+type+".ttl", path2SystemTtl+name+".ttl");
         return res;
     }
 

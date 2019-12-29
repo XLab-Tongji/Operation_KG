@@ -1942,10 +1942,12 @@ public class FusekiDriver {
             System.out.println(timeList);
             System.out.println(proInfor);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("file3", strings[strings.length-1]);
+//            jsonObject.put("file3", strings[strings.length-1]);
+            JSONObject kpi = new JSONObject();
+            kpi.put(strings[strings.length-1], proInfor);
             jsonObject.put("file4", getAlertNum(strings[strings.length-1]));
             jsonObject.put("file1",timeList);
-            jsonObject.put("file2", proInfor);
+            jsonObject.put("file2", kpi);
             String re =  util.HttpPostUtil.postData(jsonObject.toJSONString());
             System.out.println(re);
             if (re != null){
@@ -1960,6 +1962,67 @@ public class FusekiDriver {
         }
     }
 
+    public void sendEvent(String type,String time, String situation,String timeout,String command) {
+        //添加event
+        String address = "10.60.38.181";
+        //event名字应该叫啥。。。。
+        String event = "http://event/" + address;
+        Model model = ModelFactory.createDefaultModel();
+        Resource resource = model.createResource(event);
+        resource.addProperty(model.createProperty(event + "/type"), type);
+        resource.addProperty(model.createProperty(event + "/time"), time);
+        resource.addProperty(model.createProperty(event + "/timeout"), timeout);
+        resource.addProperty(model.createProperty(event + "/command"), command);
+        DataAccessor.getInstance().add(model);
+
+        //添加关系
+        Model modelQuery = DataAccessor.getInstance().getModel();
+        ArrayList<Resource> resources = getResourcesWithQuery();
+        String addRelation="";
+        //如果type是下列四种之一，则situation是hostIP
+        if(type=="node-cpu"||type=="node-network"||type=="node-memory"||type=="node-disk") {
+            for (Resource i : resources
+            ) {
+                if (i.hasProperty(model.createProperty(i.toString() + "/hostIP"),situation)){
+                    addRelation= "PREFIX j0:<"+event+"/>\n" +
+                            "INSERT DATA{\n" +
+                            "<"+event+"> j0:inject<"+i.getURI()+">\n" +
+                            "}";
+                }
+            }
+        }
+        //如果不是，situation是pod或者service的name
+        else{
+            for (Resource i : resources
+            ) {//type和name都要匹配
+                if (i.hasProperty(model.createProperty(i.toString() + "/name"),situation)&&i.getURI().contains(type)){
+                    addRelation= "PREFIX j0:<"+event+"/>\n" +
+                            "INSERT DATA{\n" +
+                            "<"+event+"> j0:inject<"+i.getURI()+">\n" +
+                            "}";
+                }
+            }
+        }
+        //连接fuseki
+        RDFConnectionRemoteBuilder builderAddRelation = RDFConnectionFuseki.create()
+                .destination("http://10.60.38.173:3030/DevKGData/update");
+        CredentialsProvider credsProvider = new BasicCredentialsProvider();
+        Credentials credentials = new UsernamePasswordCredentials("admin", "D0rlghQl5IAgYOm");
+        credsProvider.setCredentials(AuthScope.ANY, credentials);
+        HttpClient httpclient = HttpClients.custom()
+                .setDefaultCredentialsProvider(credsProvider)
+                .build();
+        HttpOp.setDefaultHttpClient(httpclient);
+        builderAddRelation.httpClient(httpclient);
+        try ( RDFConnectionFuseki connAddRelation = (RDFConnectionFuseki)builderAddRelation.build() ) {
+            if(addRelation!="") {
+                connAddRelation.update(addRelation);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         File file = new File("/Users/jiang/data/data.txt");
         try{
@@ -1968,7 +2031,10 @@ public class FusekiDriver {
             while (br.ready()) {
                 String kpi = br.readLine();
                 JSONObject request = JSONObject.parseObject(br.readLine());
-                request.put("file3", kpi);
+//                request.put("file3", kpi);
+                JSONObject file2 = new JSONObject();
+                file2.put(kpi, request.getJSONArray("file2"));
+                request.replace("file2", file2);
                 request.put("file4", getAlertNum(kpi));
                 String re =  util.HttpPostUtil.postData(request.toJSONString());
                 System.out.println(re);
@@ -1976,15 +2042,17 @@ public class FusekiDriver {
                     JSONObject jsonRe = JSON.parseObject(re);
                     String correlation = jsonRe.getString("Correlation");
                     //事件与kpi关联存入mongo
-                    saveKPI2mongo(kpi, "DailyTesing_HW", correlation);
+//                    saveKPI2mongo(kpi, "DailyTesing_HW", correlation);
                     //其他结果存入本地文件
                     saveClusterResult(jsonRe.toJSONString(), kpi);
                 }
             }
 
         }catch (Exception e){
-            e.printStackTrace();
-        }
+            e.printStackTrace();}
+//        getDate(12, 24);
+//        getDate(12,25);
+
 
     }
 }

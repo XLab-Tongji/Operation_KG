@@ -16,9 +16,10 @@ import static neo4j.MongoDriver.getCorrelation;
 public class AlgorithmController {
 
     // cyjtest
-    @RequestMapping(value = "/api/cyjtest",method = RequestMethod.POST,produces = "application/json")
-    public String cyjtest(@RequestParam("name") String name){
-        return name.toString();
+
+    @RequestMapping(value = "/api/cyjtest",method = RequestMethod.GET,produces = "application/json")
+    public String cyjtest(){
+        return "Hello";
     }
 
     //前端获取算法csv文件

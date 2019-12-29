@@ -130,7 +130,6 @@ public class JsonUtil {
         //List<Attribute> listAttr=node.attributes();//当前节点的所有属性的list
         /*
         for(Attribute attr:listAttr){//遍历当前节点的所有属性
-
             String name=attr.getName();//属性名称
             String value=attr.getValue();//属性的值
             System.out.println("属性名称："+name+"属性值："+value);
@@ -144,21 +143,208 @@ public class JsonUtil {
         }
     }
 
-     public void readXMLModel(){
+    public void readXMLModel(){
         Element root=readXmlRoot("F:\\Xlab\\testModel.XML");
         Map map=new HashMap();
         getNodes(root);
+    }
 
+    static public void readPodJSON(String fileName) throws IOException {
+        File filePod = new File(fileName);
+        String podData = FileUtils.readFileToString(filePod);
+        JSONObject podObjects=JSON.parseObject(podData);
+        String savePath = "F:\\Xlab\\json\\sockshop\\result";
+        File folder = new File(savePath);
+        //文件夹路径不存在
+        if (!folder.exists() && !folder.isDirectory()) {
+            folder.mkdirs();
+        }
+        File podJSONFile=new File(savePath+"\\pod.json");
+        if(!podJSONFile.exists()){
+            podJSONFile.createNewFile();
+        }
+        FileWriter writer =new FileWriter(podJSONFile);
 
+        //准备写入的JSONObject
+        JSONArray writeArray=new JSONArray();
+        JSONObject writeObject=new JSONObject();
+
+        JSONObject instanceDetail=podObjects.getJSONObject("detail");
+        JSONObject instance=instanceDetail.getJSONObject("10.60.38.181");
+        JSONArray resourceArray=instance.getJSONArray("resources");
+        for(int i=0;i<resourceArray.size();i++){
+            JSONObject resourceObject=resourceArray.getJSONObject(i);
+            JSONObject podObject=new JSONObject();
+            JSONObject metadata=resourceObject.getJSONObject("metadata");
+            String podName=metadata.getString("name");
+            podObject.put("name",podName);
+
+            JSONObject service=metadata.getJSONObject("labels");
+            String serviceName=service.getString("name");
+            podObject.put("service",serviceName);
+
+            JSONObject spec=resourceObject.getJSONObject("spec");
+            JSONArray containerArray=spec.getJSONArray("containers");
+            JSONObject containerInstance=containerArray.getJSONObject(0);
+            String container=containerInstance.getString("name");
+            podObject.put("container",container);
+
+            JSONObject status=resourceObject.getJSONObject("status");
+            String server=status.getString("hostIP");
+            podObject.put("server",server);
+            writeArray.add(podObject);
+        }
+        writeObject.put("pods",writeArray);
+        String content=JSON.toJSONString(writeObject);
+        writer.write(content);
+        writer.flush();
 
     }
 
+    static public void readServiceJSON(String fileName) throws IOException {
+        File fileService = new File(fileName);
+        String serviceData = FileUtils.readFileToString(fileService);
+        JSONObject serviceObjects = JSON.parseObject(serviceData);
+        String savePath = "F:\\Xlab\\json\\sockshop\\result";
+        File folder = new File(savePath);
+        //文件夹路径不存在
+        if (!folder.exists() && !folder.isDirectory()) {
+            folder.mkdirs();
+        }
+        File serviceJSONFile = new File(savePath + "\\service.json");
+        if (!serviceJSONFile.exists()) {
+            serviceJSONFile.createNewFile();
+        }
+        FileWriter writer = new FileWriter(serviceJSONFile);
 
-    public static void main(String[] args) {
-        JsonUtil exm=new JsonUtil();
-        exm.readXMLModel();
-        exm.readJson();
+        //准备写入的JSONObject
+        JSONArray writeArray = new JSONArray();
+        JSONObject writeObject = new JSONObject();
+
+        JSONArray success=serviceObjects.getJSONArray("success");
+        for(int i=0;i<success.size();i++){
+            JSONObject ins=success.getJSONObject(i);
+            String name=ins.getString("name");
+            JSONObject service=new JSONObject();
+            service.put("name",name);
+            writeArray.add(service);
+        }
+        writeObject.put("services",writeArray);
+        String content=JSON.toJSONString(writeObject);
+        writer.write(content);
+        writer.flush();
+    }
+
+    static public void readNamespaceJSON(String fileName) throws IOException {
+        File fileNamespace = new File(fileName);
+        String namespaceData = FileUtils.readFileToString(fileNamespace);
+        JSONObject namespaceObjects = JSON.parseObject(namespaceData);
+        String savePath = "F:\\Xlab\\json\\sockshop\\result";
+        File folder = new File(savePath);
+        //文件夹路径不存在
+        if (!folder.exists() && !folder.isDirectory()) {
+            folder.mkdirs();
+        }
+        File namespaceJSONFile = new File(savePath + "\\namespace.json");
+        if (!namespaceJSONFile.exists()) {
+            namespaceJSONFile.createNewFile();
+        }
+        FileWriter writer = new FileWriter(namespaceJSONFile);
+
+        //准备写入的JSONObject
+        JSONArray writeArray = new JSONArray();
+        JSONObject writeObject = new JSONObject();
+
+        JSONArray success=namespaceObjects.getJSONArray("success");
+        for(int i=0;i<success.size();i++){
+            JSONObject ins=success.getJSONObject(i);
+            String name=ins.getString("name");
+            JSONObject namespace=new JSONObject();
+            namespace.put("name",name);
+            writeArray.add(namespace);
+        }
+        writeObject.put("namespaces",writeArray);
+        String content=JSON.toJSONString(writeObject);
+        writer.write(content);
+        writer.flush();
+    }
+
+    static public void readNodeJSON(String fileName) throws IOException {
+        File fileNode = new File(fileName);
+        String nodeData = FileUtils.readFileToString(fileNode);
+        JSONObject nodeObjects = JSON.parseObject(nodeData);
+        String savePath = "F:\\Xlab\\json\\sockshop\\result";
+        File folder = new File(savePath);
+        //文件夹路径不存在
+        if (!folder.exists() && !folder.isDirectory()) {
+            folder.mkdirs();
+        }
+        File namespaceJSONFile = new File(savePath + "\\node.json");
+        if (!namespaceJSONFile.exists()) {
+            namespaceJSONFile.createNewFile();
+        }
+        FileWriter writer = new FileWriter(namespaceJSONFile);
+
+        //准备写入的JSONObject
+        JSONArray writeArray = new JSONArray();
+        JSONObject writeObject = new JSONObject();
+
+        JSONArray success=nodeObjects.getJSONArray("success");
+        for(int i=0;i<success.size();i++){
+            JSONObject ins=success.getJSONObject(i);
+            String name=ins.getString("name");
+            JSONObject node=new JSONObject();
+            node.put("name",name);
+            writeArray.add(node);
+        }
+        writeObject.put("nodes",writeArray);
+        String content=JSON.toJSONString(writeObject);
+        writer.write(content);
+        writer.flush();
+    }
+
+    static public void readAttributeJSON(String fileName) throws IOException {
+        File fileAttribute = new File(fileName);
+        String attributeData = FileUtils.readFileToString(fileAttribute);
+        JSONObject attributeObjects = JSON.parseObject(attributeData);
+        String savePath = "F:\\Xlab\\json\\sockshop\\result";
+        File folder = new File(savePath);
+        //文件夹路径不存在
+        if (!folder.exists() && !folder.isDirectory()) {
+            folder.mkdirs();
+        }
+        File attributeFile = new File(savePath + "\\attribute.ttl");
+        if (!attributeFile.exists()) {
+            attributeFile.createNewFile();
+        }
+        FileWriter writer = new FileWriter(attributeFile);
+
+        JSONArray bindings=attributeObjects.getJSONArray("bindings");
+        for(int i=0;i<bindings.size();i++){
+            JSONObject attributeObj=bindings.getJSONObject(i);
+            JSONObject provideS=attributeObj.getJSONObject("provideS");
+            JSONObject provideP=attributeObj.getJSONObject("provideP");
+            JSONObject objectO=attributeObj.getJSONObject("object");
+
+            String subject=provideS.getString("value");
+            String provide=provideP.getString("value");
+            String object=objectO.getString("value");
+
+
+            writer.write("<"+subject+"> <"+provide+"> "+object+"\n\n");
+            writer.flush();
+        }
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        //JsonUtil exm=new JsonUtil();
+        //exm.readXMLModel();
+        //exm.readJson();
+        //readPodJSON("F:\\Xlab\\json\\sockshop\\pod_sock-shop.json");
+        //readServiceJSON("F:\\Xlab\\json\\sockshop\\service_sock-shop.json");
+        //readNamespaceJSON("F:\\Xlab\\json\\sockshop\\namespace.json");
+        //readNodeJSON("F:\\Xlab\\json\\sockshop\\node.json");
+        readAttributeJSON("/Users/jiang/Downloads/attribute.json");
     }
 }
-
-

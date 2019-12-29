@@ -15,6 +15,7 @@ import util.CommonUtil;
 import java.io.*;
 import java.util.*;
 
+import static global.globalvalue.neo4jPort;
 import static global.globalvalue.neo4japi;
 import static org.neo4j.driver.v1.Values.parameters;
 import static service.CsvService.csvTimestamp;
@@ -1128,25 +1129,37 @@ public class Neo4jDriver {
 
     //第一次适用需要运行 CREATE INDEX ON :Resource(uri)
     public static void importTtl(String typePath, String systemPath) {
-        Driver driver = GraphDatabase.driver(neo4japi+":7687",
+        Driver driver = GraphDatabase.driver(neo4japi+":"+neo4jPort,
                 AuthTokens.basic("neo4j","1234"));
         //初始化驱动器
         try (Session session = driver.session()) {
             try (Transaction tx = session.beginTransaction()) {
-                String namespace="CREATE (:NamespacePrefixDefinition " +
-                        "{`http://localhost/KGns/#`:''," +
-                        "`http://www.w3.org/1999/02/22-rdf-syntax-ns#`:'rdf'," +
-                        "`http://www.w3.org/2000/01/rdf-schema#`:'rdfs'," +
-                        "`http://xmlns.com/foaf/0.1/`:'foaf'," +
-                        "`http://localhost/KGns/relationship#`:'rel'," +
-                        "`http://localhost/KGns/Container_attributes#`:'Container_attributes'," +
-                        "`http://localhost/KGns/Service_attributes#`:'Service_attributes'})";
-                String ontology="CALL semantics.importRDF(\"file://" + typePath + "\", \"Turtle\")";
-                String system="CALL semantics.importRDF(\"file://" + systemPath + "\", \"Turtle\")";
+                String namespace="CREATE (:NamespacePrefixDefinition {`http://10.60.38.181/KGns/`:'',\n" +
+                        "`http://www.w3.org/2002/07/owl#`:'owl',\n" +
+                        "`http://www.w3.org/2001/XMLSchema#`:'xsd',\n" +
+                        "`http://www.w3.org/2000/01/rdf-schema#`:'rdfs',\n" +
+                        "`http://10.60.38.181/KGns/Service/`:'services',\n" +
+                        "`http://10.60.38.181/KGns/Environment/`:'environment',\n" +
+                        "`http://servers/10.60.38.181/`:'servers_rel',\n" +
+                        "`http://pods/10.60.38.181/`:'pods_rel',\n" +
+                        "`http://namespace/10.60.38.181/`:'namespace_rel',\n" +
+                        "`http://www.w3.org/1999/02/22-rdf-syntax-ns#`:'rdf',\n" +
+                        "`http://10.60.38.181/KGns/Namespace/`:'namespace',\n" +
+                        "`http://10.60.38.181/KGns/relationship/`:'rel',\n" +
+                        "`http://10.60.38.181/KGns/Container/`:'containers',\n" +
+                        "`http://10.60.38.181/KGns/Pod/`:'pods',\n" +
+                        "`http://containers/10.60.38.181/`:'containers_rel',\n" +
+                        "`http://environment/10.60.38.181/`:'environment_rel',\n" +
+                        "`http://event/10.60.38.181/`:'event_rel',\n" +
+                        "`http://10.60.38.181/KGns/Event/`:'Event',\n" +
+                        "`http://services/10.60.38.181/`:'services_rel'})";
+                String ontology="CALL semantics.importRDF(\"file://" + typePath + "\", \"Turtle\",{})";
+                String system="CALL semantics.importRDF(\"file://" + systemPath + "\", \"Turtle\",{})";
                 String systemFileName=systemPath.substring(systemPath.lastIndexOf("/")+1);
                 String systemName=systemFileName.substring(0,systemFileName.lastIndexOf("."));
                 String createSystemNode="create(n:System{name:'"+systemName+"',uri:'www.tongji.edu.cn/"+systemName+"'})return n";
-                String addRelation= "match(a:System),(b),(c:System)where(not b:System and not b:NamespacePrefixDefinition)create (a)-[r:has]->(b) return r";
+//                String addRelation= "match(a:System),(b),(c:System)where(not b:System and not b:NamespacePrefixDefinition)create (a)-[r:has]->(b) return r";
+                String addRelation= "match(a:System),(b)where (not b:System and not b:__Event and not (:System)-[:has]->(b) and not (a)-[:has]->())create (a)-[r:has]->(b) return r";
                 System.out.println(ontology);
                 System.out.println(system);
 
@@ -1164,7 +1177,7 @@ public class Neo4jDriver {
     }
 
     public static HashMap<String, List<HashMap<String,Object>>> getAllNodesandlinks(String systemName) {
-        Driver driver = GraphDatabase.driver(neo4japi+":7687",
+        Driver driver = GraphDatabase.driver(neo4japi+":"+neo4jPort,
                 AuthTokens.basic("neo4j","1234"));
         HashMap<String, List<HashMap<String,Object>>> resultgraph = new HashMap<>();
         try(Session session = driver.session()) {
@@ -1216,6 +1229,34 @@ public class Neo4jDriver {
         return resultgraph;
     }
 
+    public static void sendEvent(String type,String time, String situation,String timeout,String command,String id) {
+        Driver driver = GraphDatabase.driver(neo4japi+":"+neo4jPort,
+                AuthTokens.basic( "neo4j", "1234" ));
+        //初始化驱动器
+        try (Session session = driver.session()) {
+            try (Transaction tx = session.beginTransaction()) {
+                String uri="http://10.60.38.181/KGns/Event/"+id;
+                String createEvent="create(n:Resource:__Event{uri:'"+uri+"',type:'"+type+"',time:'"+time
+                        +"',timeout:'"+timeout+"',command:'"+command+"'})return n";
+                String objectType="Server";
+                if(type=="pod"){
+                    objectType="Pod";
+                }
+                else if(type=="service"){
+                    objectType="Service";
+                }
+                String createRel="match(m:__Event),(n:__"+objectType+") where (m.uri contains '"+id+"' and n.uri contains '"+situation+"') " +
+                        "create (m)-[r:event_rel__inject]->(n)";
+                System.out.println(createEvent);
+                System.out.println(createRel);
+                tx.run(createEvent);
+                tx.run(createRel);
+                tx.success();
+
+            }
+        }
+        driver.close();
+    }
 
     public static void main(String[] args) {
 
