@@ -181,7 +181,7 @@ import LoadingEffect from "../../components/LoadingEffect";
 import backurl from "../../Global";
 
 import axios from "axios";
-import global from '../global'
+import global from "../global";
 
 const reqUrl = global.base_url;
 
@@ -520,15 +520,23 @@ export default {
       let formData = new FormData();
       formData.append("systemName", this.$route.query.env);
 
+      // axios
+      //   .get(
+      //     reqUrl +
+      //       "/getSystemNodesAndLinks" +
+      //       "?systemName=" +
+      //       this.$route.query.env
+      //   )
+      //   .then(response => {
+      //     console.log(response.data)
+      //     $("#fountainG").hide();
+      //     response.data.nodes.forEach(x => {
+      //       x.svgSym = nodeIcons[x.type];
+      //     });
       axios
-        .get(
-          reqUrl +
-            "/getSystemNodesAndLinks" +
-            "?systemName=" +
-            this.$route.query.env
-        )
+        .get("/api/getSystemNodesAndLinks" + "?systemName=" + this.$route.query.env)
         .then(response => {
-          console.log(response.data)
+          console.log(response.data);
           $("#fountainG").hide();
           response.data.nodes.forEach(x => {
             x.svgSym = nodeIcons[x.type];

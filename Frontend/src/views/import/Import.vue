@@ -20,7 +20,7 @@ import ImportEnv from "./ImportEnv";
 import ImportType from "./ImportType";
 
 import axios from "axios";
-import global from '../global'
+import global from "../global";
 
 const url = global.base_url;
 
@@ -38,7 +38,11 @@ export default {
     };
   },
   mounted() {
-    axios.get(url + "/getSystemTypeAndNameFile").then(res => {
+    // axios.get(url + "/getSystemTypeAndNameFile").then(res => {
+    //   this.options = res.data.options;
+    //   this.types = res.data.types;
+    // });
+    axios.get("/api/getSystemTypeAndNameFile").then(res => {
       this.options = res.data.options;
       this.types = res.data.types;
     });
@@ -62,7 +66,14 @@ export default {
     },
     returntonewenv() {
       setTimeout(() => {
-        axios.get(url + "/getSystemTypeAndNameFile").then(res => {
+        // axios.get(url + "/getSystemTypeAndNameFile").then(res => {
+        //   // console.log(res.data)
+        //   this.options = res.data.options;
+        //   this.types = res.data.types;
+        //   console.log(this.options[0].children);
+        //   // console.log(this.options)
+        // });
+        axios.get("/api/getSystemTypeAndNameFile").then(res => {
           // console.log(res.data)
           this.options = res.data.options;
           this.types = res.data.types;
@@ -75,7 +86,11 @@ export default {
     },
     returntoenv() {
       setTimeout(() => {
-        axios.get(url + "/getSystemTypeAndNameFile").then(res => {
+        // axios.get(url + "/getSystemTypeAndNameFile").then(res => {
+        //   this.options = res.data.options;
+        //   this.types = res.data.types;
+        // });
+        axios.get("/api/getSystemTypeAndNameFile").then(res => {
           this.options = res.data.options;
           this.types = res.data.types;
         });

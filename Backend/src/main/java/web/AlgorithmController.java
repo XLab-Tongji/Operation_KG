@@ -15,6 +15,12 @@ import static neo4j.MongoDriver.getCorrelation;
 @RestController
 public class AlgorithmController {
 
+    // cyjtest
+    @RequestMapping(value = "/api/cyjtest",method = RequestMethod.POST,produces = "application/json")
+    public String cyjtest(@RequestParam("name") String name){
+        return name.toString();
+    }
+
     //前端获取算法csv文件
     @RequestMapping(value = "/api/getClusterCSV",method = RequestMethod.POST,produces = "application/json")
     public String getClusterCSV(@RequestParam("kpi") String name){

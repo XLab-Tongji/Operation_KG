@@ -21,7 +21,6 @@
 
 <script>
 import global from "../global";
-import axios from "axios";
 
 export default {
   data() {

@@ -62,7 +62,10 @@ export default {
         let formData = new FormData();
         formData.append("name", this.form.name);
         formData.append("file", this.files[0]);
-        axios.post(url + "/uploadTypeFile", formData).then(res => {
+        // axios.post(url + "/uploadTypeFile", formData).then(res => {
+        //   console.log(res.data);
+        // });
+        axios.post("/api/uploadTypeFile", formData).then(res => {
           console.log(res.data);
         });
         // for (let i = 0; i < this.files.length; i++) {

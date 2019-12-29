@@ -9,7 +9,6 @@
 import Papa from "papaparse";
 import ECharts from "@/components/ECharts";
 import "echarts/lib/chart/line";
-import axios from 'axios'
 import dy from '../../dygraph/dy'
 
 import global from '../global'

@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import global from "../global";
 
 export default {
