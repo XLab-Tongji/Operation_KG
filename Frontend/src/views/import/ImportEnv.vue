@@ -86,12 +86,7 @@ export default {
         formData.append("file", this.files[0]);
 
         axios.post(url + "/uploadSystemFile", formData).then();
-        // axios.post("/api/uploadSystemFile", formData).then(res=>{
-        //   console.log(res.data)
-        // });
-        // for (let i = 0; i < this.files.length; i++) {
-        //   formData.append("files[]", this.files[i]);
-        // }
+
         this.$emit("submit", e);
       }
     },

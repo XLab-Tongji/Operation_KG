@@ -34,11 +34,7 @@ export default {
     }
   },
   created() {
-    // axios.get(global.url+"/getCorrelation").then(res => {
-    //     this.setG(res.data);
-    //     this.setS(res.data);
-    // });
-    axios.get("/api/getCorrelation").then(res => {
+    axios.get(global.url+"/getCorrelation").then(res => {
         this.setG(res.data);
         this.setS(res.data);
     });

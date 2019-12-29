@@ -40,11 +40,7 @@ export default {
       let formData = new FormData();
       formData.append("kpi", this.value);
       console.log(this.value);
-      // axios.post(global.url + "/getClusterCSV", formData).then(res => {
-      //   this.setK(res.data);
-      //   this.setB(res.data);
-      // });
-      axios.post("/api/getClusterCSV", formData).then(res => {
+      axios.post(global.url + "/getClusterCSV", formData).then(res => {
         this.setK(res.data);
         this.setB(res.data);
       });

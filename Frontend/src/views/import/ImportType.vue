@@ -65,12 +65,6 @@ export default {
         axios.post(url + "/uploadTypeFile", formData).then(res => {
           console.log(res.data);
         });
-        // axios.post("/api/uploadTypeFile", formData).then(res => {
-        //   console.log(res.data);
-        // });
-        // for (let i = 0; i < this.files.length; i++) {
-        //   formData.append("files[]", this.files[i]);
-        // }
         this.$emit("submit", e);
       }
     },
