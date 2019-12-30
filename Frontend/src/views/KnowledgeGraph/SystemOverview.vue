@@ -234,6 +234,7 @@ export default {
   },
   data() {
     return {
+      temp_env: "",
       radio: "1",
       nodes: [],
       links: [],
@@ -501,40 +502,29 @@ export default {
       } else {
         this.svgClass.crosshair = false;
       }
-    }
+    },
+    $route: "getData"
   },
-  created() {},
+  created() {
+  },
   methods: {
     back() {
-      console.log("fsag");
-      console.log(this.$router);
       this.$router.push({
         path: "/import"
       });
     },
     getData() {
+
       $("#fountainG").show();
       this.nodes = [];
       this.links = [];
-
-      let formData = new FormData();
-      formData.append("systemName", this.$route.query.env);
-
-      // axios
-      //   .get(
-      //     reqUrl +
-      //       "/getSystemNodesAndLinks" +
-      //       "?systemName=" +
-      //       this.$route.query.env
-      //   )
-      //   .then(response => {
-      //     console.log(response.data)
-      //     $("#fountainG").hide();
-      //     response.data.nodes.forEach(x => {
-      //       x.svgSym = nodeIcons[x.type];
-      //     });
       axios
-        .get("/api/getSystemNodesAndLinks" + "?systemName=" + this.$route.query.env)
+        .get(
+          reqUrl +
+            "/getSystemNodesAndLinks" +
+            "?systemName=" +
+            global.env
+        )
         .then(response => {
           console.log(response.data);
           $("#fountainG").hide();
@@ -573,7 +563,7 @@ export default {
         });
 
       let displayProps = document.getElementsByClassName("display-property")[0];
-      displayProps.style.right = "-420px";
+      // displayProps.style.right = "-420px";
     },
     // yyyy-MM-ddThh:mm:ss -> yyyyMMdd hh:mm:ss
     frontTimeFottoEnd(time) {

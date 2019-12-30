@@ -40,7 +40,6 @@ export default {
   },
   methods: {
     setData(d) {
-      console.log(d)
       this.$refs.dy.setData(d)
       // let data = d.SST;
       // let a = [];
