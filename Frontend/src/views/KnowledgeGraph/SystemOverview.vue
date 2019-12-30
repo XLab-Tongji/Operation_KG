@@ -234,6 +234,7 @@ export default {
   },
   data() {
     return {
+      temp_env:"",
       radio: "1",
       nodes: [],
       links: [],
@@ -520,7 +521,12 @@ export default {
       let formData = new FormData();
       formData.append("systemName", this.$route.query.env);
       axios
-        .get(reqUrl+"/getSystemNodesAndLinks" + "?systemName=" + this.$route.query.env)
+        .get(
+          reqUrl +
+            "/getSystemNodesAndLinks" +
+            "?systemName=" +
+            this.$route.query.env
+        )
         .then(response => {
           console.log(response.data);
           $("#fountainG").hide();

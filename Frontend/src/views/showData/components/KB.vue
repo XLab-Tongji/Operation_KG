@@ -8,9 +8,12 @@
     <div class="K">
       <K ref="k" />
     </div>
+    <div>
+      <p>与正常KPI序列的距离：{{distance}}</p>
+    </div>
     <div class="B">
       <el-collapse>
-        <el-collapse-item title="点击查看时间表" name="1">
+        <el-collapse-item title="查看异常时间表" name="1">
           <B ref="b" />
         </el-collapse-item>
       </el-collapse>
@@ -32,7 +35,8 @@ export default {
   data() {
     return {
       kpi: global.kpis,
-      value: ""
+      value: "",
+      distance:""
     };
   },
   methods: {
@@ -40,9 +44,11 @@ export default {
       let formData = new FormData();
       formData.append("kpi", this.value);
       axios.post(global.url + "/getClusterCSV", formData).then(res => {
-        console.log(res.data)
         this.setK(res.data);
         this.setB(res.data);
+      });
+      axios.post(global.url + "/distance", formData).then(res => {
+        this.distance = res.data.distance;
       });
     },
     setK(data) {

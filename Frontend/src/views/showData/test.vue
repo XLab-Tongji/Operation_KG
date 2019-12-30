@@ -4,18 +4,22 @@
       <KB />
     </div>
     <div class="graph">
-      <SG/>
+      <SG />
     </div>
-    <div class="img">
+    <el-popover placement="right" width="400" trigger="hover">
       <Ima />
-    </div>
+      <el-button slot="reference">hover查看聚类分析</el-button>
+    </el-popover>
+    <!-- <div class="img">
+      <Ima />
+    </div>-->
   </div>
 </template>
 
 <script>
 import KB from "../showData/components/KB";
 // import SG from "../showData/components/SG";
-import SG from '../showData/components/new'
+import SG from "../showData/components/new";
 import Ima from "../showData/components/Image";
 
 import d from "./data/data.json";
@@ -25,7 +29,8 @@ export default {
     KB,
     SG,
     Ima
-  }
+  },
+  methods: {}
 };
 </script>
 
