@@ -37,7 +37,7 @@
               </el-menu-item-group>
             </el-submenu>-->
 
-            <el-menu-item index="SystemOverview">
+            <el-menu-item index="import">
               <i class="el-icon-view"></i>
               <span slot="title">System Overview</span>
             </el-menu-item>

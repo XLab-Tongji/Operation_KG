@@ -507,8 +507,6 @@ export default {
   created() {},
   methods: {
     back() {
-      console.log("fsag");
-      console.log(this.$router);
       this.$router.push({
         path: "/import"
       });
