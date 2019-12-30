@@ -502,10 +502,10 @@ export default {
       } else {
         this.svgClass.crosshair = false;
       }
-    }
+    },
+    $route: "getData"
   },
   created() {
-    this.temp_env = this.$route.query.env;
   },
   methods: {
     back() {
@@ -514,18 +514,16 @@ export default {
       });
     },
     getData() {
+
       $("#fountainG").show();
       this.nodes = [];
       this.links = [];
-
-      let formData = new FormData();
-      formData.append("systemName", this.temp_env);
       axios
         .get(
           reqUrl +
             "/getSystemNodesAndLinks" +
             "?systemName=" +
-            this.$route.query.env
+            global.env
         )
         .then(response => {
           console.log(response.data);
@@ -565,7 +563,7 @@ export default {
         });
 
       let displayProps = document.getElementsByClassName("display-property")[0];
-      displayProps.style.right = "-420px";
+      // displayProps.style.right = "-420px";
     },
     // yyyy-MM-ddThh:mm:ss -> yyyyMMdd hh:mm:ss
     frontTimeFottoEnd(time) {

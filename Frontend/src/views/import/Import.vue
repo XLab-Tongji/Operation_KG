@@ -76,7 +76,7 @@ export default {
     returntoenv() {
       setTimeout(() => {
         axios.get(url + "/getSystemTypeAndNameFile").then(res => {
-          console.log(res.data)
+          console.log(res.data);
           this.options = res.data.options;
           this.types = res.data.types;
         });

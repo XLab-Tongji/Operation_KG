@@ -35,19 +35,16 @@ export default {
     options: Array,
     handle: Function
   },
-  watch: {
-    // 如果路由发生变化，再次执行该方法
-    $route: "getData"
-  },
   methods: {
     onSubmit() {
       if (this.value[0] == undefined || this.value[1] == undefined) {
         this.$message.error("错了哦，您没有选择任何环境");
       } else {
+        global.type = this.value[0];
         global.env = this.value[1];
         this.$router.push({
           path: "/overview",
-          query: { type: this.value[0], env: this.value[1] }
+          query: { type: global.type, env: global.env }
         });
       }
     },
