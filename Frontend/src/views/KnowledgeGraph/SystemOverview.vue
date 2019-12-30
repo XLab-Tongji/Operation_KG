@@ -234,7 +234,7 @@ export default {
   },
   data() {
     return {
-      temp_env:"",
+      temp_env: "",
       radio: "1",
       nodes: [],
       links: [],
@@ -504,7 +504,9 @@ export default {
       }
     }
   },
-  created() {},
+  created() {
+    this.temp_env = this.$route.query.env;
+  },
   methods: {
     back() {
       this.$router.push({
@@ -517,7 +519,7 @@ export default {
       this.links = [];
 
       let formData = new FormData();
-      formData.append("systemName", this.$route.query.env);
+      formData.append("systemName", this.temp_env);
       axios
         .get(
           reqUrl +
