@@ -81,7 +81,7 @@
               </el-radio-button>
             </el-tooltip>
             <!-- 修改 -->
-            <el-tooltip class="item" effect="dark" content="修改" placement="top-start">
+            <el-tooltip class="item" effect="dark" content="detail" placement="top-start">
               <el-radio-button label="5">
                 <i class="el-icon-edit"></i>
               </el-radio-button>
@@ -505,8 +505,7 @@ export default {
     },
     $route: "getData"
   },
-  created() {
-  },
+  created() {},
   methods: {
     back() {
       this.$router.push({
@@ -514,17 +513,11 @@ export default {
       });
     },
     getData() {
-
       $("#fountainG").show();
       this.nodes = [];
       this.links = [];
       axios
-        .get(
-          reqUrl +
-            "/getSystemNodesAndLinks" +
-            "?systemName=" +
-            global.env
-        )
+        .get(reqUrl + "/getSystemNodesAndLinks" + "?systemName=" + global.env)
         .then(response => {
           console.log(response.data);
           $("#fountainG").hide();
@@ -674,36 +667,39 @@ export default {
         }
         // 修改节点名
         if (_this.radio === "5") {
-          _this.displayOneNode(node);
-          _this
-            .$prompt("请输入新的节点名", "修改", {
-              confirmButtonText: "确定",
-              cancelButtonText: "取消"
-            })
-            .then(({ value }) => {
-              if (value) {
-                node.name = value;
-                axios
-                  .post(reqUrl + "/modifyOneNode", node)
-                  .then(response => {
-                    if (response) {
-                      _this.$message({
-                        type: "success",
-                        message: "修改成功"
-                      });
-                    }
-                  })
-                  .catch(error => {
-                    console.log(error);
-                  });
-              }
-            })
-            .catch(() => {
-              _this.$message({
-                type: "info",
-                message: "取消输入"
-              });
-            });
+          _this.$alert(node.properties, node.name, {
+            dangerouslyUseHTMLString: true
+          });
+          // _this.displayOneNode(node);
+          // _this
+          //   .$prompt("请输入新的节点名", "修改", {
+          //     confirmButtonText: "确定",
+          //     cancelButtonText: "取消"
+          //   })
+          //   .then(({ value }) => {
+          //     if (value) {
+          //       node.name = value;
+          //       axios
+          //         .post(reqUrl + "/modifyOneNode", node)
+          //         .then(response => {
+          //           if (response) {
+          //             _this.$message({
+          //               type: "success",
+          //               message: "修改成功"
+          //             });
+          //           }
+          //         })
+          //         .catch(error => {
+          //           console.log(error);
+          //         });
+          //     }
+          //   })
+          //   .catch(() => {
+          //     _this.$message({
+          //       type: "info",
+          //       message: "取消输入"
+          //     });
+          //   });
         }
       }, 0);
     },
