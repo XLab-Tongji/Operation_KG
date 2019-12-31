@@ -63,21 +63,13 @@ export default {
 </script>
 
 <style>
-/* .KB {
-  display: grid;
-  grid-template-columns: auto 200px;
-  grid-template-rows:50px auto 50px;
-  grid-column-gap: 30px;
-}
 .select {
-  grid-row: 1/2;
-  justify-self: center;
-  align-self: center;
+  padding-top:10px;
+  padding-bottom:10px;
 }
-.B {
-  grid-column: 2/3;
-  grid-row: 2/3;
-  justify-self: center;
-  align-self: center;
-} */
+
+.table{
+overflow-y:auto; 
+height:200px;
+}
 </style>
