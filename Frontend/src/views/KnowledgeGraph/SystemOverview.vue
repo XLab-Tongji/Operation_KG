@@ -521,14 +521,25 @@ export default {
         .then(response => {
           console.log(response.data);
           $("#fountainG").hide();
-          response.data.nodes.forEach(x => {
-            x.svgSym = nodeIcons[x.type];
-          });
+          if (global.env == "k8s-409") {
+            response.data.nodes.forEach(x => {
+              x.svgSym = nodeIcons[0][x.type];
+            });
+          } else if (global.env == "demo-5g") {
+            response.data.nodes.forEach(x => {
+              x.svgSym = nodeIcons[1][x.type];
+            });
+          } else {
+            response.data.nodes.forEach(x => {
+              x.svgSym = nodeIcons[2][x.type];
+            });
+          }
 
           let allNodes = response.data.nodes;
           this.links = response.data.links;
 
           this.nodes = [];
+          console.log(response.data)
 
           this.pureNodes = allNodes.filter(node => {
             if (
