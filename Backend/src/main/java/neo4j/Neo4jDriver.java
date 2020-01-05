@@ -1159,7 +1159,7 @@ public class Neo4jDriver {
                 String systemName=systemFileName.substring(0,systemFileName.lastIndexOf("."));
                 String createSystemNode="create(n:System{name:'"+systemName+"',uri:'www.tongji.edu.cn/"+systemName+"'})return n";
 //                String addRelation= "match(a:System),(b),(c:System)where(not b:System and not b:NamespacePrefixDefinition)create (a)-[r:has]->(b) return r";
-                String addRelation= "match(a:System),(b)where (not b:System and not b:__Event and not (:System)-[:has]->(b) and not (a)-[:has]->())create (a)-[r:has]->(b) return r";
+                String addRelation= "match(a:System),(b)where (not b:System and not b:__Event and not (:System)-[:has]->(b) and a.name='"+systemName+"')create (a)-[r:has]->(b) return r";
                 System.out.println(ontology);
                 System.out.println(system);
 
@@ -1248,6 +1248,8 @@ public class Neo4jDriver {
                 }
                 String createRel="match(m:__Event),(n:__"+objectType+") where (m.uri contains '"+id+"' and n.uri contains '"+situation+"') " +
                         "create (m)-[r:event_rel__inject]->(n)";
+                //String createSys="match(s:System),(m:__Event),(n:__"+objectType+")where((s) -[r:has]->(n) and (m)-[r:event_rel__inject]->(n)"+
+                //        "create (s)-[r:has]->(m)";
                 System.out.println(createEvent);
                 System.out.println(createRel);
                 tx.run(createEvent);
