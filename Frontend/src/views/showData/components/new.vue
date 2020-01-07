@@ -2,13 +2,9 @@
   <div>
     <el-form label-width="80px">
       <el-form-item label="选择KPI:">
-        <el-select v-model="kpi" placeholder="选择想要查询的KPI">
+        <el-select v-model="kpi" placeholder="选择想要查询的KPI" @change="change">
           <el-option v-for="item in kpis" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button type="primary" @click="onclick">确认</el-button>
       </el-form-item>
     </el-form>
 
@@ -21,6 +17,7 @@
 
 <script>
 import global from "../global";
+import axios from 'axios'
 
 export default {
   data() {
@@ -31,12 +28,12 @@ export default {
     };
   },
   methods: {
-    onclick() {
-    //   let formData = new FormData();
-    //   formData.append('kpi',this.kpi);
-    //   axios.post(global.url+"",formData).then(res=>{
-    //       this.tableData = res.data.result;
-    //   })
+    change() {
+      let formData = new FormData();
+      formData.append('kpi',this.kpi);
+      axios.post(global.url+"/getKpiCorrelation",formData).then(res=>{
+          this.tableData = res.data.result;
+      })
     }
   }
 };

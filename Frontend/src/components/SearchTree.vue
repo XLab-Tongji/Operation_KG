@@ -25,13 +25,13 @@ export default {
   computed: {
     data() {
       let data = [
-        // { name: "server", data: [] },
-        // { name: "masterServer", data: [] },
+        { name: "Server", data: [] },
+        { name: "ServiceStatusInformation", data: [] },
         { name: "Pod", data: [] },
         { name: "Container", data: [] },
         { name: "Service", data: [] },
-        // { name: "namespace", data: [] },
-        // { name: "environment", data: [] }
+        { name: "Namespace", data: [] },
+        { name: "ContainerStat", data: [] }
       ];
       let nodes = this.nodes;
       nodes.forEach(node => {

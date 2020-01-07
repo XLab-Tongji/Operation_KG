@@ -1240,14 +1240,17 @@ public class Neo4jDriver {
                 String createEvent="create(n:Resource:__Event{uri:'"+uri+"',type:'"+type+"',time:'"+time
                         +"',timeout:'"+timeout+"',command:'"+command+"'})return n";
                 String objectType="Server";
-                if(type=="pod"){
+                System.out.println(type);
+                if(type.equals("pod")){
                     objectType="Pod";
                 }
-                else if(type=="service"){
+                else if(type.equals("service")){
                     objectType="Service";
                 }
                 String createRel="match(m:__Event),(n:__"+objectType+") where (m.uri contains '"+id+"' and n.uri contains '"+situation+"') " +
                         "create (m)-[r:event_rel__inject]->(n)";
+                //String createSys="match(s:System),(m:__Event),(n:__"+objectType+")where((s) -[r:has]->(n) and (m)-[r:event_rel__inject]->(n)"+
+                //        "create (s)-[r:has]->(m)";
                 System.out.println(createEvent);
                 System.out.println(createRel);
                 tx.run(createEvent);

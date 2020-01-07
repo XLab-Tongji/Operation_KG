@@ -81,7 +81,7 @@
               </el-radio-button>
             </el-tooltip>
             <!-- 修改 -->
-            <el-tooltip class="item" effect="dark" content="修改" placement="top-start">
+            <el-tooltip class="item" effect="dark" content="detail" placement="top-start">
               <el-radio-button label="5">
                 <i class="el-icon-edit"></i>
               </el-radio-button>
@@ -234,6 +234,7 @@ export default {
   },
   data() {
     return {
+      temp_env: "",
       radio: "1",
       nodes: [],
       links: [],
@@ -501,13 +502,12 @@ export default {
       } else {
         this.svgClass.crosshair = false;
       }
-    }
+    },
+    $route: "getData"
   },
   created() {},
   methods: {
     back() {
-      console.log("fsag");
-      console.log(this.$router);
       this.$router.push({
         path: "/import"
       });
@@ -516,36 +516,30 @@ export default {
       $("#fountainG").show();
       this.nodes = [];
       this.links = [];
-
-      let formData = new FormData();
-      formData.append("systemName", this.$route.query.env);
-
-      // axios
-      //   .get(
-      //     reqUrl +
-      //       "/getSystemNodesAndLinks" +
-      //       "?systemName=" +
-      //       this.$route.query.env
-      //   )
-      //   .then(response => {
-      //     console.log(response.data)
-      //     $("#fountainG").hide();
-      //     response.data.nodes.forEach(x => {
-      //       x.svgSym = nodeIcons[x.type];
-      //     });
       axios
-        .get("/api/getSystemNodesAndLinks" + "?systemName=" + this.$route.query.env)
+        .get(reqUrl + "/getSystemNodesAndLinks" + "?systemName=" + global.env)
         .then(response => {
           console.log(response.data);
           $("#fountainG").hide();
-          response.data.nodes.forEach(x => {
-            x.svgSym = nodeIcons[x.type];
-          });
+          if (global.env == "k8s-409") {
+            response.data.nodes.forEach(x => {
+              x.svgSym = nodeIcons[0][x.type];
+            });
+          } else if (global.env == "demo-5g") {
+            response.data.nodes.forEach(x => {
+              x.svgSym = nodeIcons[1][x.type];
+            });
+          } else {
+            response.data.nodes.forEach(x => {
+              x.svgSym = nodeIcons[2][x.type];
+            });
+          }
 
           let allNodes = response.data.nodes;
           this.links = response.data.links;
 
           this.nodes = [];
+          console.log(response.data)
 
           this.pureNodes = allNodes.filter(node => {
             if (
@@ -573,7 +567,7 @@ export default {
         });
 
       let displayProps = document.getElementsByClassName("display-property")[0];
-      displayProps.style.right = "-420px";
+      // displayProps.style.right = "-420px";
     },
     // yyyy-MM-ddThh:mm:ss -> yyyyMMdd hh:mm:ss
     frontTimeFottoEnd(time) {
@@ -684,36 +678,39 @@ export default {
         }
         // 修改节点名
         if (_this.radio === "5") {
-          _this.displayOneNode(node);
-          _this
-            .$prompt("请输入新的节点名", "修改", {
-              confirmButtonText: "确定",
-              cancelButtonText: "取消"
-            })
-            .then(({ value }) => {
-              if (value) {
-                node.name = value;
-                axios
-                  .post(reqUrl + "/modifyOneNode", node)
-                  .then(response => {
-                    if (response) {
-                      _this.$message({
-                        type: "success",
-                        message: "修改成功"
-                      });
-                    }
-                  })
-                  .catch(error => {
-                    console.log(error);
-                  });
-              }
-            })
-            .catch(() => {
-              _this.$message({
-                type: "info",
-                message: "取消输入"
-              });
-            });
+          _this.$alert(node.properties, node.name, {
+            dangerouslyUseHTMLString: true
+          });
+          // _this.displayOneNode(node);
+          // _this
+          //   .$prompt("请输入新的节点名", "修改", {
+          //     confirmButtonText: "确定",
+          //     cancelButtonText: "取消"
+          //   })
+          //   .then(({ value }) => {
+          //     if (value) {
+          //       node.name = value;
+          //       axios
+          //         .post(reqUrl + "/modifyOneNode", node)
+          //         .then(response => {
+          //           if (response) {
+          //             _this.$message({
+          //               type: "success",
+          //               message: "修改成功"
+          //             });
+          //           }
+          //         })
+          //         .catch(error => {
+          //           console.log(error);
+          //         });
+          //     }
+          //   })
+          //   .catch(() => {
+          //     _this.$message({
+          //       type: "info",
+          //       message: "取消输入"
+          //     });
+          //   });
         }
       }, 0);
     },
