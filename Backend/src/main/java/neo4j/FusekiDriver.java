@@ -1829,13 +1829,13 @@ public class FusekiDriver {
 
 
     //供算法导出数据使用
-    public static void getDate(int month, int day){
+    public static void getData(int month, int day){
         SimpleDateFormat DateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //加上时间
         Date start = new Date();
         Date end = new Date();
         try {
-            start = DateFormat.parse("2019-"+month+"-"+day+" 00:00:00");
-            end = DateFormat.parse("2019-"+month+"-"+day+" 23:59:59");
+            start = DateFormat.parse("2020-"+month+"-"+day+" 00:00:00");
+            end = DateFormat.parse("2020-"+month+"-"+day+" 23:59:59");
         } catch(ParseException px) {
             px.printStackTrace();
         }
@@ -1894,6 +1894,39 @@ public class FusekiDriver {
         catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static void getdata2(int year, int month, int day){
+        SimpleDateFormat DateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //加上时间
+        Date start = new Date();
+        Date end = new Date();
+        try {
+            start = DateFormat.parse(year+"-"+month+"-"+day+" 00:00:00");
+            end = DateFormat.parse(year+"-"+month+"-"+day+" 23:59:59");
+        } catch(ParseException px) {
+            px.printStackTrace();
+        }
+        Model model = DataAccessor.getInstance().getModel();
+        ArrayList<Resource> resources = getResourcesWithQuery();
+        JSONObject result = new JSONObject();
+        for (Resource r:resources
+             ) {
+            String[] names = r.toString().split("/");
+            JSONObject kpi = new JSONObject();
+            Statement statement = r.getProperty(model.createProperty(r.toString()+"/query"));
+            JSONArray proInfor = getProInfor(statement.getString().replace(" ",""),start.getTime()/1000 + "", end.getTime()/1000 + "");
+            kpi.put(names[names.length-1], proInfor);
+            result.put(names[2]+"-"+names[5], kpi);
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream("/Users/jiang/data/data"+month+"-"+day+".txt");
+            fos.write(result.toString().getBytes());
+            fos.close();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     //向算法部分发送数据，返回一个String、两个时间序列
@@ -2024,33 +2057,33 @@ public class FusekiDriver {
     }
 
     public static void main(String[] args) {
-        File file = new File("/Users/jiang/data/data.txt");
-        try{
-            InputStreamReader reader = new InputStreamReader(new FileInputStream(file));
-            BufferedReader br = new BufferedReader(reader); // 建立一个对象，它把文件内容转成计算机能读懂的语言
-            while (br.ready()) {
-                String kpi = br.readLine();
-                JSONObject request = JSONObject.parseObject(br.readLine());
-//                request.put("file3", kpi);
-                JSONObject file2 = new JSONObject();
-                file2.put(kpi, request.getJSONArray("file2"));
-                request.replace("file2", file2);
-                request.put("file4", getAlertNum(kpi));
-                String re =  util.HttpPostUtil.postData(request.toJSONString());
-                System.out.println(re);
-                if (re != null){
-                    JSONObject jsonRe = JSON.parseObject(re);
-                    String correlation = jsonRe.getString("Correlation");
-                    //事件与kpi关联存入mongo
-//                    saveKPI2mongo(kpi, "DailyTesing_HW", correlation);
-                    //其他结果存入本地文件
-                    saveClusterResult(jsonRe.toJSONString(), kpi);
-                }
-            }
-
-        }catch (Exception e){
-            e.printStackTrace();}
-//        getDate(12, 24);
+//        File file = new File("/Users/jiang/data/data.txt");
+//        try{
+//            InputStreamReader reader = new InputStreamReader(new FileInputStream(file));
+//            BufferedReader br = new BufferedReader(reader); // 建立一个对象，它把文件内容转成计算机能读懂的语言
+//            while (br.ready()) {
+//                String kpi = br.readLine();
+//                JSONObject request = JSONObject.parseObject(br.readLine());
+////                request.put("file3", kpi);
+//                JSONObject file2 = new JSONObject();
+//                file2.put(kpi, request.getJSONArray("file2"));
+//                request.replace("file2", file2);
+//                request.put("file4", getAlertNum(kpi));
+//                String re =  util.HttpPostUtil.postData(request.toJSONString());
+//                System.out.println(re);
+//                if (re != null){
+//                    JSONObject jsonRe = JSON.parseObject(re);
+//                    String correlation = jsonRe.getString("Correlation");
+//                    //事件与kpi关联存入mongo
+////                    saveKPI2mongo(kpi, "DailyTesing_HW", correlation);
+//                    //其他结果存入本地文件
+//                    saveClusterResult(jsonRe.toJSONString(), kpi);
+//                }
+//            }
+//
+//        }catch (Exception e){
+//            e.printStackTrace();}
+        getdata2(2020, 1, 2);
 //        getDate(12,25);
 
 

@@ -1059,6 +1059,7 @@ public class Neo4jDriver {
         }
         return null;
     }
+
     public static Boolean AddServiceRelation(String name, ArrayList<String> arrayList){
         Driver driver = GraphDatabase.driver("bolt://10.60.38.173:7687",
                 AuthTokens.basic("neo4j", "1234"));
@@ -1159,7 +1160,7 @@ public class Neo4jDriver {
                 String systemName=systemFileName.substring(0,systemFileName.lastIndexOf("."));
                 String createSystemNode="create(n:System{name:'"+systemName+"',uri:'www.tongji.edu.cn/"+systemName+"'})return n";
 //                String addRelation= "match(a:System),(b),(c:System)where(not b:System and not b:NamespacePrefixDefinition)create (a)-[r:has]->(b) return r";
-                String addRelation= "match(a:System),(b)where (not b:System and not b:__Event and not (:System)-[:has]->(b) and not (a)-[:has]->())create (a)-[r:has]->(b) return r";
+                String addRelation= "match(a:System),(b)where (not b:System and not b:__Event and not (:System)-[:has]->(b) and a.name='"+systemName+"')create (a)-[r:has]->(b) return r";
                 System.out.println(ontology);
                 System.out.println(system);
 
@@ -1195,7 +1196,7 @@ public class Neo4jDriver {
                         nod.put("id",node.id());
                         nod.put("properties", node.asMap());
                         if (!node.asMap().containsKey("uri"))continue;
-                        String[] name = node.asMap().get("uri").toString().split("#");
+                        String[] name = node.asMap().get("uri").toString().split("/");
                         nod.put("name", name[name.length-1]);
                         Iterator iterator = node.labels().iterator();
                         iterator.next();
