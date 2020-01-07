@@ -39,12 +39,12 @@
 
             <el-menu-item index="SystemOverview">
               <i class="el-icon-view"></i>
-              <span slot="title">System Overview</span>
+              <span slot="title">Knowledge Graph</span>
             </el-menu-item>
 
             <el-menu-item index="show">
               <i class="el-icon-share"></i>
-              <span slot="title">Hierarchical View Of Classes</span>
+              <span slot="title">KPI Analysis</span>
             </el-menu-item>
 
             <!-- <el-submenu index="ClassGraph">
