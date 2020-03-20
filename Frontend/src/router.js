@@ -51,6 +51,11 @@ export default new Router({
                 //     component: () => import('./views/KnowledgeGraph/EventTimeStamp.vue'),
                 // }
             ]
-        }
+        },
+        {
+            path: '/zoom',
+            name: '/zoom',
+            component: () => import('./components/zoomcircle/Zoomable.vue'),
+        },
     ]
 })
