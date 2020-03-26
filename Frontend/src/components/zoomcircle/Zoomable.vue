@@ -92,7 +92,8 @@ export default {
           ? `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`
           : "translate( 0, 0 )"
       );
-      this.node.attr("r", d => d.r * k);
+      this.node.attr("r", d => d.r * k)
+      // this.node.attr("r", d => d.parent.r);
       this.node.classed("faded", false);
     },
     zoom(d) {
