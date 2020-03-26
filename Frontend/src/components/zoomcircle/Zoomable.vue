@@ -16,7 +16,7 @@ const pack = data =>
   d3
     .pack()
     .size([width, height])
-    .padding(3)(
+    .padding(100)(
     d3
       .hierarchy(data)
       .sum(d => d.value)
@@ -45,7 +45,10 @@ export default {
         .style("margin", "0 -14px")
         .style("background", color(0))
         .style("cursor", "pointer")
-        .on("click", () => this.zoom(this.root));
+        .on("click", d => {
+          console.log("svg",d);
+          return this.zoom(this.root);
+        });
 
       this.node = this.svg
         .append("g")
@@ -57,10 +60,11 @@ export default {
         .attr("pointer-events", d => (!d.children ? "none" : null))
         .style("fill-opacity", d => (d.parent === this.root ? 1 : 0))
         .style("display", d => (d.parent === this.root ? "inline" : "none"))
-        .on(
-          "click",
-          d => focus !== d && (this.zoom(d), d3.event.stopPropagation())
-        );
+        .on("click", d => {
+          console.log(focus !== d);
+          return focus !== d && (this.zoom(d), d3.event.stopPropagation());
+          // return this.zoom(d), d3.event.stopPropagation();
+        });
 
       this.label = this.svg
         .append("g")
