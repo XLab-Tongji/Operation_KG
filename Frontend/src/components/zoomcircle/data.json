@@ -1,58 +1,72 @@
 {
+    "id": 0,
     "name": "flare",
     "children": [
         {
+            "id": 1,
             "name": "Transcation1",
             "value": 500,
             "children": [
                 {
+                    "id": 2,
                     "name": "pattern1",
                     "value": 500,
                     "children": [
                         {
+                            "id": 3,
                             "name": "entity1",
                             "value": 500
                         },
                         {
+                            "id": 4,
                             "name": "entity2",
                             "value": 500
                         },
                         {
+                            "id": 5,
                             "name": "attributte1",
                             "value": 500
                         }
                     ]
                 },
                 {
+                    "id": 6,
                     "name": "pattern2",
                     "value": 500,
                     "children": [
                         {
+                            "id": 7,
                             "name": "entity1",
                             "value": 500
                         },
                         {
+                            "id": 8,
                             "name": "attributte1",
                             "value": 500
                         },
                         {
+                            "id": 9,
                             "name": "attributte2",
                             "value": 500
                         }
                     ]
                 },
                 {
+                    "id": 10,
                     "name": "pattern3",
                     "children": [
                         {
+                            "id": 11,
                             "name": "entity1",
                             "value": 500
                         },
                         {
+                            "id": 12,
                             "name": "attributte1",
                             "value": 500
                         },
                         {
+                            "id": 13,
                             "name": "entity2",
                             "value": 500
                         }
@@ -61,28 +75,34 @@
             ]
         },
         {
+            "id": 14,
             "name": "Transcation2",
             "value": 500,
             "children": [
                 {
+                    "id": 15,
                     "name": "pattern1",
                     "value": 500,
                     "children": [
                         {
+                            "id": 16,
                             "name": "entity1",
                             "value": 500
                         },
                         {
+                            "id": 17,
                             "name": "entity2",
                             "value": 500
                         },
                         {
+                            "id": 18,
                             "name": "attributte1",
                             "value": 500
                         }
                     ]
                 },
                 {
+                    "id": 19,
                     "name": "pattern2",
                     "value": 500,
                     "children": [
