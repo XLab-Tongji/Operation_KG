@@ -21,7 +21,7 @@ import static global.globalvalue.*;
 public class FileController {
 
     @RequestMapping(value = "/api/uploadTypeFile",method = RequestMethod.POST,produces = "application/json")
-    //上传系统的tpye文件
+    //上传系统的type文件
     public Map<String, Object> postType(HttpServletRequest request, HttpServletResponse response, @RequestParam("name") String name){
 //        String savePath = FileController.class.getResource("/").getPath().replace("classes","upload/type");
         String savePath = path2TypeJson;
