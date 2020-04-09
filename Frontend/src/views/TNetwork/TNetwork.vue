@@ -2,13 +2,13 @@
   <div class="container">
     <el-row>
       <el-col :span="8">
-        <graph :nodes="this.dataT.nodes" :links="this.dataT.links" @parent="getP" />
+        <graph :nodes="this.T.nodes" :links="this.T.links" @parent="getP" />
       </el-col>
       <el-col :span="8">
-        <graph :nodes="this.dataP.nodes" :links="this.dataP.links" />
+        <graph :nodes="this.P.nodes" :links="this.P.links" @parent="getE" />
       </el-col>
       <el-col :span="8">
-        <graph :nodes="this.dataE.nodes" :links="this.dataE.links" />
+        <graph v-if="render" :nodes="this.E.nodes" :links="this.E.links" />
       </el-col>
     </el-row>
   </div>
@@ -16,10 +16,6 @@
 
 <script>
 import trans from "./data/trans.json";
-import pat1 from "./data/pat1.json";
-import pat2 from "./data/pat2.json";
-import ent11 from "./data/ent11.json";
-
 import graph from "./Trans";
 
 export default {
@@ -28,19 +24,37 @@ export default {
   },
   data() {
     return {
-      dataT: {},
-      dataP: {},
-      dataE: {},
-      hasP: false,
-      hasE: false
+      T: {},
+      P: {},
+      E: {},
+      render: false
     };
   },
   methods: {
     getData() {
-      this.dataT = trans;
+      this.T = trans;
     },
-    getP(parent){
-        // this.dataP = 
+    getP(parent) {
+      let tmp = {
+        nodes: this.T.nodes[parent - 1].nodes,
+        links: this.T.nodes[parent - 1].links
+      };
+      if (tmp) {
+        console.log("trans", parent);
+        this.P = tmp;
+        this.render = false;
+      }
+    },
+    getE(parent) {
+      let tmp = {
+        nodes: this.P.nodes[parent - 1].nodes,
+        links: this.P.nodes[parent - 1].links
+      };
+      if (tmp) {
+        console.log("pat", parent);
+        this.E = tmp;
+        this.render = true;
+      }
     }
   },
   created() {
