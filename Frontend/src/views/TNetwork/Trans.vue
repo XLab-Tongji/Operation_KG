@@ -97,7 +97,7 @@ export default {
       finCoor: 0,
       staCoor: 0,
       force: 3000,
-      moveable: false
+      moveable: false,
     };
   },
   computed: {
@@ -109,8 +109,8 @@ export default {
       return {
         force: this.force,
         size: {
-          h: 500,
-          w: 500
+          h: window.innerHeight,
+          w: window.innerWidth / 3
         },
         offset: {
           x: this.offset_X,
@@ -180,68 +180,10 @@ export default {
       this.staCoor = getCoordInDocument(e);
     };
     el.onmouseup = e => {
-      // 点击空白处添加节点（因事件节点而起）
-      if (
-        this.radio === "2" &&
-        e.target.localName !== "circle" &&
-        e.target.localName !== "path"
-      ) {
-        this.showNewNodeInfoCard = true;
-      } else {
-        // 点击空白处取消高亮
-        this.selection = {
-          nodes: {},
-          links: {}
-        };
-
-        this.finCoor = getCoordInDocument(e);
-        if (this.moveable) {
-          this.offset_X += this.finCoor.x - this.staCoor.x;
-          this.offset_Y += this.finCoor.y - this.staCoor.y;
-        } else {
-          this.moveable = true;
-        }
-        this.staCoor = 0;
-        this.finCoor = 0;
-      }
+      this.finCoor = getCoordInDocument(e);
+      let x = this.finCoor.x - this.staCoor.x;
+      let y = this.finCoor.y - this.staCoor.y;
     };
-    el.onmousemove = e => {
-      if (this.moveable) {
-        if (this.staCoor) {
-          this.finCoor = getCoordInDocument(e);
-          this.offset_X += this.finCoor.x - this.staCoor.x;
-          this.offset_Y += this.finCoor.y - this.staCoor.y;
-          this.staCoor = this.finCoor;
-        }
-      }
-    };
-
-    let onMouseWheel = ev => {
-      var ev = ev || window.event;
-      var down = true; // 定义一个标志，当滚轮向下滚时，执行一些操作
-      down = ev.wheelDelta ? ev.wheelDelta < 0 : ev.detail > 0;
-      if (down) {
-        if (this.nodeSize > 33.5) {
-          this.force = Math.max(0, this.force - 80);
-          this.nodeSize = Math.max(0, this.nodeSize - 0.2);
-          // this.linkWidth = Math.max(0, this.linkWidth - 0.5);
-          this.fontSize = Math.max(0, this.fontSize - 0.1);
-        }
-      } else {
-        this.force = this.force + 80;
-        this.nodeSize = this.nodeSize + 0.2;
-        this.fontSize = this.fontSize + 0.1;
-      }
-      if (ev.preventDefault) {
-        /*FF 和 Chrome*/
-        ev.preventDefault(); // 阻止默认事件
-      }
-      return false;
-    };
-
-    addEvent(el, "mousewheel", onMouseWheel);
-    addEvent(el, "DOMMouseScroll", onMouseWheel);
-
     this.getData();
   }
 };
