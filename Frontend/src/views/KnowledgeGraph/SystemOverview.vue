@@ -591,7 +591,6 @@ export default {
         //在此写单击事件要执行的代码
         _this.moveable = false;
         if (e.preventDefault) {
-          /*FF 和 Chrome*/
           e.preventDefault(); // 阻止默认事件
         }
         // 普通点击

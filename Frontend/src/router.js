@@ -55,7 +55,7 @@ export default new Router({
         {
             path: '/zoom',
             name: '/zoom',
-            component: () => import('./components/zoomcircle/zoomable.vue'),
+            component: () => import('./views/TNetwork/TNetwork.vue'),
         },
     ]
 })

@@ -1,0 +1,38 @@
+{
+    "nodes": [
+        {
+            "name": "node1",
+            "id": 1
+        },
+        {
+            "name": "node2",
+            "id": 2
+        },
+        {
+            "name": "node3",
+            "id": 3
+        },
+        {
+            "name": "node4",
+            "id": 4
+        }
+    ],
+    "links": [
+        {
+            "sid": 2,
+            "tid": 1
+        },
+        {
+            "sid": 4,
+            "tid": 3
+        },
+        {
+            "sid": 2,
+            "tid": 3
+        },
+        {
+            "sid": 4,
+            "tid": 2
+        }
+    ]
+}
