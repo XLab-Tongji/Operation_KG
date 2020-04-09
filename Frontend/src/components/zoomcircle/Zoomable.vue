@@ -13,6 +13,11 @@ var color = d3
   .domain([0, 5])
   .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
   .interpolate(d3.interpolateHcl);
+var color1 = d3
+  .scaleLinear()
+  .domain([0, 5])
+  .range(["hsl(50,80%,80%)", "hsl(150,30%,40%)"])
+  .interpolate(d3.interpolateHcl);
 var pack = data =>
   d3
     .pack()
@@ -60,7 +65,7 @@ export default {
     return {
       svg: {},
       node: {},
-      lable: {},
+      label: {},
       data: {},
       root: {},
       focus: {},
@@ -259,46 +264,47 @@ export default {
         .attr("d", arrow_path)
         .attr("fill", "black");
 
-      //transtation 画线
-      for (let i = 0; i <= trastart.length - 1; i++) {
-        this.line = this.svg
-          .append("line")
-          .attr("x1", trastart[0 + i].x - 650)
-          .attr("y1", trastart[0 + i].y - 250)
-          .attr("x2", traend[0 + i].x - 650)
-          .attr("y2", traend[0 + i].y - 250)
-          .attr("stroke", color(2))
-          .attr("stroke-width", 2)
-          .attr("opacity", 1)
-          // .style("display", d => (d.parent === this.root ? "inline" : "none"))
-          .attr("marker-end", "url(#arrow)");
-      }
+      // //transtation 画线
+      // for (let i = 0; i <= trastart.length - 1; i++) {
+      //   this.line = this.svg
+      //     .append("line")
+      //     .attr("x1", trastart[0 + i].x - width / 2)
+      //     .attr("y1", trastart[0 + i].y - height / 2)
+      //     .attr("x2", traend[0 + i].x - width / 2)
+      //     .attr("y2", traend[0 + i].y - height / 2)
+      //     .attr("stroke", color1(2))
+      //     .attr("stroke-width", 2)
+      //     .attr("opacity", 1)
+      //     .attr("marker-end", "url(#arrow)")
+      //     .attr("class", "trans");
+      // }
 
-      //pattern 画线
-      for (let i = 0; i <= patstart.length - 1; i++) {
-        this.line = this.svg
-          .append("line")
-          .attr("x1", patstart[0 + i].x - 650)
-          .attr("y1", patstart[0 + i].y - 250)
-          .attr("x2", patend[0 + i].x - 650)
-          .attr("y2", patend[0 + i].y - 250)
-          .attr("stroke", color(3))
-          .attr("stroke-width", 2)
-          .attr("marker-end", "url(#arrow)");
-      }
+      // //pattern 画线
+      // for (let i = 0; i <= patstart.length - 1; i++) {
+      //   this.line = this.svg
+      //     .append("g")
+      //     .append("line")
+      //     .attr("x1", patstart[0 + i].x - width / 2)
+      //     .attr("y1", patstart[0 + i].y - height / 2)
+      //     .attr("x2", patend[0 + i].x - width / 2)
+      //     .attr("y2", patend[0 + i].y - height / 2)
+      //     .attr("stroke", color1(3))
+      //     .attr("stroke-width", 2)
+      //     .attr("marker-end", "url(#arrow)");
+      // }
 
-      //entity 画线
-      for (let i = 0; i <= enstart.length - 1; i++) {
-        this.line = this.svg
-          .append("line")
-          .attr("x1", enstart[0 + i].x - 650)
-          .attr("y1", enstart[0 + i].y - 250)
-          .attr("x2", enend[0 + i].x - 650)
-          .attr("y2", enend[0 + i].y - 250)
-          .attr("stroke", "white")
-          .attr("stroke-width", 2)
-          .attr("marker-end", "url(#arrow)");
-      }
+      // //entity 画线
+      // for (let i = 0; i <= enstart.length - 1; i++) {
+      //   this.line = this.svg
+      //     .append("line")
+      //     .attr("x1", enstart[0 + i].x - width / 2)
+      //     .attr("y1", enstart[0 + i].y - height / 2)
+      //     .attr("x2", enend[0 + i].x - width / 2)
+      //     .attr("y2", enend[0 + i].y - height / 2)
+      //     .attr("stroke", color1(1))
+      //     .attr("stroke-width", 2)
+      //     .attr("marker-end", "url(#arrow)");
+      // }
 
       // this.marker=this.svg
       // .append("g")
@@ -385,6 +391,19 @@ export default {
     this.getData();
     this.createSvg();
     this.zoomTo([this.root.x, this.root.y, this.root.r * 2]);
+
+    let link = d3.linkHorizontal()({
+      source: this.root.descendants()[1],
+      target: this.root.descendants()[2]
+    });
+    console.log(this.root.data.props)
+    // console.log(link)
+    // this.svg
+    //   .append("path")
+    //   .attr("d", link)
+    //   .attr("stroke", "black")
+    //   .attr("fill", "none");
+    // console.log(this.root.descendants()[0]);
   }
 };
 </script>

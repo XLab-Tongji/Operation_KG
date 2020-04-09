@@ -40,11 +40,11 @@ export default new Router({
                     //     keepAlive:true
                     // }
                 },
-                // {
-                //     path: 'service',
-                //     name: 'ServiceCall',
-                //     component: () => import('./views/KnowledgeGraph/ServiceCall.vue'),
-                // },
+                {
+                    path: 'class',
+                    name: 'ServiceCall',
+                    component: () => import('./views/ClassGraph.vue'),
+                },
                 // {
                 //     path: 'timestamp',
                 //     name: 'EventTimeStamp',

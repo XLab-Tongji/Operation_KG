@@ -1,5 +1,9 @@
 {
     "id": 0,
+    "props": {
+        "props1": 1,
+        "props2": 2
+    },
     "name": "flare",
     "children": [
         {

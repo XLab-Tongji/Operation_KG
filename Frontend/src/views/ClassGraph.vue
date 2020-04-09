@@ -10,14 +10,11 @@
 <script>
     import axios from "axios";
     import flowSvg from "@/lib/flowSvg.js";
-    // import d3 from "@/lib/d3.js";
     import * as d3 from "d3";
-    // import jquery from "@/lib/jquery.js";
 
     HTMLCollection.prototype.forEach = Array.prototype.forEach;
 
     export default {
-        components: {},
         data() {
             return {
                 isFlowVisibel:false,
