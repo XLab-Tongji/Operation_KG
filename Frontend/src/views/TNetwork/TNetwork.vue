@@ -27,7 +27,8 @@ export default {
       T: {},
       P: {},
       E: {},
-      render: false
+      render: false,
+      focus: -1
     };
   },
   methods: {
@@ -39,10 +40,11 @@ export default {
         nodes: this.T.nodes[parent - 1].nodes,
         links: this.T.nodes[parent - 1].links
       };
-      if (tmp) {
+      if (tmp && parent != this.focus) {
         console.log("trans", parent);
         this.P = tmp;
         this.render = false;
+        this.focus = parent;
       }
     },
     getE(parent) {
