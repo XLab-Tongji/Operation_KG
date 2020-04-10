@@ -2,13 +2,13 @@
   <div class="container">
     <el-row>
       <el-col :span="8">
-        <graph :nodes="this.T.nodes" :links="this.T.links" @parent="getP" />
+        <graph :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope" @parent="getP" />
       </el-col>
       <el-col :span="8">
-        <graph :nodes="this.P.nodes" :links="this.P.links" @parent="getE" />
+        <graph :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getE" />
       </el-col>
       <el-col :span="8">
-        <graph v-if="render" :nodes="this.E.nodes" :links="this.E.links" />
+        <graph v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope" />
       </el-col>
     </el-row>
   </div>
@@ -28,7 +28,11 @@ export default {
       P: {},
       E: {},
       render: false,
-      focus: -1
+      focus: -1,
+      scope: {
+        x: window.innerHeight,
+        y: window.innerWidth / 3
+      }
     };
   },
   methods: {

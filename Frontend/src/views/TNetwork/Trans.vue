@@ -77,7 +77,11 @@ export default {
   },
   props: {
     nodes: Array,
-    links: Array
+    links: Array,
+    scope: {
+      x: Number,
+      y: Number
+    }
   },
   data() {
     return {
@@ -97,7 +101,7 @@ export default {
       finCoor: 0,
       staCoor: 0,
       force: 3000,
-      moveable: false,
+      moveable: false
     };
   },
   computed: {
@@ -109,8 +113,10 @@ export default {
       return {
         force: this.force,
         size: {
-          h: window.innerHeight,
-          w: window.innerWidth / 3
+          // h: window.innerHeight,
+          // w: window.innerWidth / 3
+          h: this.scope.x,
+          w: this.scope.y
         },
         offset: {
           x: this.offset_X,
@@ -126,10 +132,6 @@ export default {
     }
   },
   methods: {
-    getData() {
-      this.nodes = this.nodes;
-      this.links = this.links;
-    },
     ncb(node) {
       return node;
     },
@@ -184,7 +186,6 @@ export default {
       let x = this.finCoor.x - this.staCoor.x;
       let y = this.finCoor.y - this.staCoor.y;
     };
-    this.getData();
   }
 };
 </script>
