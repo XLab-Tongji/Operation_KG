@@ -1,16 +1,18 @@
 <template>
   <div class="container">
-    <el-row>
-      <el-col :span="8">
+   
+    <div class="item Tras">
+      <el-card class="box-card">
         <graph :nodes="this.T.nodes" :links="this.T.links" @parent="getP" />
-      </el-col>
-      <el-col :span="8">
+        </el-card>
+    </div>
+  
+    <div class="item Pat">
         <graph :nodes="this.P.nodes" :links="this.P.links" @parent="getE" />
-      </el-col>
-      <el-col :span="8">
+     </div>
+<div class="item Ent">
         <graph v-if="render" :nodes="this.E.nodes" :links="this.E.links" />
-      </el-col>
-    </el-row>
+    </div>
   </div>
 </template>
 
@@ -64,3 +66,34 @@ export default {
   }
 };
 </script>
+<style>
+.container {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-rows: calc(100vh/2)  calc(100vh/2);
+   /* grid-template-rows:0.5fr 0.5fr; */
+  grid-auto-flow: column;
+  grid-column-gap: 20px;
+  grid-row-gap: 15px;
+}
+
+.Tras {
+  background-color: #4ba946;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+/* 
+.Pat {
+  background-color: #0376c2;
+} */
+/* .item {
+  font-size: 4em;
+  text-align: center;
+  border: 1px solid #e5e4e9;
+} */
+
+/* .Ent{
+  background-color: #c077af;
+} */
+
+</style>
