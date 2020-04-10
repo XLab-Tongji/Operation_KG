@@ -2,15 +2,15 @@
   <div class="container">
     <div class="item Tras">
       <el-card class="box-card">
-        <graph :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope" @parent="getP" />
+        <graph :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope1" @parent="getP" />
       </el-card>
     </div>
 
     <div class="item Pat">
-      <graph :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getE" />
+      <graph :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope2" @parent="getE" />
     </div>
     <div class="item Ent">
-      <graph v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope" />
+      <graph v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope2" />
     </div>
   </div>
 </template>
@@ -30,9 +30,13 @@ export default {
       E: {},
       render: false,
       focus: -1,
-      scope: {
+      scope1: {
         x: window.innerHeight,
-        y: window.innerWidth / 3
+        y: window.innerWidth*0.55,
+      },
+       scope2: {
+        x: window.innerHeight/2,
+        y: window.innerWidth*0.4,
       }
     };
   },
