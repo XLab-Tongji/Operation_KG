@@ -9,12 +9,38 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+class PatternNode{
+
+    public PatternNode(int _id){
+        id = _id;
+    }
+
+    public void setId_count(Map<Integer, Integer> map){
+        if (map.containsKey(id)){
+            map.put(id, map.get(id)+1);
+        }else{
+            map.put(id, 1);
+        }
+        id_count = map.get(id);
+    }
+
+    public int id;
+    public int id_count;
+    public String type = "normal";
+    public List attr = new ArrayList<>();
+//    public String cycle_child = "";
+    public PatternNode nextNode = null;
+    public PatternNode concurrencyNode = null;
+    public PatternNode cycleChild = null;
+    public boolean hasChild = true;
+}
+
 public class Vectorize5GUtil {
+
     public static void readFile(String txtName, String csvName) {
         int i = 0,j=0;
         ArrayList<Object>transactions=new ArrayList<>();
-        ArrayList<Object>patterns=new ArrayList();
-        Integer checkNum=-1;
+//        ArrayList<Object>patterns=new ArrayList();
         try {
             String csvLine,txtLine;
             //CSV部分
@@ -47,79 +73,94 @@ public class Vectorize5GUtil {
                 //name
                 transaction.put("name","transaction_"+(j+1));
                 //content
-                ArrayList<Map>content=new ArrayList<>();
+                ArrayList<Map> content=new ArrayList<>();
                 String items[] = txtLine.split(" ");
-                HashMap<Integer, Integer> id_count = new HashMap<>();
-                int cycle_length = 0;
-                int backFillNum = 0;
-                int bacFillChildren = 0;
-                boolean concurrency = false;
-                for(String item:items){
-                    Integer num=Integer.parseInt(item);
-                    boolean backFill = true;
-                    //循环
-                    if (num < 0){
-                        cycle_length = -num%1000;
-                        backFillNum = cycle_length;
-                        num = -num/1000;
-                        backFill = false;
-                    }
-                    //并发
-                    int[] branch = {0,0};
-                    if(num>=1000){
-                        branch[0] = num/1000;
-                        branch[1] = num%1000;
+                PatternNode startNode = new PatternNode(Integer.parseInt(items[0]));
+                PatternNode nextNode = startNode;
+                for (int k = 1; k < items.length; k++) {
+                    nextNode.nextNode = new PatternNode(Integer.parseInt(items[k]));
+                    nextNode = nextNode.nextNode;
+                }
+                nextNode = startNode;
+                //处理子循环
+                while (nextNode != null) {
+                    if (nextNode.id < 0){
+                        int cycle_length = -nextNode.id%1000;
+                        nextNode.id = -nextNode.id/1000;
+                        PatternNode begin = nextNode;
+                        for (int k = 0; k < cycle_length; k++) {
+                            if (k == cycle_length -1) {
+                                nextNode.cycleChild = begin;
+                            }else {
+                                nextNode.hasChild = false;
+                                nextNode.cycleChild = nextNode.nextNode;
+                            }
+                            nextNode = nextNode.nextNode;
+                        }
                     }else {
-                        branch[0] = num;
-                    }
-                    for (int k = 0; k < 2 && branch[k] != 0; k++) {
-                        if (id_count.containsKey(branch[k])){
-                            id_count.put(branch[k], id_count.get(branch[k])+1);
-                        }else {
-                            id_count.put(branch[k], 1);
-                        }
-                        Map<String, Object> pattern = new HashMap<>();
-                        pattern.put("id", String.valueOf(branch[k]));
-                        pattern.put("id_count", id_count.get(branch[k]));
-                        pattern.put("type", "normal");
-                        pattern.put("cycle_child", "");
-                        pattern.put("attr", new ArrayList<>());
-                        //两个连续的循环事件
-                        if (backFill){
-                            if (backFillNum > 1){
-                                content.get(content.size()-1).put("cycle_child", pattern.get("id")+"_"+pattern.get("id_count"));
-                                backFillNum--;
-                            }else if (backFillNum == 1){
-                                content.get(content.size()-1).put("cycle_child",
-                                        content.get(content.size()-cycle_length).get("id")+"_"+content.get(content.size()-cycle_length).get("id_count"));
-                                backFillNum--;
-                            }
-                        }
-                        pattern.put("children", new ArrayList<>());
-                        content.add(pattern);
-                        if (content.size()>1 && !(backFill && backFillNum > 0)){
-                            int size = 1;
-                            if (concurrency){
-                                size = 2;
-                            }
-                            for (int l = 0; l < size; l++) {
-                                ((List)content.get(bacFillChildren+l).get("children")).add(content.size()-1);
-                            }
-                        }
-                    }
-                    if (branch[1] == 0){
-                        concurrency = false;
-                        bacFillChildren = content.size() - 1;
-                    }else {
-                        concurrency = true;
-                        bacFillChildren = content.size() - 2;
+                        nextNode = nextNode.nextNode;
                     }
                 }
+                nextNode = startNode;
+                Map<Integer, Integer> id_countMap = new HashMap<>();
+                //处理并行
+                while (nextNode != null) {
+                    if (nextNode.id >= 1000){
+                        nextNode.concurrencyNode = new PatternNode(nextNode.id%1000);
+                        nextNode.concurrencyNode.cycleChild = nextNode.cycleChild;
+                        nextNode.concurrencyNode.nextNode = nextNode.nextNode;
+                        nextNode.id = nextNode.id/1000;
+                    }
+                    nextNode.setId_count(id_countMap);
+                    if (nextNode.concurrencyNode != null){
+                        nextNode.concurrencyNode.setId_count(id_countMap);
+                    }
+                    nextNode = nextNode.nextNode;
+                }
+                nextNode = startNode;
+                while (nextNode != null) {
+                    Map<String, Object> pattern = new HashMap<>();
+                    pattern.put("id", String.valueOf(nextNode.id));
+                    pattern.put("id_count", nextNode.id_count);
+                    pattern.put("type", nextNode.type);
+                    List<String> cyc_child = new ArrayList<>();
+                    if (nextNode.cycleChild != null){
+                        cyc_child.add(nextNode.cycleChild.id+"_"+nextNode.cycleChild.id_count);
+                        if (nextNode.cycleChild.concurrencyNode != null){
+                            cyc_child.add(nextNode.cycleChild.concurrencyNode.id+"_"+nextNode.cycleChild.concurrencyNode.id_count);
+                        }
+                    }
+                    pattern.put("cycle_child", cyc_child);
+                    pattern.put("attr", nextNode.attr);
+                    pattern.put("children", new ArrayList<>());
+                    if (nextNode.nextNode != null && nextNode.nextNode.concurrencyNode != null){
+                        ((List)pattern.get("children")).add(content.size()+1);
+                        ((List)pattern.get("children")).add(content.size()+2);
+                        if (!nextNode.hasChild){
+                            ((List)pattern.get("children")).clear();
+                        }
+                        nextNode = nextNode.nextNode;
+                    }else if (nextNode.concurrencyNode != null){
+                        ((List)pattern.get("children")).add(content.size()+2);
+                        if (nextNode.nextNode == null || !nextNode.hasChild){
+                            ((List)pattern.get("children")).clear();
+                        }
+                        nextNode = nextNode.concurrencyNode;
+                    }else {
+                        ((List)pattern.get("children")).add(content.size()+1);
+                        if (nextNode.nextNode == null || !nextNode.hasChild){
+                            ((List)pattern.get("children")).clear();
+                        }
+                        nextNode = nextNode.nextNode;
+                    }
+                    content.add(pattern);
+                }
+
                 transaction.put("content",content);
                 transaction.put("children", new ArrayList<>());
-                ((List)transaction.get("children")).add(j);
                 transactions.add(transaction);
                 j++;
+                ((List)transaction.get("children")).add(j);
             }
             ((Map)transactions.get(transactions.size()-1)).put("children", new ArrayList<>());
         } catch (FileNotFoundException e) {
@@ -140,7 +181,7 @@ public class Vectorize5GUtil {
 //        System.out.print(new JSONArray(transactions));
     }
     public static void main(String[] args){
-        readFile("/Users/jiang/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/4b6962f76687c3983d1dc38c8ecd88b9/Message/MessageTemp/6050e5d84048da68509c52be5b230703/OpenData/21/695c01947a5fcfe4bccad52374a1facf.txt",
+        readFile("/Users/jiang/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/4b6962f76687c3983d1dc38c8ecd88b9/Message/MessageTemp/82179e106359a79246b90256b693dac8/File/new2vectorize.txt",
                 "wqdq");
     }
 }
