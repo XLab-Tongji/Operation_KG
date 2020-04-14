@@ -1,6 +1,5 @@
 <template>
   <div>
-    trans
     <div>
       <d3-network
         ref="net"
