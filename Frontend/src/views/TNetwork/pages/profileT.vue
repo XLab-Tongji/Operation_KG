@@ -13,7 +13,8 @@ import global from "../global";
 import Net from "../network";
 import Trans from "../Trans";
 
-import data from "../data/trans.json";
+import store from '@/store.js'
+
 export default {
   components: {
     Trans
@@ -46,10 +47,12 @@ export default {
   watch: {
     selectT(newVal) {
       let tmpP = {
-        nodes: data.nodes[newVal].nodes,
-        links: data.nodes[newVal].links
+        nodes: store.state.data.nodes[newVal].nodes,
+        links: store.state.data.nodes[newVal].links
       };
       this.P = tmpP;
+
+      // entity-network
       let tmpE = {
         nodes: this.P.nodes[0].nodes,
         links: this.P.nodes[0].links

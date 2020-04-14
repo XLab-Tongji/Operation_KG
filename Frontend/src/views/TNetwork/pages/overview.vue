@@ -8,6 +8,8 @@
 import global from "../global";
 import Net from "../network";
 import data from "../data/trans.json";
+
+import store from '@/store.js'
 export default {
   components: {
     Net
@@ -26,6 +28,7 @@ export default {
       this.T.nodes = global.tpe.nodes;
       this.T.links = global.tpe.links;
     }
+    store.commit("setData",data);
   },
   methods: {
     getP() {}

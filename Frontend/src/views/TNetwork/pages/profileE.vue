@@ -11,6 +11,8 @@
 import global from "../global";
 import Net from "../network";
 import data from "../data/trans.json";
+
+import store from '@/store.js'
 export default {
   components: {
     Net
