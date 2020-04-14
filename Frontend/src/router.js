@@ -66,7 +66,7 @@ export default new Router({
                 {
                     path: 'profileT',
                     name: 'profileT',
-                    component: () => import('./views/TNetwork/pages/profileP.vue'),
+                    component: () => import('./views/TNetwork/pages/profileT.vue'),
                 },
                 {
                     path: 'profileE',

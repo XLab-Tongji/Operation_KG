@@ -3,6 +3,7 @@
         {
             "name": "node1",
             "id": 1,
+            "loop":1,
             "nodes": [
                 {
                     "name": "node1",
@@ -115,6 +116,7 @@
         {
             "name": "node2",
             "id": 2,
+            "loop":2,
             "nodes": [
                 {
                     "name": "node1",
@@ -190,11 +192,13 @@
         },
         {
             "name": "node3",
-            "id": 3
+            "id": 3,
+            "loop":3
         },
         {
             "name": "node4",
-            "id": 4
+            "id": 4,
+            "loop":4
         }
     ],
     "links": [

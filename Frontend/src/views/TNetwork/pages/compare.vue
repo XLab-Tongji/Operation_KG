@@ -5,8 +5,11 @@
 </template>
 
 <script>
+import global from '../global'
 export default {
-
+  mounted(){
+    console.log(global.tpe)
+  }
 }
 </script>
 
