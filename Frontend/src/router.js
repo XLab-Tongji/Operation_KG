@@ -53,9 +53,32 @@ export default new Router({
             ]
         },
         {
-            path: '/zoom',
-            name: '/zoom',
-            component: () => import('./views/TNetwork/TNetwork.vue'),
+            path: '/tpe',
+            redirect: '/tpe/overview',
+            name: 'main',
+            component: () => import('./views/TNetwork/MainPage.vue'),
+            children: [
+                {
+                    path: 'overview',
+                    name: 'overview',
+                    component: () => import('./views/TNetwork/pages/overview.vue'),
+                },
+                {
+                    path: 'profileT',
+                    name: 'profileT',
+                    component: () => import('./views/TNetwork/pages/profileP.vue'),
+                },
+                {
+                    path: 'profileE',
+                    name: 'profileE',
+                    component: () => import('./views/TNetwork/pages/profileE.vue'),
+                },
+                {
+                    path: 'compare',
+                    name: 'compare',
+                    component: () => import('./views/TNetwork/pages/compare.vue'),
+                }
+            ]
         },
     ]
 })
