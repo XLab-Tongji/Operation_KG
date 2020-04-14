@@ -139,7 +139,7 @@ export default {
       return link;
     },
     clickNode(e, node) {
-      this.$emit("parent", node.id);
+      this.$emit("parent", node);
     },
     clickLink(e, link) {},
     displayNodeRelation(node) {

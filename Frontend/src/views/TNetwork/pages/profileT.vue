@@ -1,11 +1,8 @@
 <template>
   <div>
-    <!-- 调试用 -->
     <el-select v-model="selectT" filterable placeholder="请选择">
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
-    {{this.selectT}}
-    <!-- 调试用 -->
     <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" />
     <Trans v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope" />
   </div>
@@ -30,7 +27,11 @@ export default {
       E: {},
       options: [
         {
-          value: 2,
+          value: 0,
+          label: "trans1"
+        },
+        {
+          value: 1,
           label: "trans2"
         }
       ],
@@ -44,8 +45,21 @@ export default {
   },
   watch: {
     selectT(newVal) {
-      this.P.nodes = data.nodes[newVal].nodes;
-      this.P.links = data.nodes[newVal].links;
+      let tmpP = {
+        nodes: data.nodes[newVal].nodes,
+        links: data.nodes[newVal].links
+      };
+      this.P = tmpP;
+      let tmpE = {
+        nodes: this.P.nodes[0].nodes,
+        links: this.P.nodes[0].links
+      };
+      if (tmpE.nodes) {
+        this.render = true;
+        this.E = tmpE;
+      } else {
+        this.render = false;
+      }
     }
   },
   created() {
@@ -53,9 +67,10 @@ export default {
   },
   methods: {
     getP(parent) {
+      let id = parent.id;
       let tmp = {
-        nodes: this.P.nodes[parent - 1].nodes,
-        links: this.P.nodes[parent - 1].links
+        nodes: this.P.nodes[id - 1].nodes,
+        links: this.P.nodes[id - 1].links
       };
       if (tmp.nodes) {
         this.render = true;
