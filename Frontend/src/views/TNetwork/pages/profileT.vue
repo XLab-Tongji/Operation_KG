@@ -1,11 +1,27 @@
 <template>
-  <div>
+  <div class="container">
+    <div class="patten">
     <el-select v-model="selectT" filterable placeholder="请选择">
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
     <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" />
-    <p>{{this.tran_name}} -> {{this.pat_name}}</p>
-    <Trans v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope" />
+    </div>
+    <el-card>
+       <div slot="header" class="clearfix">
+        <p style="fronted-size:10px; height:5px">{{this.tran_name}} -> {{this.pat_name}}</p>
+       </div>
+ 
+    
+    
+   
+  
+    <div class="en">
+      <div>
+    <Trans v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope1" />
+    </div>
+    
+    </div>
+     </el-card>
   </div>
 </template>
 
@@ -39,8 +55,12 @@ export default {
       ],
       selectT: "",
       scope: {
-        x: window.innerHeight / 3,
-        y: window.innerWidth / 3
+        x: window.innerHeight ,
+        y: window.innerWidth *0.6
+      },
+       scope1: {
+        x: window.innerHeight*0.45 ,
+        y: window.innerWidth *0.25
       },
       render: false,
       tran_name: "",
@@ -94,4 +114,31 @@ export default {
 </script>
 
 <style>
+.container {
+  display: grid;
+  grid-template-columns: 1.3fr 0.5fr;
+  grid-template-rows: calc(100vh -10px/3*0.4) calc(100vh -10px/3*0.2) calc(100vh -10px / 3) calc(100vh -10px /3);
+  /* grid-template-rows:0.5fr 0.5fr; */
+  grid-auto-flow: column;
+  grid-column-gap: 20px;
+  grid-row-gap: 15px;
+}
+
+.patten {
+
+  grid-row-start: 1;
+  grid-row-end: 5;
+}
+
+.title {
+  background-color: #d3d7d8;
+  grid-row-start: 1;
+  grid-row-end:2;
+}
+.en {
+  background-color: #fffdfd;
+  grid-row-start: 2;
+  grid-row-end:4;
+  font-size: 4em
+}
 </style>

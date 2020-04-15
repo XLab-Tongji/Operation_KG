@@ -27,12 +27,12 @@
             </el-menu-item>
 
             <el-menu-item index="profileE">
-              <i class="el-icon-share"></i>
+              <i class="el-icon-thumb"></i>
               <span slot="title">Profile of Entity with Attributes</span>
             </el-menu-item>
 
             <el-menu-item index="compare">
-              <i class="el-icon-share"></i>
+              <i class="el-icon-document-copy"></i>
               <span slot="title">Comparison of Profiles by Timestamp</span>
             </el-menu-item>
           </el-menu>

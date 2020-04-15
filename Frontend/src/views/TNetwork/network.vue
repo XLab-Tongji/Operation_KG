@@ -36,6 +36,7 @@
 import D3Network from "../../components/vue-d3-network/src/d3-systemOverview.vue";
 import axios from "axios";
 
+
 HTMLCollection.prototype.forEach = Array.prototype.forEach;
 Array.prototype.indexOf = function(val) {
   for (var i = 0; i < this.length; i++) {
@@ -126,6 +127,28 @@ export default {
   },
   methods: {
     ncb(node) {
+      switch(node.loop){
+    case 1:
+      node._color="#fdae61";
+      break;
+    case 2:
+      node._color="#fee08b";
+      break;
+    case 3:
+      node._color="#ffffbf";
+      break;      
+    case 4:
+      node._color="#e6f598";
+      break;           
+    case 5:
+      node._color="#abdda4";
+      break;
+    case 6:
+      node._color="#66c2a5";
+      break;           
+      }
+     
+      console.log(node);
       return node;
     },
     lcb(link) {
