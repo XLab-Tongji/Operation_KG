@@ -6,15 +6,11 @@
     </el-select>
     <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" />
     </div>
-    <el-card>
+    <el-card class="box">
        <div slot="header" class="clearfix">
         <p style="fronted-size:10px; height:5px">{{this.tran_name}} -> {{this.pat_name}}</p>
        </div>
  
-    
-    
-   
-  
     <div class="en">
       <div>
     <Trans v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope1" />
@@ -140,5 +136,9 @@ export default {
   grid-row-start: 2;
   grid-row-end:4;
   font-size: 4em
+}
+.box{
+  position: fixed; 
+  right:0; 
 }
 </style>

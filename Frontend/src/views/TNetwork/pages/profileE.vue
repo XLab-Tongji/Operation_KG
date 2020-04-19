@@ -9,15 +9,17 @@
 
 <script>
 import global from "../global";
-import Net from "../network";
+import Net from "../network1";
 import data from "../data/trans.json";
 
 import store from '@/store.js'
+var value=0;
 export default {
   components: {
     Net
   },
   data() {
+   //  this.value=1;
     return {
       E: {
         nodes: [],
@@ -37,6 +39,8 @@ export default {
     };
   },
   created() {
+     
+
     global.tpe = data;
     if (global.tpe) {
       this.E.nodes = global.tpe.nodes;
@@ -44,8 +48,28 @@ export default {
     }
   },
   watch: {
-    selectE(newVal) {
-      console.log(this.E.nodes[newVal].name,this.E.nodes[newVal])
+   // selectR(newVal) {this.name=newVal},
+    selectE(newVal,value) {
+      // if(!newVal){
+      //   this.E.nodes[newVal]._color="#ffffbf";
+      //   console.log( newVal)
+      //   value=newval;
+      //   console.log( newVal)
+       
+      // }
+      // else{
+      // this.E.nodes[value]._color="#dcfaf3";
+      // this.E.nodes[newVal]._color="#ffffbf";
+      // //this.E.nodes._color="#dcfaf3";
+      // value=newval;
+      //  console.log(newVal)
+      // }
+     // console.log(value)
+      this.E.nodes[value]._color="#dcfaf3";
+      this.E.nodes[newVal]._color="#ffffbf";
+    //  this.E.nodes._color="#dcfaf3";
+      value=newval;
+      console.log(value,newVal)
     }
   },
   methods: {

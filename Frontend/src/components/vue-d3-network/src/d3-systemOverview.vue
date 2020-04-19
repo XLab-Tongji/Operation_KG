@@ -435,7 +435,7 @@ export default {
     fill $white
 
   .node.selected
-    stroke $color2
+    stroke $color3
 
   .node.pinned
     stroke alpha($warn, 0.6)
