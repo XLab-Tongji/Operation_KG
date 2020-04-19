@@ -54,15 +54,10 @@ export default new Router({
         },
         {
             path: '/tpe',
-            redirect: '/tpe/overview',
+            redirect: '/tpe/profileT',
             name: 'main',
             component: () => import('./views/TNetwork/MainPage.vue'),
             children: [
-                {
-                    path: 'overview',
-                    name: 'overview',
-                    component: () => import('./views/TNetwork/pages/overview.vue'),
-                },
                 {
                     path: 'profileT',
                     name: 'profileT',

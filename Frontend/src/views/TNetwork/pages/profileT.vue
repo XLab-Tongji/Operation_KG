@@ -1,23 +1,30 @@
 <template>
   <div class="container">
     <div class="patten">
-    <el-select v-model="selectT" filterable placeholder="请选择">
-      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-    </el-select>
-    <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" />
+      <el-select v-model="selectT" filterable placeholder="请选择">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+      <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" />
+    </div>
+    <div class="overview">
+      <Overview/>
     </div>
     <el-card class="box">
-       <div slot="header" class="clearfix">
+      <div slot="header" class="clearfix">
         <p style="fronted-size:10px; height:5px">{{this.tran_name}} -> {{this.pat_name}}</p>
-       </div>
- 
-    <div class="en">
-      <div>
-    <Trans v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope1" />
-    </div>
-    
-    </div>
-     </el-card>
+      </div>
+
+      <div class="en">
+        <div>
+          <Trans v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope1" />
+        </div>
+      </div>
+    </el-card>
   </div>
 </template>
 
@@ -25,12 +32,14 @@
 import global from "../global";
 import Net from "../network";
 import Trans from "../Trans";
+import Overview from "./overview";
 
 import store from "@/store.js";
 
 export default {
   components: {
-    Trans
+    Trans,
+    Overview
   },
   data() {
     return {
@@ -51,12 +60,12 @@ export default {
       ],
       selectT: "",
       scope: {
-        x: window.innerHeight ,
-        y: window.innerWidth *0.6
+        x: window.innerHeight,
+        y: window.innerWidth * 0.6
       },
-       scope1: {
-        x: window.innerHeight*0.45 ,
-        y: window.innerWidth *0.25
+      scope1: {
+        x: window.innerHeight * 0.45,
+        y: window.innerWidth * 0.25
       },
       render: false,
       tran_name: "",
@@ -113,7 +122,11 @@ export default {
 .container {
   display: grid;
   grid-template-columns: 1.3fr 0.5fr;
-  grid-template-rows: calc(100vh -10px/3*0.4) calc(100vh -10px/3*0.2) calc(100vh -10px / 3) calc(100vh -10px /3);
+  grid-template-rows:
+    calc(100vh -10px / 3 * 0.4) calc(100vh -10px / 3 * 0.2) calc(
+      100vh -10px / 3
+    )
+    calc(100vh -10px / 3);
   /* grid-template-rows:0.5fr 0.5fr; */
   grid-auto-flow: column;
   grid-column-gap: 20px;
@@ -121,7 +134,6 @@ export default {
 }
 
 .patten {
-
   grid-row-start: 1;
   grid-row-end: 5;
 }
@@ -129,16 +141,16 @@ export default {
 .title {
   background-color: #d3d7d8;
   grid-row-start: 1;
-  grid-row-end:2;
+  grid-row-end: 2;
 }
 .en {
   background-color: #fffdfd;
   grid-row-start: 2;
-  grid-row-end:4;
-  font-size: 4em
+  grid-row-end: 4;
+  font-size: 4em;
 }
-.box{
-  position: fixed; 
-  right:0; 
+.box {
+  position: fixed;
+  right: 0;
 }
 </style>

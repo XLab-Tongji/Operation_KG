@@ -16,10 +16,6 @@
             @select="handleSelect"
             :collapse="isCollapse"
           >
-            <el-menu-item index="overview">
-              <i class="el-icon-view"></i>
-              <span slot="title">Transactions Overview</span>
-            </el-menu-item>
 
             <el-menu-item index="profileT">
               <i class="el-icon-share"></i>
