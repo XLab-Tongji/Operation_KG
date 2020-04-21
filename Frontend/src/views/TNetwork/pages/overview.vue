@@ -1,13 +1,12 @@
 <template>
-  <div>
+  
     <div class="loop">
       <el-card class="box">
         <div slot="header" class="clearfix">
-          <span>循环次数</span>
-        </div>
+         
+       
 
         <div class="color color1"></div>
-
         <div class="color color2"></div>
         <div class="color color3"></div>
         <div class="color color4"></div>
@@ -15,14 +14,12 @@
         <div class="color color6"></div>
 
         <snap style="letter-spacing:37px">123456</snap>
-        <!-- <div v-for="o in 6" :key="o" class="text item">
-            {{ color }}
-          </div> 
-        -->
+    </div>
+         <Trans :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope" @parent="getP" />
       </el-card>
     </div>
-    <Trans :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope" @parent="getP" />
-  </div>
+   
+  
 </template>
 
 <script>
@@ -42,8 +39,8 @@ export default {
         links: []
       },
       scope: {
-        x: window.innerHeight * 0.5,
-        y: window.innerWidth * 0.5
+        x: window.innerHeight * 0.35,
+        y: window.innerWidth * 0.25
       }
     };
   },
@@ -63,11 +60,10 @@ export default {
 
 <style>
 .box {
-  position: fixed;
-  right: 0;
-  width: 310px;
-  border-top: 90px;
-  border-right: 90px;
+  /* position: fixed;
+  right: 0; */
+  /* width: 310px; */
+ 
 }
 .text {
   float: left;
