@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <div class="patten">
+    <Time/>
+
+    <!-- <div class="patten">
       <el-select v-model="selectT" filterable placeholder="请选择">
         <el-option
           v-for="item in options"
@@ -25,7 +27,7 @@
           <Trans v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope1" />
         </div>
       </el-card>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -34,13 +36,15 @@ import global from "../global";
 import Net from "../network";
 import Trans from "../Trans";
 import Overview from "./overview";
+import Time from '../timepick'
 
 import store from "@/store.js";
 
 export default {
   components: {
     Trans,
-    Overview
+    Overview,
+    Time
   },
   data() {
     return {
