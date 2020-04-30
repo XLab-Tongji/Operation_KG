@@ -25,7 +25,7 @@
 <script>
 import global from "../global";
 import Trans from "../Trans";
-import data from "../data/trans.json";
+import data from "../data/qd.json";
 
 import store from "@/store.js";
 export default {

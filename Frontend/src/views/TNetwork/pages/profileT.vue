@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <Time/>
+    <!-- <Time/> -->
 
-    <!-- <div class="patten">
+    <div class="patten">
       <el-select v-model="selectT" filterable placeholder="请选择">
         <el-option
           v-for="item in options"
@@ -27,7 +27,7 @@
           <Trans v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope1" />
         </div>
       </el-card>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -36,10 +36,12 @@ import global from "../global";
 import Net from "../network";
 import Trans from "../Trans";
 import Overview from "./overview";
-import Time from '../timepick'
+import Time from "../timepick";
 
 import store from "@/store.js";
+import axios from "axios";
 
+const url = "";
 export default {
   components: {
     Trans,
@@ -53,16 +55,7 @@ export default {
         links: []
       },
       E: {},
-      options: [
-        {
-          value: 0,
-          label: "trans1"
-        },
-        {
-          value: 1,
-          label: "trans2"
-        }
-      ],
+      options: [],
       selectT: "",
       scope: {
         x: window.innerHeight,
@@ -79,7 +72,6 @@ export default {
   },
   watch: {
     selectT(newVal) {
-      console.log(newVal)
       // pattern-network
       let tmpP = {
         nodes: store.state.data.nodes[newVal].nodes,
@@ -103,11 +95,18 @@ export default {
     }
   },
   created() {
+    let raw = store.state.data.nodes;
+    let test = raw.map(i => {
+      return {
+        value: i.id,
+        label: i.name
+      };
+    });
+    this.options = test
     this.selectT = 0;
   },
   methods: {
     getP(parent) {
-      console.log(parent.name)
       let id = parent.id;
       let tmp = {
         nodes: this.P.nodes[id - 1].nodes,
