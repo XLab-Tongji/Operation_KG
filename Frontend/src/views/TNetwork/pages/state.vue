@@ -1,23 +1,12 @@
 <template>
   <div>
     <div class="container">
-      <Time />
-    </div>
-    <div class="container">
       <div class="patten">
-        <el-select v-model="selectT" filterable placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
         <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" />
       </div>
 
       <div class="overview">
-        <Overview :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope2"/>
+        <Overview />
       </div>
 
       <div class="en">
@@ -31,39 +20,32 @@
         </el-card>
       </div>
     </div>
-    <!-- <state :id="id"/> -->
   </div>
 </template>
 
 <script>
-import state from './state'
-
 import global from "../global";
 import Net from "../network";
 import Trans from "../Trans";
 import Overview from "./overview";
 import Time from "../timepick";
-import store from "@/store.js";
 
-import data from '../data/trans.json'
-var c=2
-var tra=1
+import store from "@/store.js";
+var c = 2;
+var tra = 1;
 export default {
   components: {
     Trans,
     Overview,
-    Time,
-    state
+    Time
   },
   data() {
     return {
-      id:0,
       P: {
         nodes: [],
         links: []
       },
       E: {},
-      T:{},
       options: [],
       selectT: "",
       scope: {
@@ -74,29 +56,24 @@ export default {
         x: window.innerHeight * 0.45,
         y: window.innerWidth * 0.25
       },
-      scope2: {
-        x: window.innerHeight * 0.35,
-        y: window.innerWidth * 0.25
-      },
       render: false,
       tran_name: "",
-      pat_name: "",
-      data:[]
+      pat_name: ""
     };
   },
   watch: {
     selectT(newVal) {
-      this.data.nodes[tra]._color="#dcfaf3";
-      this.data.nodes[newVal]._color="#abdda4";
-      tra=newVal;
-     // this.T.nodes[newVal]._color="#ffffbf"
+      store.state.data.nodes[tra]._color = "#dcfaf3";
+      store.state.data.nodes[newVal]._color = "#abdda4";
+      tra = newVal;
+      // this.T.nodes[newVal]._color="#ffffbf"
       // pattern-network
       let tmpP = {
-        nodes: this.data.nodes[newVal].nodes,
-        links: this.data.nodes[newVal].links
+        nodes: store.state.data.nodes[newVal].nodes,
+        links: store.state.data.nodes[newVal].links
       };
       this.P = tmpP;
-      this.tran_name = this.data.nodes[newVal].name;
+      this.tran_name = store.state.data.nodes[newVal].name;
 
       // entity-network
       let tmpE = {
@@ -113,32 +90,22 @@ export default {
     }
   },
   created() {
-    store.commit("setData", data);
-    let len_=store.state.data.length
-    this.data = store.state.data[len_-1]
-    let tmpT = {
-        nodes: this.data.nodes,
-        links: this.data.links,
-      };
-      this.T = tmpT;
-    let raw = this.data.nodes;
+    let raw = store.state.data.nodes;
     let test = raw.map(i => {
       return {
         value: i.id,
         label: i.name
       };
     });
-    this.options = test
+    this.options = test;
     this.selectT = 0;
   },
   methods: {
-
     getP(parent) {
+      this.P.nodes[c - 1]._color = "#dcfaf3";
+      this.P.nodes[parent.id - 1]._color = "#ffffbf";
 
-      this.P.nodes[c-1]._color="#dcfaf3";
-      this.P.nodes[parent.id-1]._color="#ffffbf";
-      
-      c=parent.id;
+      c = parent.id;
       let id = parent.id;
       let tmp = {
         nodes: this.P.nodes[id - 1].nodes,

@@ -1,23 +1,20 @@
 <template>
-  
-    <div class="loop">
-      <el-card class="box">
-        <div slot="header" class="clearfix">
-<!--         
+  <div class="loop">
+    <el-card class="box">
+      <div slot="header" class="clearfix">
+        <!--         
         <div class="color color1"></div>
         <div class="color color2"></div>
         <div class="color color3"></div>
         <div class="color color4"></div>
         <div class="color color5"></div>
-        <div class="color color6"></div> -->
+        <div class="color color6"></div>-->
         <!-- <snap style="letter-spacing:37px">123456</snap> -->
-        <snap >Transction</snap>
-    </div>
-         <Trans :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope" @parent="getP" />
-      </el-card>
-    </div>
-   
-  
+        <snap>Transction</snap>
+      </div>
+      <Trans :nodes="nodes" :links="links" :scope="scope" @parent="getP" />
+    </el-card>
+  </div>
 </template>
 
 <script>
@@ -30,25 +27,13 @@ export default {
   components: {
     Trans
   },
-  data() {
-    return {
-      T: {
-        nodes: [],
-        links: []
-      },
-      scope: {
-        x: window.innerHeight * 0.35,
-        y: window.innerWidth * 0.25
-      }
-    };
-  },
-  created() {
-    global.tpe = data;
-    if (global.tpe) {
-      this.T.nodes = global.tpe.nodes;
-      this.T.links = global.tpe.links;
+  props: {
+    nodes: Array,
+    links: Array,
+    scope: {
+      x: Number,
+      y: Number
     }
-    store.commit("setData", data);
   },
   methods: {
     getP() {}
@@ -57,12 +42,6 @@ export default {
 </script>
 
 <style>
-.box {
-  /* position: fixed;
-  right: 0; */
-  /* width: 310px; */
- 
-}
 .text {
   float: left;
 }
