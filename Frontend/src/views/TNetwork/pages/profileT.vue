@@ -31,7 +31,7 @@
         </el-card>
       </div>
     </div>
-    <!-- <state :id="id"/> -->
+    <state/>
   </div>
 </template>
 
@@ -57,7 +57,6 @@ export default {
   },
   data() {
     return {
-      id:0,
       P: {
         nodes: [],
         links: []
@@ -129,7 +128,7 @@ export default {
       };
     });
     this.options = test
-    this.selectT = 0;
+    this.selectT = 1;
   },
   methods: {
 

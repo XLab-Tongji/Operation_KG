@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import store from "@/store.js";
 import date from "./data/date.json";
 export default {
   data() {
@@ -38,6 +39,9 @@ export default {
         }
       }
     }
+  },
+  created() {
+    store.commit("setDate", date);
   },
   mounted() {
     let d1 = new Date("2020-4-3");

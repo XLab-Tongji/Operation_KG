@@ -1,12 +1,25 @@
 <template>
   <div>
+    <div>
+      <el-select v-model="id" @change="change" filterable placeholder="请选择想进行比较的system state">
+        <el-option v-for="item in sso" :key="item.id" :label="item.id" :value="item.id"></el-option>
+      </el-select>
+    </div>
     <div class="container">
       <div class="patten">
+        <el-select v-model="selectT" filterable placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
         <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" />
       </div>
 
       <div class="overview">
-        <Overview />
+        <Overview :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope2" />
       </div>
 
       <div class="en">
@@ -24,20 +37,24 @@
 </template>
 
 <script>
+import state from "./state";
+
 import global from "../global";
 import Net from "../network";
 import Trans from "../Trans";
 import Overview from "./overview";
 import Time from "../timepick";
-
 import store from "@/store.js";
+
+import data from "../data/trans.json";
 var c = 2;
 var tra = 1;
 export default {
   components: {
     Trans,
     Overview,
-    Time
+    Time,
+    state
   },
   data() {
     return {
@@ -46,6 +63,7 @@ export default {
         links: []
       },
       E: {},
+      T: {},
       options: [],
       selectT: "",
       scope: {
@@ -56,24 +74,52 @@ export default {
         x: window.innerHeight * 0.45,
         y: window.innerWidth * 0.25
       },
+      scope2: {
+        x: window.innerHeight * 0.35,
+        y: window.innerWidth * 0.25
+      },
       render: false,
       tran_name: "",
-      pat_name: ""
+      pat_name: "",
+      data: [],
+      id: -1,
+      sso: store.state.date
     };
   },
   watch: {
     selectT(newVal) {
-      store.state.data.nodes[tra]._color = "#dcfaf3";
-      store.state.data.nodes[newVal]._color = "#abdda4";
+      this.data.nodes[tra]._color = "#dcfaf3";
+      this.data.nodes[newVal]._color = "#abdda4";
       tra = newVal;
       // this.T.nodes[newVal]._color="#ffffbf"
       // pattern-network
       let tmpP = {
-        nodes: store.state.data.nodes[newVal].nodes,
-        links: store.state.data.nodes[newVal].links
+        nodes: this.data.nodes[newVal].nodes,
+        links: this.data.nodes[newVal].links
       };
       this.P = tmpP;
-      this.tran_name = store.state.data.nodes[newVal].name;
+      this.tran_name = this.data.nodes[newVal].name;
+
+      // entity-network
+      let tmpE = {
+        nodes: this.P.nodes[0].nodes,
+        links: this.P.nodes[0].links
+      };
+      if (tmpE.nodes) {
+        this.render = true;
+        this.E = tmpE;
+        this.pat_name = this.P.nodes[0].name;
+      } else {
+        this.render = false;
+      }
+    },
+    data(newVal) {
+      let tmpP = {
+        nodes: newVal.nodes[1].nodes,
+        links: newVal.nodes[1].links
+      };
+      this.P = tmpP;
+      this.tran_name = newVal.nodes[1].name;
 
       // entity-network
       let tmpE = {
@@ -89,18 +135,26 @@ export default {
       }
     }
   },
-  created() {
-    let raw = store.state.data.nodes;
-    let test = raw.map(i => {
-      return {
-        value: i.id,
-        label: i.name
-      };
-    });
-    this.options = test;
-    this.selectT = 0;
-  },
+  created() {},
   methods: {
+    change() {
+      this.data = store.state.data[this.id];
+      if (this.data == undefined) console.log("undefune");
+      let tmpT = {
+        nodes: this.data.nodes,
+        links: this.data.links
+      };
+      this.T = tmpT;
+      let raw = this.data.nodes;
+      let test = raw.map(i => {
+        return {
+          value: i.id,
+          label: i.name
+        };
+      });
+      this.options = test;
+      this.selectT = 1;
+    },
     getP(parent) {
       this.P.nodes[c - 1]._color = "#dcfaf3";
       this.P.nodes[parent.id - 1]._color = "#ffffbf";
