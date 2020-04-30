@@ -1,32 +1,35 @@
 <template>
-  <div class="container">
-    <!-- <Time/> -->
-
-    <div class="patten">
-      <el-select v-model="selectT" filterable placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
-      <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" />
+  <div>
+    <div class="container">
+      <Time />
     </div>
+    <div class="container">
+      <div class="patten">
+        <el-select v-model="selectT" filterable placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+        <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" />
+      </div>
 
-    <div class="overview">
-      <Overview />
-    </div>
+      <div class="overview">
+        <Overview />
+      </div>
 
-    <div class="en">
-      <el-card class="box1">
-        <div slot="header" class="clearfix">
-          <span>{{this.tran_name}} -> {{this.pat_name}}</span>
-        </div>
-        <div>
-          <Trans v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope1" />
-        </div>
-      </el-card>
+      <div class="en">
+        <el-card class="box1">
+          <div slot="header" class="clearfix">
+            <span>{{this.tran_name}} -> {{this.pat_name}}</span>
+          </div>
+          <div>
+            <Trans v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope1" />
+          </div>
+        </el-card>
+      </div>
     </div>
   </div>
 </template>
@@ -39,9 +42,8 @@ import Overview from "./overview";
 import Time from "../timepick";
 
 import store from "@/store.js";
-import axios from "axios";
-
-const url = "";
+var c=2
+var tra=1
 export default {
   components: {
     Trans,
@@ -62,7 +64,7 @@ export default {
         y: window.innerWidth * 0.6
       },
       scope1: {
-        x: window.innerHeight * 0.35,
+        x: window.innerHeight * 0.45,
         y: window.innerWidth * 0.25
       },
       render: false,
@@ -72,6 +74,11 @@ export default {
   },
   watch: {
     selectT(newVal) {
+      console.log(newVal)
+      store.state.data.nodes[tra]._color="#dcfaf3";
+      store.state.data.nodes[newVal]._color="#abdda4";
+      tra=newVal;
+     // this.T.nodes[newVal]._color="#ffffbf"
       // pattern-network
       let tmpP = {
         nodes: store.state.data.nodes[newVal].nodes,
@@ -106,7 +113,13 @@ export default {
     this.selectT = 0;
   },
   methods: {
+
     getP(parent) {
+      console.log(parent,parent.id-1,c-1)
+      this.P.nodes[c-1]._color="#dcfaf3";
+      this.P.nodes[parent.id-1]._color="#ffffbf";
+      
+      c=parent.id;
       let id = parent.id;
       let tmp = {
         nodes: this.P.nodes[id - 1].nodes,

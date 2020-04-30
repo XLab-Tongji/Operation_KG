@@ -3,17 +3,15 @@
     <div class="loop">
       <el-card class="box">
         <div slot="header" class="clearfix">
-         
-       
-
+<!--         
         <div class="color color1"></div>
         <div class="color color2"></div>
         <div class="color color3"></div>
         <div class="color color4"></div>
         <div class="color color5"></div>
-        <div class="color color6"></div>
-
-        <snap style="letter-spacing:37px">123456</snap>
+        <div class="color color6"></div> -->
+        <!-- <snap style="letter-spacing:37px">123456</snap> -->
+        <snap >Transction</snap>
     </div>
          <Trans :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope" @parent="getP" />
       </el-card>
