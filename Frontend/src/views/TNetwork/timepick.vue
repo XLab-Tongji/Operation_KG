@@ -28,17 +28,29 @@ export default {
       tableData: []
     };
   },
-  mounted() {},
+  watch: {
+    value(newVal) {
+      this.tableData = [];
+      for (let i in date) {
+        let tmp = new Date(date[i].date);
+        if (tmp <= newVal[1] && tmp >= newVal[0]) {
+          this.tableData.push(date[i]);
+        }
+      }
+    }
+  },
+  mounted() {
+    let d1 = new Date("2020-4-3");
+    let d2 = new Date("2020-4-5");
+    this.value = [d1, d2];
+  },
   methods: {
     onpick() {
-      if (this.value == null) {
-        this.tableData = [];
-      } else {
-        for (let i in date) {
-          let tmp = new Date(date[i].date);
-          if (tmp <= this.value[1] && tmp >= this.value[0]) {
-            this.tableData.push(date[i]);
-          }
+      this.tableData = [];
+      for (let i in date) {
+        let tmp = new Date(date[i].date);
+        if (tmp <= this.value[1] && tmp >= this.value[0]) {
+          this.tableData.push(date[i]);
         }
       }
     }
