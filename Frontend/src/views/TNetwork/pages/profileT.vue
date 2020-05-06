@@ -44,10 +44,14 @@ import Trans from "../Trans";
 import Overview from "./overview";
 import Time from "../timepick";
 import store from "@/store.js";
+// import data1 from "../data/compare.json";
 
 import data from '../data/trans.json'
 var c=2
 var tra=1
+var col="white"
+var kk=1
+var tr=1
 export default {
   components: {
     Trans,
@@ -85,17 +89,36 @@ export default {
   },
   watch: {
     selectT(newVal) {
-      this.data.nodes[tra]._color="#dcfaf3";
-      this.data.nodes[newVal]._color="#abdda4";
+      //  console.log(parent,kk)
+    if(tr==1)
+    {
+      console.log("tr是1",tr)
+      this.data.nodes[newVal-1]._color="#abdda4";
       tra=newVal;
+      tr=tr+3
+    }
+    else{
+      console.log("tr不是1",tr)
+     this.data.nodes[tra-1]._color="#dcfaf3";
+      this.data.nodes[newVal-1]._color="#abdda4";
+      tra=newVal;
+    }
+      // this.data.nodes[tra-1]._color="#dcfaf3";
+      // this.data.nodes[newVal-1]._color="#abdda4";
+      // tra=newVal;
      // this.T.nodes[newVal]._color="#ffffbf"
-      // pattern-network
+    // pattern-network
       let tmpP = {
-        nodes: this.data.nodes[newVal].nodes,
-        links: this.data.nodes[newVal].links
+        nodes: this.data.nodes[newVal-1].nodes,
+        links: this.data.nodes[newVal-1].links,
+        
       };
+
+      // if tmp.nodes
       this.P = tmpP;
-      this.tran_name = this.data.nodes[newVal].name;
+      // var col=this.P.nodes[0]._color
+      // console.log(col)
+      this.tran_name = this.data.nodes[newVal-1].name;
 
       // entity-network
       let tmpE = {
@@ -133,11 +156,28 @@ export default {
   methods: {
 
     getP(parent) {
-
-      this.P.nodes[c-1]._color="#dcfaf3";
-      this.P.nodes[parent.id-1]._color="#ffffbf";
-      
+    //  console.log(parent,kk)
+    if(kk==1)
+    {
+      console.log("kk是1",kk)
+      col=this.P.nodes[parent.id-1]._color
+      this.P.nodes[parent.id-1]._color="red";
       c=parent.id;
+      kk=kk+3
+    }
+    else{
+      console.log("kk不是1",kk)
+      col=this.P.nodes[parent.id-1]._color
+      this.P.nodes[c-1]._color=col;
+      this.P.nodes[parent.id-1]._color="red";
+      c=parent.id;
+    }
+   
+      // col=this.P.nodes[parent.id-1]._color
+      // this.P.nodes[c-1]._color=col;
+      // this.P.nodes[parent.id-1]._color="red";
+      // c=parent.id;
+
       let id = parent.id;
       let tmp = {
         nodes: this.P.nodes[id - 1].nodes,

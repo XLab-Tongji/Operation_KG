@@ -148,7 +148,6 @@ export default {
       break;           
       }
      
-      console.log(node);
       return node;
     },
     lcb(link) {
