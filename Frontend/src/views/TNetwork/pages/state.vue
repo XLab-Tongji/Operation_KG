@@ -1,12 +1,14 @@
 <template>
   <div>
     <div>
+      <p>请选择想进行比较的system state</p>
       <el-select v-model="id" @change="change" filterable placeholder="请选择想进行比较的system state">
-        <el-option v-for="item in sso" :key="item.id" :label="item.id" :value="item.id"></el-option>
+      <el-option v-for="item in sso" :key="item.id" :label="item.id" :value="item.id"></el-option>
       </el-select>
     </div>
     <div class="container">
       <div class="patten">
+         <p>请选择transction</p>
         <el-select v-model="selectT" filterable placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -22,6 +24,7 @@
         <Overview :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope2" />
       </div>
 
+
       <div class="en">
         <el-card class="box1">
           <div slot="header" class="clearfix">
@@ -31,8 +34,17 @@
             <Trans v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope1" />
           </div>
         </el-card>
+    
+     
       </div>
     </div>
+     <div class="json">
+      <el-card class="json-card">
+  <div slot="header" class="clearfix">
+    <span>json</span>
+  </div>
+</el-card>
+     </div>
   </div>
 </template>
 
@@ -219,7 +231,7 @@ export default {
 .container {
   display: grid;
   grid-template-columns: 0.8fr 0.55fr;
-  grid-template-rows: calc(100vh -30px / 4) calc(100vh -30px / 4 * 3);
+  grid-template-rows: calc(100vh -10px / 4)  calc(100vh -10px / 4 * 3) ;
   /* grid-template-rows:0.5fr 0.5fr; */
   grid-auto-flow: column;
   grid-column-gap: 20px;
@@ -245,8 +257,7 @@ export default {
   grid-row-start: 2;
   grid-row-end: 3;
 }
-/* .box {
-  position: fixed;
-  right: 0;
-} */
+.json-card .el-card__body {
+   background:lightgrey
+}
 </style>
