@@ -132,47 +132,26 @@ export default {
   },
   methods: {
     ncb(node) {
-    //  对比界面
-    //  if(node.state){
-    //      switch(node.state){
-    // case "normal":
-    //   node._color="#dcfaf3";
-    //   break;
-    // case "abnormal":
-    //   node._color="yellow";
-    //   break;
-    // case "remove":
-    //   node._color="blue";
-    //   break;      
-    // case "delete":
-    //   node._color="black";
-    //   break;           
-    // case "still":
-    //   node._color="#dcfaf3";
-    //   break;         
-    //   }
-    //   }
-
-       if(node.loop){
+      if(node.loop){
          switch(node.loop){
-    case 1:
+    case "normal":
       node._color="#fdae61";
       break;
-    case 2:
+    case "abnormal":
       node._color="#fee08b";
       break;
-    case 3:
+    case "remove":
       node._color="#ffffbf";
       break;      
-    case 4:
+    case "delete":
       node._color="#e6f598";
       break;           
-    case 5:
-      node._color="#abdda4";
-      break;
-    case 6:
-      node._color="#66c2a5";
-      break;           
+    // case 5:
+    //   node._color="#abdda4";
+    //   break;
+    // case 6:
+    //   node._color="#66c2a5";
+    //   break;           
       }
       }
       return node;
