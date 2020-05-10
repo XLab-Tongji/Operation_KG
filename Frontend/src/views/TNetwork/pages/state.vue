@@ -42,7 +42,7 @@ import state from "./state";
 import global from "../global";
 import Net from "../network";
 import Trans from "../Trans_compare";
-import Overview from "./overview";
+import Overview from "./overview1";
 import Time from "../timepick";
 import store from "@/store.js";
 
@@ -91,6 +91,7 @@ export default {
   },
   watch: {
     selectT(newVal) {
+    console.log(newVal)
      if(tr1==1)
     {
       console.log("tr是1",tr1)
@@ -104,6 +105,7 @@ export default {
       this.data.nodes[newVal-1]._color="#abdda4";
       tra1=newVal;
     }
+   
       // this.T.nodes[newVal]._color="#ffffbf"
       // pattern-network
       let tmpP = {
@@ -111,6 +113,7 @@ export default {
         links: this.data.nodes[newVal-1].links
       };
       this.P = tmpP;
+      console.log(this.P)
       this.tran_name = this.data.nodes[newVal-1].name;
 
       // entity-network
@@ -127,6 +130,7 @@ export default {
       }
     },
     data(newVal) {
+      newVal=newVal-1
       let tmpP = {
         nodes: newVal.nodes[1].nodes,
         links: newVal.nodes[1].links
@@ -169,20 +173,29 @@ export default {
       this.selectT = 1;
     },
     getP(parent) {
-
+     
      if(kk1==1)
     {
-      console.log("kk1是1",kk1)
+      // console.log("kk1是1",kk1)
+      // console.log("当前点到的点",this.P.nodes[parent.id-1].name)
+      // console.log("当前点到的点的原来颜色是",this.P.nodes[parent.id-1]._color)
       col1=this.P.nodes[parent.id-1]._color
-      this.P.nodes[parent.id-1]._color="red";
+      // console.log("当前存储的颜色是",col1)
+      this.P.nodes[parent.id-1]._color="#a78cb7";
+      // console.log("当前点到的点的颜色改变为",this.P.nodes[parent.id-1]._color)
       c1=parent.id;
       kk1=kk1+3
     }
     else{
-      console.log("kk不是1",kk1)
-      col1=this.P.nodes[parent.id-1]._color
+      // console.log("kk1不是1",kk1)
+      // console.log("当前点到的点",this.P.nodes[parent.id-1].name)
+      // console.log("当前点到的点的原来颜色是",this.P.nodes[parent.id-1]._color)
+      // console.log("之前点到的点的原来颜色是",col1)
+      // console.log("之前点到的点的名字是",this.P.nodes[c1-1].name)
       this.P.nodes[c1-1]._color=col1;
-      this.P.nodes[parent.id-1]._color="red";
+      col1=this.P.nodes[parent.id-1]._color
+      // console.log("现在存储的点的原来颜色是",col1)
+      this.P.nodes[parent.id-1]._color="#a78cb7";
       c1=parent.id;
     }
       let id = parent.id;

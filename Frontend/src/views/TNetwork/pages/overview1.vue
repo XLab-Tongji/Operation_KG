@@ -1,23 +1,12 @@
 <template>
-  <div class="ok">
+  <div class="loop">
     <el-card class="box">
       <div slot="header" class="clearfix">
-                
-        <!-- <div class="color color1"></div>
+        <div class="color color1"></div>
         <div class="color color2"></div>
         <div class="color color3"></div>
         <div class="color color4"></div>
-        <div class="color color5"></div>
-        <div class="color color6"></div> -->
-        <!-- <snap style="letter-spacing:37px">123456</snap> -->
-<snap>Transction</snap>
-<!-- 对比界面 -->
-         <!-- <div class="color color1"></div>
-        <div class="color color2"></div>
-        <div class="color color3"></div>
-        <div class="color color4"></div>
-        <snap style="word-spacing:22px">normal abnormal remove delete</snap> -->
-        <!-- <snap>Transction</snap> -->
+        <snap style="word-spacing:36px">add abnormal move delete</snap>
       </div>
       <Trans :nodes="nodes" :links="links" :scope="scope" @parent="getP" />
     </el-card>
@@ -57,5 +46,16 @@ export default {
   height: 20px;
   float: left;
 }
-
+.color1 {
+  background:green;
+}
+.color2 {
+  background:red;
+}
+.color3 {
+  background:blue;
+}
+.color4 {
+  background:black;
+}
 </style>

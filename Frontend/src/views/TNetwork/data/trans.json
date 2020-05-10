@@ -8,7 +8,6 @@
                     {
                         "name": "pattern1",
                         "id": 1,
-                        "loop": 3,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -50,7 +49,6 @@
                     {
                         "name": "pattern2",
                         "id": 2,
-                        "loop": 1,
                         "state":"still",
                         "nodes": [
                             {
@@ -93,7 +91,7 @@
                         "name": "pattern3",
                         "id": 3,
                         "loop": 1,
-                        "state":"normal",
+                        "state":"add",
                         "nodes": [
                             {
                                 "name": "entity1",
@@ -134,7 +132,6 @@
                     {
                         "name": "pattern4",
                         "id": 4,
-                        "loop": 1,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -200,7 +197,6 @@
                     {
                         "name": "pattern1",
                         "id": 1,
-                        "loop": 1,
                         "state":"still",
                         "nodes": [
                             {
@@ -242,7 +238,6 @@
                     {
                         "name": "pattern2",
                         "id": 2,
-                        "loop": 1,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -284,7 +279,6 @@
                     {
                         "name": "pattern3",
                         "id": 3,
-                        "loop": 1,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -326,7 +320,6 @@
                     {
                         "name": "pattern4",
                         "id": 4,
-                        "loop": 1,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -392,8 +385,7 @@
                     {
                         "name": "pattern1",
                         "id": 1,
-                        "loop": 5,
-                        "state":"remove",
+                        "state":"move",
                         "nodes": [
                             {
                                 "name": "entity1",
@@ -434,7 +426,6 @@
                     {
                         "name": "pattern2",
                         "id": 2,
-                        "loop": 5,
                         "state":"delete",
                         "nodes": [
                             {
@@ -476,7 +467,6 @@
                     {
                         "name": "pattern3",
                         "id": 3,
-                        "loop": 3,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -518,7 +508,6 @@
                     {
                         "name": "pattern4",
                         "id": 4,
-                        "loop": 5,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -585,7 +574,6 @@
                     {
                         "name": "pattern1",
                         "id": 1,
-                        "loop": 2,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -627,7 +615,6 @@
                     {
                         "name": "pattern2",
                         "id": 2,
-                        "loop": 2,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -669,7 +656,6 @@
                     {
                         "name": "pattern3",
                         "id": 3,
-                        "loop": 2,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -711,7 +697,6 @@
                     {
                         "name": "pattern4",
                         "id": 4,
-                        "loop": 2,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -796,7 +781,6 @@
                     {
                         "name": "pattern1",
                         "id": 1,
-                        "loop": 3,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -838,7 +822,6 @@
                     {
                         "name": "pattern2",
                         "id": 2,
-                        "loop": 1,
                         "state":"still",
                         "nodes": [
                             {
@@ -880,8 +863,7 @@
                     {
                         "name": "pattern3",
                         "id": 3,
-                        "loop": 1,
-                        "state":"normal",
+                        "state":"add",
                         "nodes": [
                             {
                                 "name": "entity1",
@@ -922,7 +904,6 @@
                     {
                         "name": "pattern4",
                         "id": 4,
-                        "loop": 1,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -988,7 +969,6 @@
                     {
                         "name": "pattern1",
                         "id": 1,
-                        "loop": 1,
                         "state":"still",
                         "nodes": [
                             {
@@ -1030,7 +1010,6 @@
                     {
                         "name": "pattern2",
                         "id": 2,
-                        "loop": 1,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -1072,7 +1051,6 @@
                     {
                         "name": "pattern3",
                         "id": 3,
-                        "loop": 1,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -1114,7 +1092,6 @@
                     {
                         "name": "pattern4",
                         "id": 4,
-                        "loop": 1,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -1180,8 +1157,7 @@
                     {
                         "name": "pattern1",
                         "id": 1,
-                        "loop": 5,
-                        "state":"remove",
+                        "state":"move",
                         "nodes": [
                             {
                                 "name": "entity1",
@@ -1222,7 +1198,6 @@
                     {
                         "name": "pattern2",
                         "id": 2,
-                        "loop": 5,
                         "state":"delete",
                         "nodes": [
                             {
@@ -1264,7 +1239,6 @@
                     {
                         "name": "pattern3",
                         "id": 3,
-                        "loop": 3,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -1306,7 +1280,6 @@
                     {
                         "name": "pattern4",
                         "id": 4,
-                        "loop": 5,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -1373,7 +1346,6 @@
                     {
                         "name": "pattern1",
                         "id": 1,
-                        "loop": 2,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -1415,7 +1387,6 @@
                     {
                         "name": "pattern2",
                         "id": 2,
-                        "loop": 2,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -1457,7 +1428,6 @@
                     {
                         "name": "pattern3",
                         "id": 3,
-                        "loop": 2,
                         "state":"abnormal",
                         "nodes": [
                             {
@@ -1499,7 +1469,6 @@
                     {
                         "name": "pattern4",
                         "id": 4,
-                        "loop": 2,
                         "state":"abnormal",
                         "nodes": [
                             {

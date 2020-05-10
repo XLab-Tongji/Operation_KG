@@ -3,11 +3,11 @@
         {
             "name": "transction1",
             "id": 1,
-            "loop": 1,
             "nodes": [
                 {
                     "name": "pattern1",
                     "id": 1,
+                    "loop":1,
                     "nodes": [
                         {
                             "name": "entity1",
@@ -30,12 +30,25 @@
                         {
                             "sid": 2,
                             "tid": 1
+                        },
+                        {
+                            "sid": 1,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        },
+                        {
+                            "sid": 3,
+                            "tid": 4
                         }
                     ]
                 },
                 {
                     "name": "pattern2",
                     "id": 2,
+                    "loop":1,
                     "nodes": [
                         {
                             "name": "entit1",
@@ -58,12 +71,25 @@
                         {
                             "sid": 2,
                             "tid": 1
+                        },
+                        {
+                            "sid": 1,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        },
+                        {
+                            "sid": 3,
+                            "tid": 4
                         }
                     ]
                 },
                 {
                     "name": "pattern3",
                     "id": 3,
+                    "loop":0,
                     "nodes": [
                         {
                             "name": "entity1",
@@ -104,6 +130,7 @@
                 {
                     "name": "pattern4",
                     "id": 4,
+                    "loop":0,
                     "nodes": [
                         {
                             "name": "entit1",
@@ -146,17 +173,29 @@
                 {
                     "sid": 2,
                     "tid": 1
+                },
+                {
+                    "sid": 1,
+                    "tid": 3
+                },
+                {
+                    "sid": 4,
+                    "tid": 2
+                },
+                {
+                    "sid": 3,
+                    "tid": 4
                 }
             ]
         },
         {
             "name": "transction2",
             "id": 2,
-            "loop": 3,
             "nodes": [
                 {
                     "name": "pattern1",
                     "id": 1,
+                    "loop":1,
                     "nodes": [
                         {
                             "name": "entity1",
@@ -197,6 +236,7 @@
                 {
                     "name": "pattern2",
                     "id": 2,
+                    "loop":1,
                     "nodes": [
                         {
                             "name": "entit1",
@@ -237,6 +277,7 @@
                 {
                     "name": "pattern3",
                     "id": 3,
+                    "loop":2,
                     "nodes": [
                         {
                             "name": "entity1",
@@ -277,6 +318,7 @@
                 {
                     "name": "pattern4",
                     "id": 4,
+                    "loop":2,
                     "nodes": [
                         {
                             "name": "entit1",
@@ -319,17 +361,29 @@
                 {
                     "sid": 2,
                     "tid": 1
+                },
+                {
+                    "sid": 4,
+                    "tid": 3
+                },
+                {
+                    "sid": 2,
+                    "tid": 3
+                },
+                {
+                    "sid": 4,
+                    "tid": 2
                 }
             ]
         },
         {
             "name": "transction3",
             "id": 3,
-            "loop": 5,
             "nodes": [
                 {
                     "name": "pattern1",
                     "id": 1,
+                    "loop":3,
                     "nodes": [
                         {
                             "name": "entity1",
@@ -370,6 +424,7 @@
                 {
                     "name": "pattern2",
                     "id": 2,
+                    "loop":3,
                     "nodes": [
                         {
                             "name": "entit1",
@@ -410,6 +465,7 @@
                 {
                     "name": "pattern3",
                     "id": 3,
+                    "loop":3,
                     "nodes": [
                         {
                             "name": "entity1",
@@ -510,11 +566,11 @@
         {
             "name": "transction4",
             "id": 4,
-            "loop": 2,
             "nodes": [
                 {
                     "name": "pattern1",
                     "id": 1,
+                    "loop":2,
                     "nodes": [
                         {
                             "name": "entity1",
@@ -555,6 +611,7 @@
                 {
                     "name": "pattern2",
                     "id": 2,
+                    "loop":1,
                     "nodes": [
                         {
                             "name": "entit1",
@@ -595,6 +652,7 @@
                 {
                     "name": "pattern3",
                     "id": 3,
+                    "loop":2,
                     "nodes": [
                         {
                             "name": "entity1",
@@ -623,6 +681,7 @@
                 {
                     "name": "pattern4",
                     "id": 4,
+                    "loop":1,
                     "nodes": [
                         {
                             "name": "entit1",
@@ -653,6 +712,18 @@
                 {
                     "sid": 2,
                     "tid": 1
+                },
+                {
+                    "sid": 4,
+                    "tid": 3
+                },
+                {
+                    "sid": 2,
+                    "tid": 3
+                },
+                {
+                    "sid": 4,
+                    "tid": 2
                 }
             ]
         }
@@ -661,6 +732,15 @@
         {
             "sid": 2,
             "tid": 1
+        },
+        {
+            "sid": 3,
+            "tid": 2
+        },
+        {
+            "sid": 4,
+            "tid": 3
         }
+       
     ]
 }

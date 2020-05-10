@@ -132,19 +132,19 @@ export default {
   },
   methods: {
     ncb(node) {
-      if(node.loop){
-         switch(node.loop){
-    case "normal":
-      node._color="#fdae61";
+      if(node.state){
+         switch(node.state){
+    case "add":
+      node._color="green";
       break;
     case "abnormal":
-      node._color="#fee08b";
+      node._color="red";
       break;
-    case "remove":
-      node._color="#ffffbf";
+    case "move":
+      node._color="blue";
       break;      
     case "delete":
-      node._color="#e6f598";
+      node._color="black";
       break;           
     // case 5:
     //   node._color="#abdda4";

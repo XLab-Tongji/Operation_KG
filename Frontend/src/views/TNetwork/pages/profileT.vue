@@ -162,15 +162,15 @@ export default {
     {
       console.log("kk是1",kk)
       col=this.P.nodes[parent.id-1]._color
-      this.P.nodes[parent.id-1]._color="red";
+      this.P.nodes[parent.id-1]._color="#a78cb7";
       c=parent.id;
       kk=kk+3
     }
     else{
       console.log("kk不是1",kk)
-      col=this.P.nodes[parent.id-1]._color
       this.P.nodes[c-1]._color=col;
-      this.P.nodes[parent.id-1]._color="red";
+      col=this.P.nodes[parent.id-1]._color
+      this.P.nodes[parent.id-1]._color="#a78cb7";
       c=parent.id;
     }
    
