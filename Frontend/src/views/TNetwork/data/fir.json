@@ -1,0 +1,666 @@
+{
+    "nodes": [
+        {
+            "name": "transction1",
+            "id": 1,
+            "loop": 1,
+            "nodes": [
+                {
+                    "name": "pattern1",
+                    "id": 1,
+                    "nodes": [
+                        {
+                            "name": "entity1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "entity2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        }
+                    ]
+                },
+                {
+                    "name": "pattern2",
+                    "id": 2,
+                    "nodes": [
+                        {
+                            "name": "entit1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute3",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        }
+                    ]
+                },
+                {
+                    "name": "pattern3",
+                    "id": 3,
+                    "nodes": [
+                        {
+                            "name": "entity1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "entity2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 2,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        }
+                    ]
+                },
+                {
+                    "name": "pattern4",
+                    "id": 4,
+                    "nodes": [
+                        {
+                            "name": "entit1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute3",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 2,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "sid": 2,
+                    "tid": 1
+                }
+            ]
+        },
+        {
+            "name": "transction2",
+            "id": 2,
+            "loop": 3,
+            "nodes": [
+                {
+                    "name": "pattern1",
+                    "id": 1,
+                    "nodes": [
+                        {
+                            "name": "entity1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "entity2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 2,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        }
+                    ]
+                },
+                {
+                    "name": "pattern2",
+                    "id": 2,
+                    "nodes": [
+                        {
+                            "name": "entit1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute3",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 2,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        }
+                    ]
+                },
+                {
+                    "name": "pattern3",
+                    "id": 3,
+                    "nodes": [
+                        {
+                            "name": "entity1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "entity2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 2,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        }
+                    ]
+                },
+                {
+                    "name": "pattern4",
+                    "id": 4,
+                    "nodes": [
+                        {
+                            "name": "entit1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute3",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 2,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "sid": 2,
+                    "tid": 1
+                }
+            ]
+        },
+        {
+            "name": "transction3",
+            "id": 3,
+            "loop": 5,
+            "nodes": [
+                {
+                    "name": "pattern1",
+                    "id": 1,
+                    "nodes": [
+                        {
+                            "name": "entity1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "entity2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 2,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        }
+                    ]
+                },
+                {
+                    "name": "pattern2",
+                    "id": 2,
+                    "nodes": [
+                        {
+                            "name": "entit1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute3",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 2,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        }
+                    ]
+                },
+                {
+                    "name": "pattern3",
+                    "id": 3,
+                    "nodes": [
+                        {
+                            "name": "entity1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "entity2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 2,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        }
+                    ]
+                },
+                {
+                    "name": "pattern4",
+                    "id": 4,
+                    "nodes": [
+                        {
+                            "name": "entit1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute3",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 2,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "sid": 2,
+                    "tid": 1
+                },
+                {
+                    "sid": 4,
+                    "tid": 3
+                },
+                {
+                    "sid": 2,
+                    "tid": 3
+                },
+                {
+                    "sid": 4,
+                    "tid": 2
+                }
+            ]
+        },
+        {
+            "name": "transction4",
+            "id": 4,
+            "loop": 2,
+            "nodes": [
+                {
+                    "name": "pattern1",
+                    "id": 1,
+                    "nodes": [
+                        {
+                            "name": "entity1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "entity2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 2,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        }
+                    ]
+                },
+                {
+                    "name": "pattern2",
+                    "id": 2,
+                    "nodes": [
+                        {
+                            "name": "entit1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute3",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 2,
+                            "tid": 3
+                        },
+                        {
+                            "sid": 4,
+                            "tid": 2
+                        }
+                    ]
+                },
+                {
+                    "name": "pattern3",
+                    "id": 3,
+                    "nodes": [
+                        {
+                            "name": "entity1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "entity2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        }
+                    ]
+                },
+                {
+                    "name": "pattern4",
+                    "id": 4,
+                    "nodes": [
+                        {
+                            "name": "entit1",
+                            "id": 1
+                        },
+                        {
+                            "name": "attribute1",
+                            "id": 2
+                        },
+                        {
+                            "name": "attribute2",
+                            "id": 3
+                        },
+                        {
+                            "name": "attribute3",
+                            "id": 4
+                        }
+                    ],
+                    "links": [
+                        {
+                            "sid": 2,
+                            "tid": 1
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "sid": 2,
+                    "tid": 1
+                }
+            ]
+        }
+    ],
+    "links": [
+        {
+            "sid": 2,
+            "tid": 1
+        }
+    ]
+}

@@ -46,6 +46,7 @@ import Time from "../timepick";
 import store from "@/store.js";
 
 import data from '../data/trans.json'
+import fir from '../data/fir.json'
 var c=2
 var tra=1
 export default {
@@ -113,8 +114,8 @@ export default {
   },
   created() {
     store.commit("setData", data);
-    let len_=store.state.data.length
-    this.data = store.state.data[len_-1]
+    store.commit("setFir", fir);
+    this.data = store.state.fir;
     let tmpT = {
         nodes: this.data.nodes,
         links: this.data.links,
@@ -128,7 +129,7 @@ export default {
       };
     });
     this.options = test
-    this.selectT = 1;
+    this.selectT = this.data.nodes[0].id;
   },
   methods: {
 
