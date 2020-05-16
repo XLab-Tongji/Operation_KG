@@ -93,7 +93,7 @@ export default {
       //  console.log(parent,kk)
     if(tr==1)
     {
-      console.log("tr是1",tr)
+      // console.log("tr是1",tr)
       this.data.nodes[newVal-1]._color="#abdda4";
       tra=newVal;
       tr=tr+3
