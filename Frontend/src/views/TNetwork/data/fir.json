@@ -11,19 +11,23 @@
                     "nodes": [
                         {
                             "name": "entity1",
-                            "id": 1
+                            "id": 1,
+                            "type":"entity"
                         },
                         {
                             "name": "attribute1",
-                            "id": 2
+                            "id": 2,
+                            "type":"attribute"
                         },
                         {
                             "name": "entity2",
-                            "id": 3
+                            "id": 3,
+                            "type":"entity"
                         },
                         {
                             "name": "attribute2",
-                            "id": 4
+                            "id": 4,
+                            "type":"attribute"
                         }
                     ],
                     "links": [

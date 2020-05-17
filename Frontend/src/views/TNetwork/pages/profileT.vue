@@ -26,7 +26,7 @@
             <span>{{this.tran_name}} -> {{this.pat_name}}</span>
           </div>
           <div>
-            <Trans v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope1" />
+            <edit v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope1" />
           </div>
         </el-card>
       </div>
@@ -37,6 +37,7 @@
 
 <script>
 import state from './state'
+import edit from '../edit'
 
 import global from "../global";
 import Net from "../network";
@@ -58,7 +59,8 @@ export default {
     Trans,
     Overview,
     Time,
-    state
+    state,
+    edit
   },
   data() {
     return {

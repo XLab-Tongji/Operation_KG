@@ -120,7 +120,7 @@ export default {
         links: this.data.nodes[newVal - 1].links
       };
       this.P = tmpP;
-      console.log(this.P);
+      // console.log(this.P);
       this.tran_name = this.data.nodes[newVal - 1].name;
 
       // entity-network
