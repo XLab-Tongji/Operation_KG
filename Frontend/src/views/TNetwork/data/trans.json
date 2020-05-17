@@ -12,18 +12,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -53,18 +57,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -95,18 +103,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -136,18 +148,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -201,18 +217,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -242,18 +262,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -283,18 +307,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -324,18 +352,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -389,18 +421,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -430,18 +466,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -471,18 +511,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -512,18 +556,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -578,18 +626,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -619,18 +671,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -660,18 +716,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -701,18 +761,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -785,18 +849,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -826,18 +894,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -867,18 +939,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -908,18 +984,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -973,18 +1053,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -1014,18 +1098,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -1055,18 +1143,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -1096,18 +1188,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -1161,18 +1257,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -1202,18 +1302,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -1243,18 +1347,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -1284,18 +1392,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -1350,18 +1462,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -1391,18 +1507,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -1432,18 +1552,22 @@
                         "nodes": [
                             {
                                 "name": "entity1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "entity2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],
@@ -1473,18 +1597,22 @@
                         "nodes": [
                             {
                                 "name": "entit1",
+                                "state":"abnormal",
                                 "id": 1
                             },
                             {
                                 "name": "attribute1",
+                                "state":"abnormal",
                                 "id": 2
                             },
                             {
                                 "name": "attribute2",
+                                "state":"abnormal",
                                 "id": 3
                             },
                             {
                                 "name": "attribute3",
+                                "state":"abnormal",
                                 "id": 4
                             }
                         ],

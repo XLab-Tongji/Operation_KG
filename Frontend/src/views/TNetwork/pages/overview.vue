@@ -52,10 +52,10 @@ export default {
 .text {
   float: left;
 }
-.color {
+/* .color {
   width: 75px;
   height: 20px;
   float: left;
-}
+} */
 
 </style>

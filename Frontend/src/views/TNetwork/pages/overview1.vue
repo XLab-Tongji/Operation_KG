@@ -6,7 +6,7 @@
         <div class="color color2"></div>
         <div class="color color3"></div>
         <div class="color color4"></div>
-        <snap style="word-spacing:36px">add abnormal move delete</snap>
+        <snap style="word-spacing:58px">add abnormal move delete</snap>
       </div>
       <Trans :nodes="nodes" :links="links" :scope="scope" @parent="getP" />
     </el-card>
@@ -42,7 +42,7 @@ export default {
   float: left;
 }
 .color {
-  width: 75px;
+  width: 90px;
   height: 20px;
   float: left;
 }
