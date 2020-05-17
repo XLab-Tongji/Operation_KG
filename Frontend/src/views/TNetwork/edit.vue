@@ -6,8 +6,8 @@
     <el-button v-if="edit" @click="addEntity">add entity</el-button>
     <el-button v-if="edit" @click="addRelation">add relation</el-button>
 
-    <el-button v-if="editEntity" @click>add attr</el-button>
-    <el-button v-if="editEntity" @click>delete</el-button>
+    <el-button v-if="editEntity" @click="addAttr">add attr</el-button>
+    <el-button v-if="editEntity" @click="deleteEntity">delete</el-button>
 
     <el-button v-if="editAttr" @click="deleteAttr">delete</el-button>
 
@@ -169,13 +169,21 @@ export default {
     }
   },
   methods: {
-    deleteAttr() {
-      let tmp_nodes=this.nodes.filter(node => node!=this.delAttr);
-      this.nodes=tmp_nodes;
-      let tmp_links=this.links.filter(link=> link.tid!=this.delAttr.id && link.sid!=this.delAttr.id);
-      this.links=tmp_links;
+    addAttr() {
+      let _id = this.nodes[this.nodes.length - 1].id;
+      let new_node = {
+        id: _id + 1,
+        name: "new_attr",
+        type: "attribute"
+      };
+      this.nodes.push(new_node);
+      let new_link = {
+        tid: new_node.id,
+        sid: this.delEntity.id
+      };
+      this.links.push(new_link);
 
-      this.editAttr=false;
+      this.editEntity=false;
     },
     clickNode(e, node) {
       this.$emit("parent", node);
@@ -200,31 +208,49 @@ export default {
           this.tpbegin = node.id;
         } else {
           this.tpend = node.id;
-          console.log("begin", this.tpbegin);
-          console.log("end", this.tpend);
           let new_link = {
             tid: this.tpend,
             sid: this.tpbegin
           };
-          console.log(new_link);
           this.links.push(new_link);
-          console.log(this.links);
         }
       }
       if (this.edit && node.type == "entity") {
         this.editEntity = true;
+        this.delEntity = node;
       }
       if (this.edit && node.type == "attribute") {
         this.editAttr = true;
-        this.delAttr=node;
+        this.delAttr = node;
       }
+    },
+    deleteAttr() {
+      let tmp_nodes = this.nodes.filter(node => node != this.delAttr);
+      this.nodes = tmp_nodes;
+      let tmp_links = this.links.filter(
+        link => link.tid != this.delAttr.id && link.sid != this.delAttr.id
+      );
+      this.links = tmp_links;
+
+      this.editAttr = false;
+    },
+    deleteEntity() {
+      let tmp_nodes = this.nodes.filter(node => node != this.delEntity);
+      this.nodes = tmp_nodes;
+      let tmp_links = this.links.filter(
+        link => link.tid != this.delEntity.id && link.sid != this.delEntity.id
+      );
+      this.links = tmp_links;
+
+      this.editEntity = false;
     },
     addEntity() {
       // 在这儿把新节点给后端
       let _id = this.nodes[this.nodes.length - 1].id;
       let new_node = {
         id: _id + 1,
-        name: "new entity"
+        name: "new_entity",
+        type: "entity"
       };
       this.nodes.push(new_node);
     },
