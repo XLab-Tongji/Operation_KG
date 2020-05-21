@@ -3,8 +3,8 @@ package global;
 public class globalvalue {
 
     public static String fusekiapi = "http://10.60.38.173";
-    public static String mongosapi = "mongos";
-    public static Integer mongosPort = 27017;
+//    public static String mongosapi = "mongos";
+//    public static Integer mongosPort = 27017;
 
     public static String causeapi = "http://causeapi";
     public static String neo4japi = "bolt://neo4j";
@@ -17,9 +17,16 @@ public class globalvalue {
 
 //    public static String neo4japi = "bolt://10.60.38.173";
 //    public static String neo4jPort = "7686";
-//    public  static String mongosapi = "10.60.38.173";
+    public  static String mongosapi = "10.60.38.173";
+    public static Integer mongosPort = 27117;
 //    public static String path2SystemJson = "/Users/jiang/IdeaProjects/Operation_KG/Backend/target/upload/system/";
 //    public static String path2SystemTtl = "/Users/jiang/IdeaProjects/Operation_KG/Backend/target/turtle/system/";
 
+    public static String getFilePath(String dicName){
+        return globalvalue.class.getResource("/").getPath().replace("classes",dicName);
+    }
 
+    public static void main(String[] args) {
+        System.out.println(getFilePath("111"));
+    }
 }

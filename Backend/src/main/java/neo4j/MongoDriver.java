@@ -16,6 +16,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static util.Vectorize5GUtil.getJsonInfo;
+
 public class MongoDriver {
 
     //连接到mongodb服务
@@ -340,7 +342,6 @@ public class MongoDriver {
                 BasicDBObject doc = new BasicDBObject();
                 BasicDBObject res = new BasicDBObject();
                 res.put("name", JSONObject.parseArray(jsonArray.toString(), String.class));
-//                System.out.println("将数据集中的所有文档的age修改成40！");
                 doc.put("$set", res);
                 collection.updateMany(query,doc);
                 System.out.println("文档修改成功");
@@ -362,6 +363,28 @@ public class MongoDriver {
             //连接到数据库
             MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
             MongoCollection<Document> collection = mongoDatabase.getCollection("SystemTypeAndName");
+            FindIterable<Document> findIterable = collection.find();
+            MongoCursor<Document> mongoCursor = findIterable.iterator();
+            while (mongoCursor.hasNext()){
+                Document d=mongoCursor.next();
+                re.add(JSONObject.parseObject(d.toJson()));
+            }
+            mongoClient.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return re;
+    }
+
+    public static JSONArray getCorrelation(){
+        JSONArray re = new JSONArray();
+        try {
+            //连接到mongodb服务
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
+//            MongoClient mongoClient = new MongoClient("10.60.38.173", 27020);
+            //连接到数据库
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("correlation");
             FindIterable<Document> findIterable = collection.find();
             MongoCursor<Document> mongoCursor = findIterable.iterator();
             while (mongoCursor.hasNext()){
@@ -398,30 +421,115 @@ public class MongoDriver {
         return true;
     }
 
-    public static JSONArray getCorrelation(){
-        JSONArray re = new JSONArray();
+    public static boolean saveOriginalWorkflowInfo2Mongo(JSONArray data, String stateId){
         try {
             //连接到mongodb服务
             MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
-//            MongoClient mongoClient = new MongoClient("10.60.38.173", 27020);
             //连接到数据库
             MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
-            MongoCollection<Document> collection = mongoDatabase.getCollection("correlation");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("originalWorkflowInfo");
+            Map info = new HashMap();
+            info.put("data", data);
+            info.put("stateId", stateId);
+            //插入文档
+            Document document = new Document(info);
+            collection.insertOne(document);
+            System.out.println("文档插入成功");
+            mongoClient.close();
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static JSONArray getOriginalWorkflowInfoByStateId(String stateId){
+        JSONArray jsonArray = null;
+        try {
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);//连接到数据库
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("originalWorkflowInfo");
+            //多条件查询
+            FindIterable<Document> findIterable = collection.find(new BasicDBObject("stateId", stateId));
+            MongoCursor<Document> mongoCursor = findIterable.iterator();
+            if (mongoCursor.hasNext()){
+                Document d = mongoCursor.next();
+                jsonArray = JSONObject.parseObject(d.toJson()).getJSONArray("data");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return jsonArray;
+    }
+
+    public static boolean saveCompareInfo2Mongo(JSONArray data, String stateId){
+        try {
+            //连接到mongodb服务
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
+            //连接到数据库
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("compareInfo");
+            Map info = new HashMap();
+            info.put("data", data);
+            info.put("stateId", stateId);
+            //插入文档
+            Document document = new Document(info);
+            collection.insertOne(document);
+            System.out.println("文档插入成功");
+            mongoClient.close();
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static JSONArray getCompareInfoByStateId(String stateId){
+        JSONArray jsonArray = null;
+        try {
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);//连接到数据库
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("compareInfo");
+            //多条件查询
+            FindIterable<Document> findIterable = collection.find(new BasicDBObject("stateId", stateId));
+            MongoCursor<Document> mongoCursor = findIterable.iterator();
+            if (mongoCursor.hasNext()){
+                Document d = mongoCursor.next();
+                jsonArray = JSONObject.parseObject(d.toJson()).getJSONArray("data");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return jsonArray;
+    }
+
+    public static List<String> getAllStateId(){
+        List<String> ls = new ArrayList<>();
+        try {
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);//连接到数据库
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("originalWorkflowInfo");
             FindIterable<Document> findIterable = collection.find();
             MongoCursor<Document> mongoCursor = findIterable.iterator();
             while (mongoCursor.hasNext()){
                 Document d=mongoCursor.next();
-                re.add(JSONObject.parseObject(d.toJson()));
+                ls.add(JSONObject.parseObject(d.toJson()).getString("stateId"));
             }
             mongoClient.close();
-        } catch (Exception e){
+        }catch (Exception e){
             e.printStackTrace();
         }
-        return re;
+        return ls;
+
     }
 
 
-    public static void main(String[] args) {
-        saveSystemTypeAndNameFile("1","2");
+    public static void main(String[] args) throws Exception{
+        Date day=new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = df.format(day);
+        saveOriginalWorkflowInfo2Mongo(getJsonInfo("/Users/jiang/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/4b6962f76687c3983d1dc38c8ecd88b9/Message/MessageTemp/82179e106359a79246b90256b693dac8/File/data(5).json"), time);
+//        System.out.println(getOriginalWorkflowInfoByStateId(time));
+        System.out.println(getAllStateId());
     }
 }
