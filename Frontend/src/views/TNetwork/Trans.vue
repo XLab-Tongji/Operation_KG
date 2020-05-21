@@ -110,7 +110,7 @@ export default {
     },
     options() {
       return {
-        force: this.force,
+        force: 3000,
         size: {
           // h: window.innerHeight,
           // w: window.innerWidth / 3
@@ -125,6 +125,7 @@ export default {
         fontSize: this.fontSize,
         nodeLabels: true,
         linkLabels: true,
+        linkWidth:2,
         canvas: this.canvas,
         profileLinks: []
       };

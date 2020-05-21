@@ -106,11 +106,6 @@ export default {
       this.data.nodes[newVal-1]._color="#abdda4";
       tra=newVal;
     }
-      // this.data.nodes[tra-1]._color="#dcfaf3";
-      // this.data.nodes[newVal-1]._color="#abdda4";
-      // tra=newVal;
-     // this.T.nodes[newVal]._color="#ffffbf"
-    // pattern-network
       let tmpP = {
         nodes: this.data.nodes[newVal-1].nodes,
         links: this.data.nodes[newVal-1].links,
@@ -141,6 +136,7 @@ export default {
     store.commit("setData", data);
     store.commit("setFir", fir);
     this.data = store.state.fir;
+    console.log(this.data.links)
     let tmpT = {
         nodes: this.data.nodes,
         links: this.data.links,
