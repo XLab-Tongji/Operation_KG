@@ -1,22 +1,26 @@
 <template>
   <div>
-    <el-button @click="on">correct</el-button>
-    <el-button @click="off">confirm</el-button>
+        <el-row>
+          <el-col :span="8"><div class="grid-content bg-purple-dark">
+               
+          </div></el-col>
+        <el-col :span="8"><div class="grid-content bg-purple-dark">
+                <el-button @click="on">correct</el-button>
+          </div></el-col>
+         <el-col :span="8"><div class="grid-content bg-purple-dark">
+                 <el-button @click="off">confirm</el-button>
+          </div></el-col>
+      </el-row>
+  
+  
 
-    <el-button v-if="edit" @click="addEntity">add entity</el-button>
-    <el-button v-if="edit" @click="addRelation">add relation</el-button>
-
-    <el-button v-if="editEntity" @click="addAttr">add attr</el-button>
-    <el-button v-if="editEntity" @click="deleteEntity">delete</el-button>
-
-    <el-button v-if="editAttr" @click="deleteAttr">delete</el-button>
-
+   
     <div v-if="name_change">
       <el-form :model="form" label-width="80px">
         <el-form-item label="new name">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item class="ok">
           <el-button type="primary" @click="onSubmit">ok</el-button>
         </el-form-item>
       </el-form>
@@ -50,6 +54,36 @@
         </marker>
       </defs>
     </svg>
+
+<el-row>
+  <el-col :span="8"><div class="grid-content bg-purple">
+    
+    <el-button v-if="edit" @click="addEntity">add entity</el-button></div></el-col>
+  <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
+  <el-col :span="8"><div class="grid-content bg-purple">
+    <el-button v-if="editEntity" @click="addAttr">add attr</el-button>
+    </div></el-col>
+</el-row>
+<el-row>
+  <el-col :span="8"><div class="grid-content bg-purple">
+    <el-button v-if="edit" @click="addRelation">add relation</el-button>
+    </div></el-col>
+  <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
+  <el-col :span="8"><div class="grid-content bg-purple">
+    <el-button v-if="editEntity" @click="deleteEntity">delete</el-button>
+    <el-button v-if="editAttr" @click="deleteAttr">delete</el-button>
+    </div></el-col>
+</el-row>
+
+
+    <!-- <el-button v-if="edit" @click="addEntity">add entity</el-button>
+    <el-button v-if="edit" @click="addRelation">add relation</el-button>
+
+    <el-button v-if="editEntity" @click="addAttr">add attr</el-button>
+    <el-button v-if="editEntity" @click="deleteEntity">delete</el-button>
+
+    <el-button v-if="editAttr" @click="deleteAttr">delete</el-button> -->
+
   </div>
 </template>
 
@@ -365,3 +399,37 @@ export default {
   }
 };
 </script>
+
+<style>
+
+  .el-row {
+    margin-bottom: 10px;
+   
+  }
+
+  .el-col {
+    border-radius: 4px;
+  }
+ 
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    
+  }
+.el-button{
+  width:120px;
+}
+
+.el-button+.el-button {
+     margin-left: 0px; 
+     margin-top: 10px; 
+}
+
+
+.el-form-item {
+    margin-bottom: 15px;
+}
+</style>
