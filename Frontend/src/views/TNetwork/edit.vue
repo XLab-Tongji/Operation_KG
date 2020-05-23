@@ -10,14 +10,14 @@
       </el-col>
       <el-col :span="4">
         <div class="grid-content bg-purple-dark">
-          <el-button @click="on">correct</el-button>
+          <el-button @click="on">{{button}}</el-button>
         </div>
       </el-col>
-      <el-col :span="4">
+      <!-- <el-col :span="4">
         <div class="grid-content bg-purple-dark">
           <el-button @click="off">confirm</el-button>
         </div>
-      </el-col>
+      </el-col> -->
     </el-row>
 
     <div v-if="name_change">
@@ -154,6 +154,7 @@ export default {
   },
   data() {
     return {
+      button:"correct",
       tplink:{},
       flag: "",
       alert: false,
@@ -329,9 +330,11 @@ export default {
     },
     on() {
       this.edit = true;
+      this.button="confirm";
     },
     off() {
       this.edit = false;
+      this.button="correct";
     },
     ncb(node) {
       // if (node.loop) {
