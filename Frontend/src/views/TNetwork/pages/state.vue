@@ -98,6 +98,11 @@ export default {
       sso: store.state.date
     };
   },
+  created(){
+    // ##9.在这里调用一个接口，获取compare.json的数据
+    // 参数：无
+    // 返回：data
+  },
   watch: {
     selectT(newVal) {
       // console.log(newVal);
@@ -172,8 +177,8 @@ export default {
       }
     }
   },
-  mounted(){
-    this.id=store.state.date[1].id;
+  mounted() {
+    this.id = store.state.date[1].id;
     this.data = store.state.data[this.id];
   },
   methods: {
