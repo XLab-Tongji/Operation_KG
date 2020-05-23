@@ -17,7 +17,7 @@
         <div class="grid-content bg-purple-dark">
           <el-button @click="off">confirm</el-button>
         </div>
-      </el-col> -->
+      </el-col>-->
     </el-row>
 
     <div v-if="name_change">
@@ -154,8 +154,8 @@ export default {
   },
   data() {
     return {
-      button:"correct",
-      tplink:{},
+      button: "correct",
+      tplink: {},
       flag: "",
       alert: false,
       linkLabels: true,
@@ -238,6 +238,11 @@ export default {
       this.links.push(new_link);
 
       this.editEntity = false;
+
+      console.log("添加了一个新attr", new_node);
+      // ##5.在这里调用一个接口，添加新attr
+      // 参数：{nodes:this.nodes,links:this.links}
+      // 返回：无
     },
     clickNode(e, node) {
       this.$emit("parent", node);
@@ -269,6 +274,11 @@ export default {
               sid: this.tpbegin
             };
             this.links.push(new_link);
+
+            console.log("添加了一个新的relation", this.tpend,this.tpbegin);
+            // ##8.在这里调用一个接口，添加一个relation
+            // 参数：{nodes:this.nodes,links:this.links}
+            // 返回：无
           }
         } else {
           this.alert = true;
@@ -293,6 +303,11 @@ export default {
       this.links = tmp_links;
 
       this.editAttr = false;
+
+      console.log("删除了一个entity", this.delAttr);
+      // ##7.在这里调用一个接口，删除一个attr
+      // 参数：{nodes:this.nodes,links:this.links}
+      // 返回：无
     },
     deleteEntity() {
       let tmp_nodes = this.nodes.filter(node => node != this.delEntity);
@@ -304,6 +319,11 @@ export default {
       this.links = tmp_links;
 
       this.editEntity = false;
+
+      console.log("删除了一个entity", this.delEntity);
+      // ##6.在这里调用一个接口，删除一个entity
+      // 参数：{nodes:this.nodes,links:this.links}
+      // 返回：无
     },
     addEntity() {
       // 在这儿把新节点给后端
@@ -314,27 +334,36 @@ export default {
         type: "entity"
       };
       this.nodes.push(new_node);
+
+      console.log("添加了一个新entity", new_node);
+
+      // ##4.在这里调用一个接口，添加新node
+      // 参数：{nodes:this.nodes,links:this.links}
+      // 返回：无
     },
     addRelation() {
       this.editR = true;
     },
     onSubmit() {
-      // 在这儿把新名称给后端
       if (!this.flag) {
         this.tpnode.name = this.form.name;
-      }else{
+        console.log("修改的是node", this.tpnode);
+      } else {
         this.tplink.name = this.form.name;
+        console.log("修改的是link", this.tplink);
       }
-
+      // ##3.在这里调用一个接口，修改名称
+      // 参数：{nodes:this.nodes,links:this.links}
+      // 返回：无
       this.db = false;
     },
     on() {
       this.edit = true;
-      this.button="confirm";
+      this.button = "confirm";
     },
     off() {
       this.edit = false;
-      this.button="correct";
+      this.button = "correct";
     },
     ncb(node) {
       // if (node.loop) {
@@ -373,7 +402,7 @@ export default {
       console.log(link.label);
     },
     clickLink(e, link) {
-      this.tplink=link;
+      this.tplink = link;
       let timer = null;
       clearTimeout(timer);
       // 双击

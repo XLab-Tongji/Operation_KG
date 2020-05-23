@@ -14,11 +14,11 @@
           ></el-option>
         </el-select>
         <!-- <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" /> -->
-           <edit v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope" />
+        <edit v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope" />
       </div>
 
       <div class="overview">
-        <Overview :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope2"/>
+        <Overview :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope2" />
       </div>
 
       <div class="en">
@@ -33,13 +33,13 @@
         </el-card>
       </div>
     </div>
-    <state/>
+    <state />
   </div>
 </template>
 
 <script>
-import state from './state'
-import edit from '../edit'
+import state from "./state";
+import edit from "../edit";
 
 import global from "../global";
 import Net from "../network";
@@ -49,13 +49,13 @@ import Time from "../timepick";
 import store from "@/store.js";
 // import data1 from "../data/compare.json";
 
-import data from '../data/trans.json'
-import fir from '../data/fir.json'
-var c=2
-var tra=1
-var col="white"
-var kk=1
-var tr=1
+import data from "../data/trans.json";
+import fir from "../data/qd.json";
+var c = 2;
+var tra = 1;
+var col = "white";
+var kk = 1;
+var tr = 1;
 export default {
   components: {
     Trans,
@@ -71,7 +71,7 @@ export default {
         links: []
       },
       E: {},
-      T:{},
+      T: {},
       options: [],
       selectT: "",
       scope: {
@@ -89,36 +89,33 @@ export default {
       render: false,
       tran_name: "",
       pat_name: "",
-      data:[]
+      data: []
     };
   },
   watch: {
     selectT(newVal) {
       //  console.log(parent,kk)
-    if(tr==1)
-    {
-      // console.log("tr是1",tr)
-      this.data.nodes[newVal-1]._color="#abdda4";
-      tra=newVal;
-      tr=tr+3
-    }
-    else{
-      console.log("tr不是1",tr)
-     this.data.nodes[tra-1]._color="#dcfaf3";
-      this.data.nodes[newVal-1]._color="#abdda4";
-      tra=newVal;
-    }
+      if (tr == 1) {
+        // console.log("tr是1",tr)
+        this.data.nodes[newVal - 1]._color = "#abdda4";
+        tra = newVal;
+        tr = tr + 3;
+      } else {
+        console.log("tr不是1", tr);
+        this.data.nodes[tra - 1]._color = "#dcfaf3";
+        this.data.nodes[newVal - 1]._color = "#abdda4";
+        tra = newVal;
+      }
       let tmpP = {
-        nodes: this.data.nodes[newVal-1].nodes,
-        links: this.data.nodes[newVal-1].links,
-        
+        nodes: this.data.nodes[newVal - 1].nodes,
+        links: this.data.nodes[newVal - 1].links
       };
 
       // if tmp.nodes
       this.P = tmpP;
       // var col=this.P.nodes[0]._color
       // console.log(col)
-      this.tran_name = this.data.nodes[newVal-1].name;
+      this.tran_name = this.data.nodes[newVal - 1].name;
 
       // entity-network
       let tmpE = {
@@ -135,15 +132,18 @@ export default {
     }
   },
   created() {
+    // ##2.在这里调用一个接口，获取fir.json的数据
+    // 参数：待定
+    // 返回：fir
     store.commit("setData", data);
     store.commit("setFir", fir);
     this.data = store.state.fir;
-    console.log(this.data.links)
+    console.log(this.data.links);
     let tmpT = {
-        nodes: this.data.nodes,
-        links: this.data.links,
-      };
-      this.T = tmpT;
+      nodes: this.data.nodes,
+      links: this.data.links
+    };
+    this.T = tmpT;
     let raw = this.data.nodes;
     let test = raw.map(i => {
       return {
@@ -151,29 +151,26 @@ export default {
         label: i.name
       };
     });
-    this.options = test
+    this.options = test;
     this.selectT = this.data.nodes[0].id;
   },
   methods: {
-
     getP(parent) {
-    //  console.log(parent,kk)
-    if(kk==1)
-    {
-      console.log("kk是1",kk)
-      col=this.P.nodes[parent.id-1]._color
-      this.P.nodes[parent.id-1]._color="#a78cb7";
-      c=parent.id;
-      kk=kk+3
-    }
-    else{
-      console.log("kk不是1",kk)
-      this.P.nodes[c-1]._color=col;
-      col=this.P.nodes[parent.id-1]._color
-      this.P.nodes[parent.id-1]._color="#a78cb7";
-      c=parent.id;
-    }
-   
+      //  console.log(parent,kk)
+      if (kk == 1) {
+        console.log("kk是1", kk);
+        col = this.P.nodes[parent.id - 1]._color;
+        this.P.nodes[parent.id - 1]._color = "#a78cb7";
+        c = parent.id;
+        kk = kk + 3;
+      } else {
+        console.log("kk不是1", kk);
+        this.P.nodes[c - 1]._color = col;
+        col = this.P.nodes[parent.id - 1]._color;
+        this.P.nodes[parent.id - 1]._color = "#a78cb7";
+        c = parent.id;
+      }
+
       // col=this.P.nodes[parent.id-1]._color
       // this.P.nodes[c-1]._color=col;
       // this.P.nodes[parent.id-1]._color="red";

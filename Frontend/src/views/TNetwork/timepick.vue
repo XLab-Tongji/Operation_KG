@@ -41,6 +41,9 @@ export default {
     }
   },
   created() {
+    // ##1.在这里调用一个接口，获取date.json的数据
+    // 参数：无
+    // 返回：date
     store.commit("setDate", date);
   },
   mounted() {
