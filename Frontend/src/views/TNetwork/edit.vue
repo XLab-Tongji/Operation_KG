@@ -1,21 +1,25 @@
 <template>
   <div>
-        <el-row>
-          <el-col :span="8"><div class="grid-content bg-purple-dark">
-            </div></el-col>
-          <el-col :span="8"><div class="grid-content bg-purple-dark">
-          </div></el-col>
-        <el-col :span="4"><div class="grid-content bg-purple-dark">
-                <el-button @click="on">correct</el-button>
-          </div></el-col>
-         <el-col :span="4"><div class="grid-content bg-purple-dark">
-                 <el-button @click="off">confirm</el-button>
-          </div></el-col>
-      </el-row>
-  
-  
+    <el-alert v-if="alert" title="只可以在entity之间添加关系哦😯" type="error"></el-alert>
+    <el-row>
+      <el-col :span="8">
+        <div class="grid-content bg-purple-dark"></div>
+      </el-col>
+      <el-col :span="8">
+        <div class="grid-content bg-purple-dark"></div>
+      </el-col>
+      <el-col :span="4">
+        <div class="grid-content bg-purple-dark">
+          <el-button @click="on">correct</el-button>
+        </div>
+      </el-col>
+      <el-col :span="4">
+        <div class="grid-content bg-purple-dark">
+          <el-button @click="off">confirm</el-button>
+        </div>
+      </el-col>
+    </el-row>
 
-   
     <div v-if="name_change">
       <el-form :model="form" label-width="80px">
         <el-form-item label="new name">
@@ -56,26 +60,37 @@
       </defs>
     </svg>
 
-<el-row>
-  <el-col :span="8"><div class="grid-content bg-purple">
-    
-    <el-button v-if="edit" @click="addEntity">add entity</el-button></div></el-col>
-  <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
-  <el-col :span="8"><div class="grid-content bg-purple">
-    <el-button v-if="editEntity" @click="addAttr">add attr</el-button>
-    </div></el-col>
-</el-row>
-<el-row>
-  <el-col :span="8"><div class="grid-content bg-purple">
-    <el-button v-if="edit" @click="addRelation">add relation</el-button>
-    </div></el-col>
-  <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
-  <el-col :span="8"><div class="grid-content bg-purple">
-    <el-button v-if="editEntity" @click="deleteEntity">delete</el-button>
-    <el-button v-if="editAttr" @click="deleteAttr">delete</el-button>
-    </div></el-col>
-</el-row>
-
+    <el-row>
+      <el-col :span="8">
+        <div class="grid-content bg-purple">
+          <el-button v-if="edit" @click="addEntity">add entity</el-button>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="grid-content bg-purple-light"></div>
+      </el-col>
+      <el-col :span="8">
+        <div class="grid-content bg-purple">
+          <el-button v-if="editEntity" @click="addAttr">add attr</el-button>
+        </div>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="8">
+        <div class="grid-content bg-purple">
+          <el-button v-if="edit" @click="addRelation">add relation</el-button>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="grid-content bg-purple-light"></div>
+      </el-col>
+      <el-col :span="8">
+        <div class="grid-content bg-purple">
+          <el-button v-if="editEntity" @click="deleteEntity">delete</el-button>
+          <el-button v-if="editAttr" @click="deleteAttr">delete</el-button>
+        </div>
+      </el-col>
+    </el-row>
 
     <!-- <el-button v-if="edit" @click="addEntity">add entity</el-button>
     <el-button v-if="edit" @click="addRelation">add relation</el-button>
@@ -83,8 +98,7 @@
     <el-button v-if="editEntity" @click="addAttr">add attr</el-button>
     <el-button v-if="editEntity" @click="deleteEntity">delete</el-button>
 
-    <el-button v-if="editAttr" @click="deleteAttr">delete</el-button> -->
-
+    <el-button v-if="editAttr" @click="deleteAttr">delete</el-button>-->
   </div>
 </template>
 
@@ -140,6 +154,9 @@ export default {
   },
   data() {
     return {
+      tplink:{},
+      flag: "",
+      alert: false,
       linkLabels: true,
       delEntity: {},
       delAttr: {},
@@ -219,7 +236,7 @@ export default {
       };
       this.links.push(new_link);
 
-      this.editEntity=false;
+      this.editEntity = false;
     },
     clickNode(e, node) {
       this.$emit("parent", node);
@@ -231,35 +248,39 @@ export default {
         if (this.edit) {
           this.db = true;
           console.log("需要修改名字的节点是：", node);
-          node._color="red"
+          node._color = "red";
         }
-       
       }
       // 单击
       timer = setTimeout(function() {}, 100);
       if (this.edit && this.editR) {
-        this.count += 1;
-        if (this.count > 2) {
-          this.count = 0;
-          this.editR = false;
-        } else if (this.count == 1) {
-          this.tpbegin = node.id;
+        if (node.type == "entity") {
+          this.count += 1;
+          if (this.count > 2) {
+            this.count = 0;
+            this.editR = false;
+          } else if (this.count == 1) {
+            this.tpbegin = node.id;
+          } else {
+            this.tpend = node.id;
+            let new_link = {
+              tid: this.tpend,
+              sid: this.tpbegin
+            };
+            this.links.push(new_link);
+          }
         } else {
-          this.tpend = node.id;
-          let new_link = {
-            tid: this.tpend,
-            sid: this.tpbegin
-          };
-          this.links.push(new_link);
+          this.alert = true;
         }
-      }
-      if (this.edit && node.type == "entity") {
-        this.editEntity = true;
-        this.delEntity = node;
-      }
-      if (this.edit && node.type == "attribute") {
-        this.editAttr = true;
-        this.delAttr = node;
+      } else {
+        if (this.edit && node.type == "entity") {
+          this.editEntity = true;
+          this.delEntity = node;
+        }
+        if (this.edit && node.type == "attribute") {
+          this.editAttr = true;
+          this.delAttr = node;
+        }
       }
     },
     deleteAttr() {
@@ -298,7 +319,12 @@ export default {
     },
     onSubmit() {
       // 在这儿把新名称给后端
-      this.tpnode.name = this.form.name;
+      if (!this.flag) {
+        this.tpnode.name = this.form.name;
+      }else{
+        this.tplink.name = this.form.name;
+      }
+
       this.db = false;
     },
     on() {
@@ -341,9 +367,21 @@ export default {
         "marker-end": "url(#arrow)"
       };
       return link;
-      console.log(link.label)
+      console.log(link.label);
     },
-    clickLink(e, link) {},
+    clickLink(e, link) {
+      this.tplink=link;
+      let timer = null;
+      clearTimeout(timer);
+      // 双击
+      if (e.detail == 2) {
+        if (this.edit) {
+          this.db = true;
+          this.flag = "link";
+          console.log("需要修改名字的关系是：", link);
+        }
+      }
+    },
     displayNodeRelation(node) {
       this.selection = {
         nodes: {},
@@ -386,35 +424,31 @@ export default {
 </script>
 
 <style>
-
-  .el-row {
-    margin-bottom: 10px;
-   
-  }
-
-  .el-col {
-    border-radius: 4px;
-  }
- 
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    
-  }
-.el-button{
-  width:120px;
+.el-row {
+  margin-bottom: 10px;
 }
 
-.el-button+.el-button {
-     margin-left: 0px; 
-     margin-top: 10px; 
+.el-col {
+  border-radius: 4px;
 }
 
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+}
+.row-bg {
+  padding: 10px 0;
+}
+.el-button {
+  width: 120px;
+}
+
+.el-button + .el-button {
+  margin-left: 0px;
+  margin-top: 10px;
+}
 
 .el-form-item {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 </style>
