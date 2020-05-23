@@ -13,7 +13,8 @@
             :value="item.value"
           ></el-option>
         </el-select>
-        <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" />
+        <!-- <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" /> -->
+           <edit v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope" />
       </div>
 
       <div class="overview">
@@ -26,7 +27,8 @@
             <span>{{this.tran_name}} -> {{this.pat_name}}</span>
           </div>
           <div>
-            <edit v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope1" />
+            <!-- <edit v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope1" /> -->
+            <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope1" @parent="getP" />
           </div>
         </el-card>
       </div>

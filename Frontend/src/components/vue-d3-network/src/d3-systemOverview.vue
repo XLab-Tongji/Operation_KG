@@ -276,7 +276,9 @@ export default {
         link.source = link.sid
         link.target = link.tid
         if (!link.id) vm.$set(link, 'id', 'link-' + index)
+        if (!link.name && link.name !== '0') vm.$set(link, 'id', 'link-' + index)
         // if (!link.id) vm.$set(link, 'id', link.sid + link.tid)
+        
         return link
       })
     },
@@ -460,9 +462,14 @@ export default {
     fill $dark
 
   .link-label
-    // fill $warn
-    // opacity 0
-    font-size 0
-    // transform translate(10px, 10px)
-    text-anchor middle
+     fill: purple;
+     transform: translate(0,.5em);
+     font-size: .8em;
+
+  // .link-label
+  //    fill $dark
+  //   // opacity 0
+  //   font-size 0
+  //   // transform translate(10px, 10px)
+  //   text-anchor middle
 </style>

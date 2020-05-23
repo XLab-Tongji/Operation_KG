@@ -10,7 +10,7 @@
                     "loop":1,
                     "nodes": [
                         {
-                            "name": "entity1",
+                            "name": "wo",
                             "id": 1,
                             "type":"entity"
                         },
@@ -33,7 +33,8 @@
                     "links": [
                         {
                             "sid": 2,
-                            "tid": 1
+                            "tid": 1,
+                            "name":"test"
                         },
                         {
                             "sid": 1,
@@ -735,8 +736,7 @@
     "links": [
         {
             "sid": 2,
-            "tid": 1,
-            "name":"test"
+            "tid": 1
         },
         {
             "sid": 3,

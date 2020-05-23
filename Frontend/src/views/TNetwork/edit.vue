@@ -2,12 +2,13 @@
   <div>
         <el-row>
           <el-col :span="8"><div class="grid-content bg-purple-dark">
-               
+            </div></el-col>
+          <el-col :span="8"><div class="grid-content bg-purple-dark">
           </div></el-col>
-        <el-col :span="8"><div class="grid-content bg-purple-dark">
+        <el-col :span="4"><div class="grid-content bg-purple-dark">
                 <el-button @click="on">correct</el-button>
           </div></el-col>
-         <el-col :span="8"><div class="grid-content bg-purple-dark">
+         <el-col :span="4"><div class="grid-content bg-purple-dark">
                  <el-button @click="off">confirm</el-button>
           </div></el-col>
       </el-row>
@@ -139,6 +140,7 @@ export default {
   },
   data() {
     return {
+      linkLabels: true,
       delEntity: {},
       delAttr: {},
       editEntity: false,
@@ -229,7 +231,9 @@ export default {
         if (this.edit) {
           this.db = true;
           console.log("需要修改名字的节点是：", node);
+          node._color="red"
         }
+       
       }
       // 单击
       timer = setTimeout(function() {}, 100);
@@ -274,6 +278,7 @@ export default {
       let tmp_links = this.links.filter(
         link => link.tid != this.delEntity.id && link.sid != this.delEntity.id
       );
+
       this.links = tmp_links;
 
       this.editEntity = false;
@@ -303,49 +308,28 @@ export default {
       this.edit = false;
     },
     ncb(node) {
-      //  对比界面
-      //  if(node.state){
-      //      switch(node.state){
-      // case "normal":
-      //   node._color="#dcfaf3";
-      //   break;
-      // case "abnormal":
-      //   node._color="yellow";
-      //   break;
-      // case "remove":
-      //   node._color="blue";
-      //   break;
-      // case "delete":
-      //   node._color="black";
-      //   break;
-      // case "still":
-      //   node._color="#dcfaf3";
-      //   break;
+      // if (node.loop) {
+      //   switch (node.loop) {
+      //     case 1:
+      //       node._color = "#fdae61";
+      //       break;
+      //     case 2:
+      //       node._color = "#fee08b";
+      //       break;
+      //     case 3:
+      //       node._color = "#ffffbf";
+      //       break;
+      //     case 4:
+      //       node._color = "#e6f598";
+      //       break;
+      //     case 5:
+      //       node._color = "#abdda4";
+      //       break;
+      //     case 6:
+      //       node._color = "#66c2a5";
+      //       break;
       //   }
-      //   }
-
-      if (node.loop) {
-        switch (node.loop) {
-          case 1:
-            node._color = "#fdae61";
-            break;
-          case 2:
-            node._color = "#fee08b";
-            break;
-          case 3:
-            node._color = "#ffffbf";
-            break;
-          case 4:
-            node._color = "#e6f598";
-            break;
-          case 5:
-            node._color = "#abdda4";
-            break;
-          case 6:
-            node._color = "#66c2a5";
-            break;
-        }
-      }
+      // }
       return node;
     },
     lcb(link) {
@@ -357,6 +341,7 @@ export default {
         "marker-end": "url(#arrow)"
       };
       return link;
+      console.log(link.label)
     },
     clickLink(e, link) {},
     displayNodeRelation(node) {

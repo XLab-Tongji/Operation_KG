@@ -88,6 +88,7 @@ export default {
         links: {},
         nodes: {}
       },
+      linkLabels:false,
       nodeSize: 40,
       fontSize: 14,
       linkWidth: 1,
@@ -123,7 +124,7 @@ export default {
         },
         nodeSize: this.nodeSize,
         fontSize: this.fontSize,
-        nodeLabels: true,
+        nodeLabels:true,
         linkLabels: true,
         linkWidth:2,
         canvas: this.canvas,
@@ -177,6 +178,7 @@ export default {
       }
       }
       return node;
+      console.log( nodeLabels)
     },
     lcb(link) {
       link._color = "lightgray";
@@ -186,7 +188,9 @@ export default {
         opacity: 1,
         "marker-end": "url(#arrow)"
       };
+ 
       return link;
+           console.log(linkLabels)
     },
     clickNode(e, node) {
       this.$emit("parent", node);
@@ -232,3 +236,12 @@ export default {
   }
 };
 </script>
+
+<style>
+  .link-label{
+     fill: purple;
+     transform: translate(0,.5em);
+     font-size: 0.8em;
+  }
+
+</style>
