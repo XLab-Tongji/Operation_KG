@@ -115,7 +115,7 @@ export default {
       this.P = tmpP;
       // var col=this.P.nodes[0]._color
       // console.log(col)
-      this.tran_name = this.data.nodes[newVal - 1].name;
+      this.tran_name = this.data.nodes[newVal].name;
 
       // entity-network
       let tmpE = {
