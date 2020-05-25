@@ -287,7 +287,7 @@ export default {
             this.links.push(new_link);
             this.begin_node._color="#dcfaf3";
 
-            console.log("添加了一个新的relation", this.tpend,this.tpbegin);
+            console.log("添加了一个新的relation", this.tpend, this.tpbegin);
             // ##8.在这里调用一个接口，添加一个relation
             // 参数：{nodes:this.nodes,links:this.links}
             // 返回：无
@@ -376,8 +376,13 @@ export default {
       this.db = false;
     },
     on() {
-      this.edit = true;
-      this.button = "confirm";
+      if (this.edit == false) {
+        this.edit = true;
+        this.button = "confirm";
+      }else{
+        this.edit = false;
+        this.button = "correct";
+      }
     },
     off() {
       this.edit = false;
