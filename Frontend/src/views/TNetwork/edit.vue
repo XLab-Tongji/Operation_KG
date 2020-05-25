@@ -189,6 +189,7 @@ export default {
       finCoor: 0,
       staCoor: 0,
       force: 3000,
+      times:1,
       moveable: false
     };
   },
@@ -256,7 +257,6 @@ export default {
         node._color = "red";
         if (this.edit) {
           this.db = true;
-
           console.log("需要修改名字的节点是：", node);
         }
       }
@@ -294,12 +294,37 @@ export default {
       } else {
         if (this.edit && node.type == "entity") {
           this.editEntity = true;
-          node._color = "red";
+          
+          if(this.times==1){
+              this.change_node=node;
+              this.change_node._color = "red";
+             this.last_node=this.change_node;
+             this.times=2;
+          }
+          else{
+            this.last_node._color="#dcfaf3";
+            this.change_node=node;
+            this.change_node._color = "red";
+            this.last_node=this.change_node;
+          }
+          console.log("当前修改的节点是",this.change_node)
           this.delEntity = node;
         }
         if (this.edit && node.type == "attribute") {
           this.editAttr = true;
-          node._color = "red";
+          if(this.times==1){
+              this.change_node=node;
+              this.change_node._color = "red";
+             this.last_node=this.change_node;
+             this.times=2;
+          }
+          else{
+            this.last_node._color="#dcfaf3";
+            this.change_node=node;
+            this.change_node._color = "red";
+            this.last_node=this.change_node;
+          }
+         
           this.delAttr = node;
         }
       }
@@ -379,7 +404,10 @@ export default {
         this.editR = false;
         this.editEntity = false;
         this.editAttr = false;
+        
+        // this.change_attr_node._color="#dcfaf3";
         this.button = "correct";
+        this.change_node._color="#dcfaf3";
       }
     },
     off() {
