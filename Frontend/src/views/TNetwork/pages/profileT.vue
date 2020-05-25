@@ -97,25 +97,25 @@ export default {
       //  console.log(parent,kk)
       if (tr == 1) {
         // console.log("tr是1",tr)
-        this.data.nodes[newVal - 1]._color = "#abdda4";
+        this.data.nodes[newVal ]._color = "#abdda4";
         tra = newVal;
         tr = tr + 3;
       } else {
         console.log("tr不是1", tr);
-        this.data.nodes[tra - 1]._color = "#dcfaf3";
-        this.data.nodes[newVal - 1]._color = "#abdda4";
+        this.data.nodes[tra ]._color = "#dcfaf3";
+        this.data.nodes[newVal ]._color = "#abdda4";
         tra = newVal;
       }
       let tmpP = {
-        nodes: this.data.nodes[newVal - 1].nodes,
-        links: this.data.nodes[newVal - 1].links
+        nodes: this.data.nodes[newVal ].nodes,
+        links: this.data.nodes[newVal].links
       };
 
       // if tmp.nodes
       this.P = tmpP;
       // var col=this.P.nodes[0]._color
       // console.log(col)
-      this.tran_name = this.data.nodes[newVal - 1].name;
+      this.tran_name = this.data.nodes[newVal ].name;
 
       // entity-network
       let tmpE = {
@@ -159,15 +159,15 @@ export default {
       //  console.log(parent,kk)
       if (kk == 1) {
         console.log("kk是1", kk);
-        col = this.P.nodes[parent.id - 1]._color;
-        this.P.nodes[parent.id - 1]._color = "#a78cb7";
+        col = this.P.nodes[parent.id ]._color;
+        this.P.nodes[parent.id ]._color = "#a78cb7";
         c = parent.id;
         kk = kk + 3;
       } else {
         console.log("kk不是1", kk);
-        this.P.nodes[c - 1]._color = col;
-        col = this.P.nodes[parent.id - 1]._color;
-        this.P.nodes[parent.id - 1]._color = "#a78cb7";
+        this.P.nodes[c ]._color = col;
+        col = this.P.nodes[parent.id ]._color;
+        this.P.nodes[parent.id ]._color = "#a78cb7";
         c = parent.id;
       }
 
@@ -178,10 +178,10 @@ export default {
 
       let id = parent.id;
       let tmp = {
-        nodes: this.P.nodes[id - 1].nodes,
-        links: this.P.nodes[id - 1].links
+        nodes: this.P.nodes[id ].nodes,
+        links: this.P.nodes[id ].links
       };
-      this.pat_name = this.P.nodes[id - 1].name;
+      this.pat_name = this.P.nodes[id ].name;
       if (tmp.nodes) {
         this.render = true;
         this.E = tmp;

@@ -224,6 +224,7 @@ export default {
   },
   methods: {
     addAttr() {
+    
       let _id = this.nodes[this.nodes.length - 1].id;
       let new_node = {
         id: _id + 1,
@@ -238,7 +239,7 @@ export default {
       this.links.push(new_link);
 
       this.editEntity = false;
-
+      this.delEntity._color="#dcfaf3";
       console.log("添加了一个新attr", new_node);
       // ##5.在这里调用一个接口，添加新attr
       // 参数：{nodes:this.nodes,links:this.links}
@@ -249,24 +250,34 @@ export default {
       this.tpnode = node;
       let timer = null;
       clearTimeout(timer);
+
       // 双击
+      
       if (e.detail == 2) {
-        if (this.edit) {
-          this.db = true;
-          console.log("需要修改名字的节点是：", node);
           node._color = "red";
+        if (this.edit) {
+          
+          this.db = true;
+          
+          console.log("需要修改名字的节点是：", node);
+          
         }
       }
       // 单击
+
       timer = setTimeout(function() {}, 100);
       if (this.edit && this.editR) {
         if (node.type == "entity") {
+          // node._color="red";
           this.count += 1;
           if (this.count > 2) {
             this.count = 0;
             this.editR = false;
+          
           } else if (this.count == 1) {
             this.tpbegin = node.id;
+            this.begin_node=node;
+            node._color="red";
           } else {
             this.tpend = node.id;
             let new_link = {
@@ -274,6 +285,7 @@ export default {
               sid: this.tpbegin
             };
             this.links.push(new_link);
+            this.begin_node._color="#dcfaf3";
 
             console.log("添加了一个新的relation", this.tpend,this.tpbegin);
             // ##8.在这里调用一个接口，添加一个relation
@@ -286,10 +298,12 @@ export default {
       } else {
         if (this.edit && node.type == "entity") {
           this.editEntity = true;
+          node._color="red";
           this.delEntity = node;
         }
         if (this.edit && node.type == "attribute") {
           this.editAttr = true;
+          node._color="red";
           this.delAttr = node;
         }
       }
@@ -304,7 +318,7 @@ export default {
 
       this.editAttr = false;
 
-      console.log("删除了一个entity", this.delAttr);
+      console.log("删除了一个delatrr", this.delAttr);
       // ##7.在这里调用一个接口，删除一个attr
       // 参数：{nodes:this.nodes,links:this.links}
       // 返回：无
@@ -319,6 +333,7 @@ export default {
       this.links = tmp_links;
 
       this.editEntity = false;
+      
 
       console.log("删除了一个entity", this.delEntity);
       // ##6.在这里调用一个接口，删除一个entity
@@ -347,9 +362,12 @@ export default {
     onSubmit() {
       if (!this.flag) {
         this.tpnode.name = this.form.name;
+ 
+        this.tpnode._color = "#dcfaf3";
         console.log("修改的是node", this.tpnode);
       } else {
         this.tplink.name = this.form.name;
+        this.tplink._color="lightgray";
         console.log("修改的是link", this.tplink);
       }
       // ##3.在这里调用一个接口，修改名称
@@ -366,28 +384,6 @@ export default {
       this.button = "correct";
     },
     ncb(node) {
-      // if (node.loop) {
-      //   switch (node.loop) {
-      //     case 1:
-      //       node._color = "#fdae61";
-      //       break;
-      //     case 2:
-      //       node._color = "#fee08b";
-      //       break;
-      //     case 3:
-      //       node._color = "#ffffbf";
-      //       break;
-      //     case 4:
-      //       node._color = "#e6f598";
-      //       break;
-      //     case 5:
-      //       node._color = "#abdda4";
-      //       break;
-      //     case 6:
-      //       node._color = "#66c2a5";
-      //       break;
-      //   }
-      // }
       return node;
     },
     lcb(link) {
@@ -407,6 +403,7 @@ export default {
       clearTimeout(timer);
       // 双击
       if (e.detail == 2) {
+        link._color="red";
         if (this.edit) {
           this.db = true;
           this.flag = "link";
