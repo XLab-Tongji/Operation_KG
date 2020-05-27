@@ -50,7 +50,11 @@ import store from "@/store.js";
 // import data1 from "../data/compare.json";
 
 import data from "../data/trans.json";
-import fir from "../data/qd.json";
+// import fir from "../data/qd.json";
+
+const url = global.url;
+import axios from "axios";
+
 var c = 2;
 var tra = 1;
 var col = "white";
@@ -97,17 +101,17 @@ export default {
       //  console.log(parent,kk)
       if (tr == 1) {
         // console.log("tr是1",tr)
-        this.data.nodes[newVal ]._color = "#abdda4";
+        this.data.nodes[newVal]._color = "#abdda4";
         tra = newVal;
         tr = tr + 3;
       } else {
         console.log("tr不是1", tr);
-        this.data.nodes[tra ]._color = "#dcfaf3";
-        this.data.nodes[newVal ]._color = "#abdda4";
+        this.data.nodes[tra]._color = "#dcfaf3";
+        this.data.nodes[newVal]._color = "#abdda4";
         tra = newVal;
       }
       let tmpP = {
-        nodes: this.data.nodes[newVal ].nodes,
+        nodes: this.data.nodes[newVal].nodes,
         links: this.data.nodes[newVal].links
       };
 
@@ -115,7 +119,7 @@ export default {
       this.P = tmpP;
       // var col=this.P.nodes[0]._color
       // console.log(col)
-      this.tran_name = this.data.nodes[newVal ].name;
+      this.tran_name = this.data.nodes[newVal].name;
 
       // entity-network
       let tmpE = {
@@ -135,10 +139,15 @@ export default {
     // ##2.在这里调用一个接口，获取fir.json的数据
     // 参数：待定
     // 返回：fir
+    axios
+      .get(url + "/api/getTransctionData?stateId=2020-05-26 10:12:40")
+      .then(res => {
+        store.commit("setFir", res.data);
+        this.data = res.data;
+      });
+
     store.commit("setData", data);
-    store.commit("setFir", fir);
-    this.data = store.state.fir;
-    console.log(this.data.links);
+
     let tmpT = {
       nodes: this.data.nodes,
       links: this.data.links
@@ -159,15 +168,15 @@ export default {
       //  console.log(parent,kk)
       if (kk == 1) {
         console.log("kk是1", kk);
-        col = this.P.nodes[parent.id ]._color;
-        this.P.nodes[parent.id ]._color = "#a78cb7";
+        col = this.P.nodes[parent.id]._color;
+        this.P.nodes[parent.id]._color = "#a78cb7";
         c = parent.id;
         kk = kk + 3;
       } else {
         console.log("kk不是1", kk);
-        this.P.nodes[c ]._color = col;
-        col = this.P.nodes[parent.id ]._color;
-        this.P.nodes[parent.id ]._color = "#a78cb7";
+        this.P.nodes[c]._color = col;
+        col = this.P.nodes[parent.id]._color;
+        this.P.nodes[parent.id]._color = "#a78cb7";
         c = parent.id;
       }
 
@@ -178,10 +187,10 @@ export default {
 
       let id = parent.id;
       let tmp = {
-        nodes: this.P.nodes[id ].nodes,
-        links: this.P.nodes[id ].links
+        nodes: this.P.nodes[id].nodes,
+        links: this.P.nodes[id].links
       };
-      this.pat_name = this.P.nodes[id ].name;
+      this.pat_name = this.P.nodes[id].name;
       if (tmp.nodes) {
         this.render = true;
         this.E = tmp;

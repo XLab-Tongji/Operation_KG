@@ -21,7 +21,11 @@
 
 <script>
 import store from "@/store.js";
-import date from "./data/date.json";
+import axios from "axios";
+import global from "./global";
+const url = global.url;
+// import date from "./data/date.json";
+
 export default {
   data() {
     return {
@@ -44,7 +48,14 @@ export default {
     // ##1.在这里调用一个接口，获取date.json的数据
     // 参数：无
     // 返回：date
-    store.commit("setDate", date);
+    let formData = new FormData();
+    formData.append("start", "2020-04-07");
+    formData.append("end", "2020-06-07");
+
+    axios.post(url + "/api/getSystemStates", formData).then(res => {
+      store.commit("setDate", res.data);
+    });
+    // store.commit("setDate", date);
   },
   mounted() {
     let d1 = new Date("2020-4-3");
