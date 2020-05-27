@@ -8,7 +8,9 @@ export default new Vuex.Store({
   state: {
     fir:{},
     data: [],
-    date:[]
+    date:[],
+    trans:"",
+    pat:""
   },
   mutations: {
     setFir(state, value) {
@@ -19,6 +21,12 @@ export default new Vuex.Store({
     },
     setDate(state, value) {
       state.date = value;
+    },
+    setTrans(state, value) {
+      state.trans = value;
+    },
+    setPat(state, value) {
+      state.pat = value;
     }
   },
   actions: {

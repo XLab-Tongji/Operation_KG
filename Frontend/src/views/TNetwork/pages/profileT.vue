@@ -98,6 +98,8 @@ export default {
   },
   watch: {
     selectT(newVal) {
+      store.commit("setTrans", newVal);
+      console.log(store.state.trans);
       //  console.log(parent,kk)
       if (tr == 1) {
         // console.log("tr是1",tr)
@@ -121,6 +123,8 @@ export default {
       // console.log(col)
       this.tran_name = this.data.nodes[newVal].name;
 
+      store.commit("setTrans", 0);
+      console.log(store.state.trans);
       // entity-network
       let tmpE = {
         nodes: this.P.nodes[0].nodes,
@@ -162,9 +166,13 @@ export default {
     });
     this.options = test;
     this.selectT = this.data.nodes[0].id;
+    store.commit("setTrans", this.selectT);
+    console.log(store.state.trans);
   },
   methods: {
     getP(parent) {
+      store.commit("setPat", parent.id);
+      console.log(store.state.pat);
       //  console.log(parent,kk)
       if (kk == 1) {
         console.log("kk是1", kk);
