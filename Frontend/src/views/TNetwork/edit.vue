@@ -189,7 +189,7 @@ export default {
       finCoor: 0,
       staCoor: 0,
       force: 3000,
-      times:1,
+      times: 1,
       moveable: false
     };
   },
@@ -294,37 +294,35 @@ export default {
       } else {
         if (this.edit && node.type == "entity") {
           this.editEntity = true;
-          
-          if(this.times==1){
-              this.change_node=node;
-              this.change_node._color = "red";
-             this.last_node=this.change_node;
-             this.times=2;
-          }
-          else{
-            this.last_node._color="#dcfaf3";
-            this.change_node=node;
+
+          if (this.times == 1) {
+            this.change_node = node;
             this.change_node._color = "red";
-            this.last_node=this.change_node;
+            this.last_node = this.change_node;
+            this.times = 2;
+          } else {
+            this.last_node._color = "#dcfaf3";
+            this.change_node = node;
+            this.change_node._color = "red";
+            this.last_node = this.change_node;
           }
-          console.log("当前修改的节点是",this.change_node)
+          console.log("当前修改的节点是", this.change_node);
           this.delEntity = node;
         }
         if (this.edit && node.type == "attribute") {
           this.editAttr = true;
-          if(this.times==1){
-              this.change_node=node;
-              this.change_node._color = "red";
-             this.last_node=this.change_node;
-             this.times=2;
-          }
-          else{
-            this.last_node._color="#dcfaf3";
-            this.change_node=node;
+          if (this.times == 1) {
+            this.change_node = node;
             this.change_node._color = "red";
-            this.last_node=this.change_node;
+            this.last_node = this.change_node;
+            this.times = 2;
+          } else {
+            this.last_node._color = "#dcfaf3";
+            this.change_node = node;
+            this.change_node._color = "red";
+            this.last_node = this.change_node;
           }
-         
+
           this.delAttr = node;
         }
       }
@@ -393,6 +391,16 @@ export default {
       // ##3.在这里调用一个接口，修改名称
       // 参数：{nodes:this.nodes,links:this.links}
       // 返回：无
+      // let _tmp={
+      //   nodes:this.nodes,
+      //   links:this.links
+      // }
+      // let formData = new FormData();
+      // formData.append("data", "_tmp");
+      // axios.post(url + "/api/getSystemStates", formData).then(res => {
+      //   store.commit("setDate", res.data);
+      // });
+
       this.db = false;
     },
     on() {
@@ -404,10 +412,10 @@ export default {
         this.editR = false;
         this.editEntity = false;
         this.editAttr = false;
-        
+
         // this.change_attr_node._color="#dcfaf3";
         this.button = "correct";
-        this.change_node._color="#dcfaf3";
+        this.change_node._color = "#dcfaf3";
       }
     },
     off() {
