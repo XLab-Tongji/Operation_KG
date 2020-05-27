@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 import util.Vectorize5GUtil;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static global.globalvalue.getFilePath;
-import static neo4j.MongoDriver.getCorrelation;
-import static util.Vectorize5GUtil.getJsonInfo;
+import static neo4j.MongoDriver.*;
+import static util.Vectorize5GUtil.*;
 
 @RestController
 public class AlgorithmController {
@@ -143,37 +146,109 @@ public class AlgorithmController {
 
     //transction相关
     @RequestMapping(value = "/api/getTransctionData",method = RequestMethod.GET,produces = "application/json")
-    public String getTransctionDataFirstTime(){
-//        return Vectorize5GUtil.readInforJson("",
-//                AlgorithmController.class.getResource("/").getPath().replace("classes","data")+"data.json",
-//                "fef");
-        File jsonFilePath = new File(getFilePath("originalWorkflowInfo")+"6675.json");
-        String jsonInput = null;
-        try {
-            //读取json文件
-            jsonInput = FileUtils.readFileToString(jsonFilePath, "UTF-8");
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return jsonInput;
+    public Map getTransctionDataFirstTime(@RequestParam("stateId") String id){
+        return readInforJson(getFilePath("new2vectorize")+id+".txt", id);
+//        File jsonFilePath = new File(getFilePath("originalWorkflowInfo")+"6675.json");
+//        String jsonInput = null;
+//        try {
+//            //读取json文件
+//            jsonInput = FileUtils.readFileToString(jsonFilePath, "UTF-8");
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return jsonInput;
     }
 
     @RequestMapping(value = "/api/getSystemStates",method = RequestMethod.POST,produces = "application/json")
-    public String getSystemStatesByTime(@RequestParam("start") String startTime, @RequestParam("end") String endTime){
+    public List getSystemStatesByTime(@RequestParam("start") String startTime, @RequestParam("end") String endTime){
         //start 2020-04-07 end 2020-05-07
-        return "[" +
-                "  {\n" +
-                "    \"id\": 0,\n" +
-                "    \"date\": \"2020-01-02 12:00\",\n" +
-                "    \"state\": \"abnormal\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 1,\n" +
-                "    \"date\": \"2020-01-02 12:30\",\n" +
-                "    \"state\": \"normal\"\n" +
-                "  }" +
-                "]";
+        return getAllStateId(startTime, endTime);
+    }
+
+    //只要名字，不要后缀
+    @RequestMapping(value = "/api/addNewState",method = RequestMethod.GET,produces = "application/json")
+    public boolean addNewState(@RequestParam("txtName") String txt, @RequestParam("jsonName") String json){
+        Date day=new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = df.format(day);
+        File oldName = new File(getFilePath("new2vectorize")+txt+".txt");
+        File newName = new File(getFilePath("new2vectorize")+time+".txt");
+        File oldName2 = new File(getFilePath("originalWorkflowInfo")+json+".json");
+        File newName2 = new File(getFilePath("originalWorkflowInfo")+time+".json");
+        if(oldName.renameTo(newName) && oldName2.renameTo(newName2)) {
+            System.out.println("已重命名");
+        } else {
+            System.out.println("Error");
+            return false;
+        }
+        return saveCompareInfo2Mongo(readFile(newName.getAbsolutePath(), newName2.getAbsolutePath(), time),
+                time);
+    }
+
+    @RequestMapping(value = "/api/compareState",method = RequestMethod.POST,produces = "application/json")
+    public Map compareState(@RequestParam("state1") String state1, @RequestParam("state2") String state2){
+        Map re = new HashMap();
+        Map s1 = new HashMap();
+        Map s2 = new HashMap();
+        s1.put("compareInfo", getCompareInfoByStateId(state1));
+        s1.put("patternInfo", getOriginalWorkflowInfoByStateId(state1));
+        s2.put("compareInfo", getCompareInfoByStateId(state2));
+        s2.put("patternInfo", getOriginalWorkflowInfoByStateId(state2));
+        re.put(state1, s1);
+        re.put(state2, s2);
+        return re;
+    }
+
+    @RequestMapping(value = "/api/changeState",method = RequestMethod.POST,produces = "application/json")
+    public boolean changeState(@RequestParam("stateId") String stateId, @RequestParam("state") String state) {
+        return modifyState(stateId, state);
+    }
+
+    @RequestMapping(value = "/api/changeEntityName",method = RequestMethod.POST,produces = "application/json")
+    public boolean changeEntity(@RequestParam("stateId") String stateId, @RequestParam("workflowId") int workflowId,
+                                @RequestParam("patternId") int patternId, @RequestParam("oldName") String oldName,
+                                @RequestParam("newName") String newName) {
+        return changeEntityName(stateId, workflowId, patternId, oldName, newName);
+    }
+
+    @RequestMapping(value = "/api/changeAttributeName",method = RequestMethod.POST,produces = "application/json")
+    public boolean changeAttribute(@RequestParam("stateId") String stateId, @RequestParam("workflowId") int workflowId,
+                                @RequestParam("patternId") int patternId, @RequestParam("oldName") String oldName,
+                                @RequestParam("newName") String newName, @RequestParam("entityName") String entityName) {
+        return changeAttributeName(stateId, workflowId, patternId, entityName, oldName, newName);
+    }
+
+    @RequestMapping(value = "/api/addEntityName",method = RequestMethod.POST,produces = "application/json")
+    public boolean addEntity(@RequestParam("stateId") String stateId, @RequestParam("workflowId") int workflowId,
+                                @RequestParam("patternId") int patternId, @RequestParam("entityName") String name,
+                                @RequestParam("attribute") JSONArray attribute) {
+        System.out.println(attribute);
+        return addEntityName(stateId, workflowId, patternId, name, attribute);
+    }
+
+    @RequestMapping(value = "/api/addAttributeName",method = RequestMethod.POST,produces = "application/json")
+    public boolean addAttribute(@RequestParam("stateId") String stateId, @RequestParam("workflowId") int workflowId,
+                                @RequestParam("patternId") int patternId, @RequestParam("entityName") String entityName,
+                                @RequestParam("attribute") String attribute) {
+        return addAttributeName(stateId, workflowId, patternId, entityName, attribute);
+    }
+
+    @RequestMapping(value = "/api/removeEntityName",method = RequestMethod.POST,produces = "application/json")
+    public boolean removeEntity(@RequestParam("stateId") String stateId, @RequestParam("workflowId") int workflowId,
+                                @RequestParam("patternId") int patternId, @RequestParam("name") String name) {
+        return removeEntityName(stateId, workflowId, patternId, name);
+    }
+
+    @RequestMapping(value = "/api/removeAttributeName",method = RequestMethod.POST,produces = "application/json")
+    public boolean removeAttribute(@RequestParam("stateId") String stateId, @RequestParam("workflowId") int workflowId,
+                             @RequestParam("patternId") int patternId, @RequestParam("entityName") String entityName,
+                             @RequestParam("attribute") String attribute) {
+        return removeAttributeName(stateId, workflowId, patternId, entityName, attribute);
     }
 
 
+
+    public static void main(String[] args) {
+        new AlgorithmController().addNewState("new2vectorize(2)", "");
+    }
 }

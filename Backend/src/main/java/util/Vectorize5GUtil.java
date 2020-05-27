@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import static global.globalvalue.getFilePath;
+import static neo4j.MongoDriver.getOriginalWorkflowInfoByStateId;
+import static neo4j.MongoDriver.saveOriginalWorkflowInfo2Mongo;
 
 class PatternNode{
 
@@ -53,11 +55,21 @@ public class Vectorize5GUtil {
         return JSON.parseArray(jsonInput.replace("\r\n", ""));
     }
 
+    public static JSONArray readFile(String txtName, String stateId){
+        return readFile(txtName, null, stateId);
+    }
+
     public static JSONArray readFile(String txtName, String jsonName, String stateId) {
         int i = 0,j=0;
         ArrayList<Object>transactions=new ArrayList<>();
 //        ArrayList<Object>patterns=new ArrayList();
-        JSONArray transctionData = getJsonInfo(jsonName);
+        JSONArray transctionData = null;
+        if (jsonName != null){
+            transctionData = getJsonInfo(jsonName);
+//            saveOriginalWorkflowInfo2Mongo(transctionData, stateId);
+        }else {
+            transctionData = getOriginalWorkflowInfoByStateId(stateId);
+        }
         try {
             String csvLine,txtLine;
             //CSV部分
@@ -161,6 +173,7 @@ public class Vectorize5GUtil {
                     nextNode = nextNode.nextNode;
                 }
                 nextNode = startNode;
+                int front_end_id = 0;
                 while (nextNode != null) {
 //                    System.out.println(1);
                     Map<String, Object> pattern = new HashMap<>();
@@ -168,6 +181,8 @@ public class Vectorize5GUtil {
                     pattern.put("id_count", nextNode.id_count);
                     pattern.put("type", nextNode.type);
                     pattern.put("name", id2Name.get(nextNode.id));
+                    pattern.put("front_end_id", front_end_id);
+                    front_end_id += 1;
                     List cyc_child = new ArrayList<>();
                     if (nextNode.cycle_child && nextNode.cycleChildren.isEmpty()){
                         cyc_child.add(-1);
@@ -184,6 +199,8 @@ public class Vectorize5GUtil {
                             iPattern.put("cycle_children", iPNode.cycleChildren);
                             iPattern.put("attr", iPNode.attr);
                             iPattern.put("children", new ArrayList<Integer>());
+                            iPattern.put("front_end_id", front_end_id);
+                            front_end_id += 1;
                             Map<String, Object> cPattern = null;
                             if (iPNode.concurrencyNode != null){
                                 cPattern = new HashMap<>();
@@ -194,6 +211,8 @@ public class Vectorize5GUtil {
                                 cPattern.put("cycle_children", iPNode.concurrencyNode.cycleChildren);
                                 cPattern.put("attr", iPNode.concurrencyNode.attr);
                                 cPattern.put("children", new ArrayList<Integer>());
+                                cPattern.put("front_end_id", front_end_id);
+                                front_end_id += 1;
                                 if (last){
 //                                    ((List)cPattern.get("children")).add(-1);
 //                                    ((List)iPattern.get("children")).add(-1);
@@ -233,6 +252,8 @@ public class Vectorize5GUtil {
                         cPattern.put("cycle_children", nextNode.concurrencyNode.cycleChildren);
                         cPattern.put("attr", nextNode.concurrencyNode.attr);
                         cPattern.put("children", new ArrayList<Integer>());
+                        cPattern.put("front_end_id", front_end_id);
+                        front_end_id += 1;
                         if (nextNode.nextNode != null){
                             ((List)pattern.get("children")).add(content.size()+2);
                             ((List)cPattern.get("children")).add(content.size()+2);
@@ -298,6 +319,10 @@ public class Vectorize5GUtil {
         return new JSONArray(transactions);
     }
 
+    public static Map readInforJson(String txtPath, String stateId){
+        return readInforJson(txtPath, null, stateId);
+    }
+
     public static Map readInforJson(String txtPath, String jsonPath, String stateId){
         List<String> txtInput = new ArrayList<>();
         try {
@@ -310,7 +335,13 @@ public class Vectorize5GUtil {
         }catch (Exception e){
             e.printStackTrace();
         }
-        JSONArray transctionData = getJsonInfo(jsonPath);
+        JSONArray transctionData = null;
+        if (jsonPath != null){
+            transctionData = getJsonInfo(jsonPath);
+        }else {
+            transctionData = getOriginalWorkflowInfoByStateId(stateId);
+        }
+
         Map<String, Integer> transctionName2id = new HashMap();
         List<Map> transctions = new ArrayList<>();
         List<Map> transctionLinks = new ArrayList<>();
@@ -323,14 +354,14 @@ public class Vectorize5GUtil {
             List<Map> patterns = new ArrayList<>();
             List<Map> patternLinks = new ArrayList<>();
 //            List<Map> patternList = new HashMap<>();
-            int lastLogKey = -1;
+//            int lastLogKey = -1;
             for (Object j:jsonO.getJSONArray("transactionlist").getJSONObject(0).getJSONArray("patternlist")
                  ) {
-                if ((int)((JSONObject)j).get("logkey") == lastLogKey){
-                    continue;
-                }else {
-                    lastLogKey = (int)((JSONObject)j).get("logkey");
-                }
+//                if ((int)((JSONObject)j).get("logkey") == lastLogKey){
+//                    continue;
+//                }else {
+//                    lastLogKey = (int)((JSONObject)j).get("logkey");
+//                }
                 Map pattern = new HashMap();
                 pattern.put("name", ((JSONObject)j).get("patternid"));
 //                pattern.put("id", ((JSONObject)j).get("logkey"));
@@ -346,7 +377,7 @@ public class Vectorize5GUtil {
                     Map entity = new HashMap();
                     entity.put("name", entityName);
                     entity.put("type", "entity");
-                    int attributeKey = ((JSONObject)j).getJSONArray("entities").size()*k+1;
+                    int attributeKey = ((JSONObject)j).getJSONArray("entities").size()*(k+1)+1;
                     for (Object jb:((JSONObject)j).getJSONArray("entities").getJSONObject(k).getJSONArray("attribute")
                          ) {
                         Map attribute = new HashMap();
@@ -355,8 +386,9 @@ public class Vectorize5GUtil {
                         attribute.put("type", "attribute");
                         entities.add(attribute);
                         Map link = new HashMap();
-                        link.put("sid", attributeKey);
-                        link.put("tid", k);
+                        link.put("sid", k);
+                        link.put("tid", attributeKey);
+                        link.put("name", "has");
                         links.add(link);
                         attributeKey++;
                     }
@@ -369,6 +401,7 @@ public class Vectorize5GUtil {
                     Map link = new HashMap();
                     link.put("sid", entities2name.get(((JSONObject)j).getJSONObject("relation").getJSONArray("entities").getString(0)));
                     link.put("tid", entities2name.get(((JSONObject)j).getJSONObject("relation").getJSONArray("entities").getString(1)));
+                    link.put("name", ((JSONObject)j).getJSONObject("relation").getString("name"));
                     links.add(link);
                 }
                 pattern.put("links", links);
@@ -438,9 +471,8 @@ public class Vectorize5GUtil {
         data.put("nodes", transctions);
         data.put("links", transctionLinks);
 
-
         try {
-            File writename = new File(getFilePath("originalWorkflowInfo")+stateId+".json");
+            File writename = new File(getFilePath("generateWorkflowInfo")+stateId+".json");
             writename.createNewFile(); // 创建新文件
             BufferedWriter out = new BufferedWriter(new FileWriter(writename));
             out.write(new JSONObject(data).toJSONString()); // \r\n即为换行
@@ -461,13 +493,15 @@ public class Vectorize5GUtil {
         return ((Integer)id).toString()+"_"+map.get(id);
     }
 
-    public static void main(String[] args){
-//        readFile("/Users/jiang/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/4b6962f76687c3983d1dc38c8ecd88b9/Message/MessageTemp/82179e106359a79246b90256b693dac8/File/new2vectorize(1).txt",
-//                "/Users/jiang/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/4b6962f76687c3983d1dc38c8ecd88b9/Message/MessageTemp/82179e106359a79246b90256b693dac8/File/data(4).json",
-//                "1234");
 
-        readInforJson(getFilePath("new2vectorize")+"new2vectorize(1).txt",
-                "/Users/jiang/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/4b6962f76687c3983d1dc38c8ecd88b9/Message/MessageTemp/82179e106359a79246b90256b693dac8/File/data(5).json",
-                "6675");
+
+    public static void main(String[] args){
+        readFile(getFilePath("new2vectorize")+"new2vectorize(1).txt",
+                "/Users/jiang/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/4b6962f76687c3983d1dc38c8ecd88b9/Message/MessageTemp/82179e106359a79246b90256b693dac8/File/data(6).json",
+                "1234");
+
+//        readInforJson(getFilePath("new2vectorize")+"new2vectorize(1).txt",
+//                "/Users/jiang/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/4b6962f76687c3983d1dc38c8ecd88b9/Message/MessageTemp/82179e106359a79246b90256b693dac8/File/data(6).json"
+//                ,"6675");
     }
 }
