@@ -50,7 +50,7 @@ export default {
   methods: {
     getP() {},
     ifdb(node){
-      console.log(node.info)
+      console.log('双击trans',node)
       this.info=node.info;
     }
   }

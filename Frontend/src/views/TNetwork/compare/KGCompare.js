@@ -370,11 +370,11 @@ function Links(sid, tid) {
 }
 
 
-function compareTA() {
-	for (let index = 0; index < transactionError.length; index++) {
-		const element = transactionError[index]
-		for (let i = 0; i < transactionNormal.length; i++) {
-			const item = transactionNormal[i];
+function compareTA(compareInfo1,compareInfo2) {
+	for (let index = 0; index < compareInfo2.length; index++) {
+		const element = compareInfo2[index]
+		for (let i = 0; i < compareInfo1.length; i++) {
+			const item = compareInfo1[i];
 			if (item.name === element.name) {
 				compare(item.content, element.content)
 				break
@@ -441,6 +441,7 @@ export function compareKG(state1, state2) {
 	analysisT(state1.compareInfo)
 	return newKG
 }
+
 
 // compareKG(a.first,a.second)
 // console.log(newKG)
