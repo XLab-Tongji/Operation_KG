@@ -18,7 +18,8 @@
         <snap style="word-spacing:22px">normal abnormal remove delete</snap>-->
         <!-- <snap>Transction</snap> -->
       </div>
-      <Trans :nodes="nodes" :links="links" :scope="scope" @parent="getP" />
+      <Trans :nodes="nodes" :links="links" :scope="scope" @parent="getP" @db="ifdb"/>
+      <el-card> {{this.info}} </el-card>
     </el-card>
   </div>
 </template>
@@ -33,6 +34,11 @@ export default {
   components: {
     Trans
   },
+  data(){
+    return{
+      info:"",
+    }
+  },
   props: {
     nodes: Array,
     links: Array,
@@ -42,7 +48,11 @@ export default {
     }
   },
   methods: {
-    getP() {}
+    getP() {},
+    ifdb(node){
+      console.log(node.info)
+      this.info=node.info;
+    }
   }
 };
 </script>
