@@ -67,7 +67,7 @@
       :class='(link._linkLabelClass) ? link._linkLabelClass : ""'
       )
         textPath(v-bind:xlink:href="'#' + link.id" 
-        startOffset= "20%" 
+        startOffset= "30%" 
         :class='(link._linkLabelClass) ? link._linkLabelClass : ""'
         ) {{ link.name }}
 

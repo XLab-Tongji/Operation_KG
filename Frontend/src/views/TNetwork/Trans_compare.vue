@@ -154,6 +154,9 @@ export default {
     //   break;           
       }
       }
+      node._svgAttrs={
+        "stroke-width":3,
+      };
       return node;
     },
     lcb(link) {

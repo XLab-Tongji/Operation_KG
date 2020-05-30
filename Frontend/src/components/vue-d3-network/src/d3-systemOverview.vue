@@ -432,15 +432,17 @@ export default {
 
   .node
     stroke alpha($dark, 0.7)
-    stroke-width 3px
+ 
     transition fill 0.5s ease
     fill $white
+  
+
 
   .node.selected
-    stroke $color3
+    stroke alpha($color2, 0.6)
 
   .node.pinned
-    stroke alpha($warn, 0.6)
+    stroke alpha($color2, 0.6)
 
   .link
     stroke alpha($dark, 0.3)
@@ -448,8 +450,8 @@ export default {
   .node, .link
     stroke-linecap round
 
-    &:hover
-      // stroke $warn
+  //  &:hover
+  //    troke $warn
       // stroke-width 8px
 
   .link.selected

@@ -39,6 +39,9 @@ import Trans from "../Trans";
 import data from "../data/qd.json";
 
 import store from "@/store.js";
+
+var times=1;
+
 export default {
   components: {
     Trans
@@ -60,13 +63,32 @@ export default {
     getP() {},
     ifdb(node){
       console.log('双击trans',node)
+      if(times==1){
+        this.oldnode=node;
+         node._svgAttrs = {
+        "stroke-width": 7,
+       };
+        times=2;
+      }
+      else{
+        this.oldnode._svgAttrs = {
+        "stroke-width": 3,
+       };
+       this.oldnode=node;
+       node._svgAttrs = {
+        "stroke-width": 7,
+       };
+      }
+       node._svgAttrs = {
+        "stroke-width": 7,
+       }
       this.info=node.info;
     }
   }
 };
 </script>
 
-<style>
+<style >
 .text {
   float: left;
 }
@@ -87,4 +109,5 @@ export default {
      min-height: calc(78vh);
     max-height: calc(78vh)
 }
+
 </style>

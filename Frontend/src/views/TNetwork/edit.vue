@@ -389,6 +389,9 @@ export default {
       } else {
         this.tplink.name = this.form.name;
         this.tplink._color = "lightgray";
+        this.tplink._svgAttrs={
+          "stroke-width":2,
+        };
         console.log("修改的是link", this.tplink);
       }
       // ##3.在这里调用一个接口，修改名称
@@ -416,6 +419,9 @@ export default {
       this.button = "correct";
     },
     ncb(node) {
+     node._svgAttrs={
+        "stroke-width":3,
+      };
       return node;
     },
     lcb(link) {
@@ -437,6 +443,9 @@ export default {
       // 双击
       if (e.detail == 2) {
         link._color = "red";
+        link._svgAttrs={
+          "stroke-width":4,
+        };
         if (this.edit) {
           this.db = true;
           this.flag = "link";
