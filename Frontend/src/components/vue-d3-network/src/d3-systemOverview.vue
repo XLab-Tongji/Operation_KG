@@ -78,7 +78,7 @@ export default {
       strLinks: true,
       fontSize: 10,
       dragging: false,
-      linkWidth: 1,
+      linkWidth: 4,
       nodeLabels: false,
       linkLabels: false,
       nodeSize: 5,

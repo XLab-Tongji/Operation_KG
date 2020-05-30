@@ -6,8 +6,8 @@
         <el-option v-for="item in sso" :key="item.id" :label="item.id" :value="item.id"></el-option>
       </el-select>
     </div>
-    <div class="container">
-      <div class="patten">
+    <div class="container2">
+      <div class="patten2">
         <p>请选择transction</p>
         <el-select v-model="selectT" filterable placeholder="请选择">
           <el-option
@@ -20,11 +20,11 @@
         <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" />
       </div>
 
-      <div class="overview">
+      <div class="overview2">
         <Overview :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope2" />
       </div>
 
-      <div class="en">
+      <div class="en2">
         <el-card class="box1">
           <div slot="header" class="clearfix">
             <span>{{this.tran_name}} -> {{this.pat_name}}</span>
@@ -235,7 +235,7 @@ export default {
 </script>
 
 <style>
-.container {
+.container2 {
   display: grid;
   grid-template-columns: 0.8fr 0.55fr;
   grid-template-rows: calc(100vh -10px / 4) calc(100vh -10px / 4 * 3);
@@ -245,21 +245,16 @@ export default {
   grid-row-gap: 5px;
 }
 
-.patten {
+.patten2 {
   grid-row-start: 1;
   grid-row-end: 3;
 }
-.overview {
+.overview2 {
   grid-row-start: 1;
   grid-row-end: 2;
 }
 
-/* .title {
-  background-color: #d3d7d8;
-  grid-row-start: 1;
-  grid-row-end: 2;
-} */
-.en {
+.en2 {
   background-color: #fffdfd;
   grid-row-start: 2;
   grid-row-end: 3;
