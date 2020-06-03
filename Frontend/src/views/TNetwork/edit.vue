@@ -414,19 +414,19 @@ export default {
         this.edit = true;
         this.button = "confirm";
       } else {
-        let _tmp = {
-          nodes: this.nodes,
-          links: this.links
-        };
-
-        let formData = new FormData();
-        formData.append("stateId", store.state.time);
-        formData.append("transId", store.state.trans);
-        formData.append("patId", store.state.pat);
-        formData.append("data",JSON.stringify(_tmp));
-        axios.post(url + "/api/modifyPattern", formData).then(res => {
-          console.log(res.data);
-        });
+        
+        // let _tmp = {
+        //   nodes: this.nodes,
+        //   links: this.links
+        // };
+        // let formData = new FormData();
+        // formData.append("stateId", store.state.time);
+        // formData.append("transId", store.state.trans);
+        // formData.append("patId", store.state.pat);
+        // formData.append("data",JSON.stringify(_tmp));
+        // axios.post(url + "/api/modifyPattern", formData).then(res => {
+        //   console.log(res.data);
+        // });
 
         this.edit = false;
         this.editR = false;

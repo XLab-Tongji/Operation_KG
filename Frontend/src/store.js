@@ -11,7 +11,8 @@ export default new Vuex.Store({
     date:[],
     trans:"",
     pat:"",
-    time:""
+    time:"",
+    compare:{}
   },
   mutations: {
     setFir(state, value) {
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     setTime(state, value) {
       state.time = value;
+    },
+    setCompare(state, value) {
+      state.compare = value;
     }
   },
   actions: {

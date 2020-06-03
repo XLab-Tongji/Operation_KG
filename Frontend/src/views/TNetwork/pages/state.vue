@@ -194,10 +194,13 @@ export default {
     formData.append("state1", '2020-06-02 03:17:25');
     formData.append("state2", '2020-06-02 03:17:45');
     axios.post(url + "/api/compareState", formData).then(res => {
-      console.log(res.data);
+      store.commit("setCompare",res.data)
     });
+    let state1=store.state.compare['2020-06-02 03:17:25']
+    let state2=store.state.compare['2020-06-02 03:17:45']
+    // console.log(state1,state2)
     // console.log("两个参数：",res[0],res[1]);
-    // console.log("结果2",compareKG(res[0], res[1]));
+    console.log("结果2",compareKG(res[0], res[1]));
   },
   methods: {
     change() {
