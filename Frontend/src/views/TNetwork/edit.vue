@@ -179,7 +179,7 @@ export default {
       },
       nodeSize: 40,
       fontSize: 14,
-      linkWidth: 1,
+      linkWidth: 4,
       canvas: false,
       notify: {},
       sourceNodeId: 0,
@@ -240,6 +240,7 @@ export default {
 
       this.editEntity = false;
       this.delEntity._color = "#dcfaf3";
+      new_node._color="#e6f598";
       console.log("添加了一个新attr", new_node);
       // ##5.在这里调用一个接口，添加新attr
       // 参数：{nodes:this.nodes,links:this.links}

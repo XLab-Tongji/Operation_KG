@@ -660,6 +660,7 @@
                 }
             ],
             "name": "workflow0",
+            "info":"info1",
             "links": [
                 {
                     "tid": 1,

@@ -61,6 +61,12 @@ var tra1 = 1;
 var col1 = "white";
 var kk1 = 1;
 var tr1 = 1;
+
+import { compareKG } from "../compare/KGCompare";
+import res from "../compare/response.json";
+
+import {test} from '../compare/test'
+
 export default {
   components: {
     Trans,
@@ -98,7 +104,7 @@ export default {
       sso: store.state.date
     };
   },
-  created(){
+  created() {
     // ##9.在这里调用一个接口，获取compare.json的数据
     // 参数：无
     // 返回：data
@@ -180,6 +186,9 @@ export default {
   mounted() {
     this.id = store.state.date[1].id;
     this.data = store.state.data[this.id];
+
+    // console.log("两个参数：",res[0],res[1]);
+    // console.log("结果2",compareKG(res[0], res[1]));
   },
   methods: {
     change() {

@@ -191,11 +191,13 @@
                     "sid": 3,
                     "tid": 4
                 }
-            ]
+            ],
+            "info":"info1"
         },
         {
             "name": "transction2",
             "id": 2,
+            "info":"info2",
             "nodes": [
                 {
                     "name": "pattern1",
@@ -384,6 +386,7 @@
         {
             "name": "transction3",
             "id": 3,
+            "info":"info3",
             "nodes": [
                 {
                     "name": "pattern1",
@@ -571,6 +574,7 @@
         {
             "name": "transction4",
             "id": 4,
+            "info":"info4",
             "nodes": [
                 {
                     "name": "pattern1",

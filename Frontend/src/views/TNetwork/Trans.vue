@@ -88,7 +88,7 @@ export default {
         links: {},
         nodes: {}
       },
-      linkLabels:false,
+      linkLabels: false,
       nodeSize: 40,
       fontSize: 14,
       linkWidth: 1,
@@ -124,9 +124,9 @@ export default {
         },
         nodeSize: this.nodeSize,
         fontSize: this.fontSize,
-        nodeLabels:true,
+        nodeLabels: true,
         linkLabels: true,
-        linkWidth:2,
+        linkWidth: 2,
         canvas: this.canvas,
         profileLinks: []
       };
@@ -134,51 +134,51 @@ export default {
   },
   methods: {
     ncb(node) {
-    //  对比界面
-    //  if(node.state){
-    //      switch(node.state){
-    // case "normal":
-    //   node._color="#dcfaf3";
-    //   break;
-    // case "abnormal":
-    //   node._color="yellow";
-    //   break;
-    // case "remove":
-    //   node._color="blue";
-    //   break;      
-    // case "delete":
-    //   node._color="black";
-    //   break;           
-    // case "still":
-    //   node._color="#dcfaf3";
-    //   break;         
-    //   }
-    //   }
+      //  对比界面
+      //  if(node.state){
+      //      switch(node.state){
+      // case "normal":
+      //   node._color="#dcfaf3";
+      //   break;
+      // case "abnormal":
+      //   node._color="yellow";
+      //   break;
+      // case "remove":
+      //   node._color="blue";
+      //   break;
+      // case "delete":
+      //   node._color="black";
+      //   break;
+      // case "still":
+      //   node._color="#dcfaf3";
+      //   break;
+      //   }
+      //   }
 
-       if(node.loop){
-         switch(node.loop){
-    case 1:
-      node._color="#fdae61";
-      break;
-    case 2:
-      node._color="#fee08b";
-      break;
-    case 3:
-      node._color="#ffffbf";
-      break;      
-    case 4:
-      node._color="#e6f598";
-      break;           
-    case 5:
-      node._color="#abdda4";
-      break;
-    case 6:
-      node._color="#66c2a5";
-      break;           
-      }
+      if (node.loop) {
+        switch (node.loop) {
+          case 1:
+            node._color = "#fdae61";
+            break;
+          case 2:
+            node._color = "#fee08b";
+            break;
+          case 3:
+            node._color = "#ffffbf";
+            break;
+          case 4:
+            node._color = "#e6f598";
+            break;
+          case 5:
+            node._color = "#abdda4";
+            break;
+          case 6:
+            node._color = "#66c2a5";
+            break;
+        }
       }
       return node;
-      console.log( nodeLabels)
+      console.log(nodeLabels);
     },
     lcb(link) {
       link._color = "lightgray";
@@ -188,12 +188,19 @@ export default {
         opacity: 1,
         "marker-end": "url(#arrow)"
       };
- 
+
       return link;
-           console.log(linkLabels)
+      console.log(linkLabels);
     },
     clickNode(e, node) {
       this.$emit("parent", node);
+
+      let timer = null;
+      clearTimeout(timer);
+      // 双击
+      if (e.detail == 2) {
+        this.$emit("db", node);
+      }
     },
     clickLink(e, link) {},
     displayNodeRelation(node) {
@@ -238,10 +245,9 @@ export default {
 </script>
 
 <style>
-  .link-label{
-     fill: purple;
-     transform: translate(0,.5em);
-     font-size: 0.8em;
-  }
-
+.link-label {
+  fill: purple;
+  transform: translate(0, 0.5em);
+  font-size: 0.8em;
+}
 </style>
