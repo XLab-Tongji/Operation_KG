@@ -143,16 +143,15 @@ export default {
     // ##2.在这里调用一个接口，获取fir.json的数据
     // 参数：待定
     // 返回：fir
-    store.commit("setTime",'2020-05-26 10:12:40');
+    store.commit("setTime","2020-06-02 03:17:45");
     axios
-      .get(url + "/api/getTransctionData?stateId=2020-05-26 10:12:40")
+      .get(url + "/api/getTransctionData?stateId=2020-06-02 03:17:45")
       .then(res => {
         store.commit("setFir", res.data);
-        this.data = res.data;
       });
-
     store.commit("setData", data);
-
+    
+    this.data=store.state.fir;
     let tmpT = {
       nodes: this.data.nodes,
       links: this.data.links

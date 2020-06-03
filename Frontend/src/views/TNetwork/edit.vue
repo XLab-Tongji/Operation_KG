@@ -105,6 +105,10 @@
 <script>
 import D3Network from "../../components/vue-d3-network/src/d3-systemOverview.vue";
 import axios from "axios";
+import store from '../../store'
+import global from './global'
+
+const url = global.url;
 
 HTMLCollection.prototype.forEach = Array.prototype.forEach;
 Array.prototype.indexOf = function(val) {
@@ -240,7 +244,7 @@ export default {
 
       this.editEntity = false;
       this.delEntity._color = "#dcfaf3";
-      new_node._color="#e6f598";
+      new_node._color = "#e6f598";
       console.log("添加了一个新attr", new_node);
       // ##5.在这里调用一个接口，添加新attr
       // 参数：{nodes:this.nodes,links:this.links}
@@ -409,6 +413,17 @@ export default {
         this.edit = true;
         this.button = "confirm";
       } else {
+        let _tmp = {
+          nodes: this.nodes,
+          links: this.links
+        };
+        let formData = new FormData();
+        formData.append("stateId", store.state.time);
+        formData.append("data", _tmp);
+        axios.post(url + "/api/modifyPattern", formData).then(res => {
+          console.log(res.data);
+        });
+
         this.edit = false;
         this.editR = false;
         this.editEntity = false;
@@ -420,6 +435,9 @@ export default {
       }
     },
     off() {
+      // ##3.在这里调用一个接口，修改名称
+      // 参数：{nodes:this.nodes,links:this.links}
+      // 返回：无
       this.edit = false;
       this.button = "correct";
     },
