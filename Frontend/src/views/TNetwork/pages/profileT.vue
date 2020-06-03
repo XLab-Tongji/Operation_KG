@@ -50,7 +50,7 @@ import store from "@/store.js";
 // import data1 from "../data/compare.json";
 
 import data from "../data/trans.json";
-// import fir from "../data/qd.json";
+import fir from "../data/fir.json";
 
 const url = global.url;
 import axios from "axios";
@@ -143,15 +143,15 @@ export default {
     // ##2.在这里调用一个接口，获取fir.json的数据
     // 参数：待定
     // 返回：fir
-    store.commit("setTime","2020-06-02 03:17:45");
+    store.commit("setTime", "2020-06-02 03:17:45");
     axios
       .get(url + "/api/getTransctionData?stateId=2020-06-02 03:17:45")
       .then(res => {
         store.commit("setFir", res.data);
       });
     store.commit("setData", data);
-    
-    this.data=store.state.fir;
+
+    this.data = store.state.fir;
     let tmpT = {
       nodes: this.data.nodes,
       links: this.data.links

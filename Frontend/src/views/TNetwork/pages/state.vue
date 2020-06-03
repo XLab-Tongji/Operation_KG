@@ -54,6 +54,9 @@ import Trans from "../Trans_compare";
 import Overview from "./overview1";
 import Time from "../timepick";
 import store from "@/store.js";
+import axios from 'axios'
+
+let url=global.url
 
 import data from "../data/compare.json";
 var c1 = 2;
@@ -65,7 +68,7 @@ var tr1 = 1;
 import { compareKG } from "../compare/KGCompare";
 import res from "../compare/response.json";
 
-import {test} from '../compare/test'
+import { test } from "../compare/test";
 
 export default {
   components: {
@@ -184,9 +187,15 @@ export default {
     }
   },
   mounted() {
-    this.id = store.state.date[1].id;
+    this.id = store.state.date[0].id;
     this.data = store.state.data[this.id];
 
+    let formData = new FormData();
+    formData.append("state1", '2020-06-02 03:17:25');
+    formData.append("state2", '2020-06-02 03:17:45');
+    axios.post(url + "/api/compareState", formData).then(res => {
+      console.log(res.data);
+    });
     // console.log("两个参数：",res[0],res[1]);
     // console.log("结果2",compareKG(res[0], res[1]));
   },

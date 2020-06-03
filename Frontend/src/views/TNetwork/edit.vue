@@ -105,8 +105,9 @@
 <script>
 import D3Network from "../../components/vue-d3-network/src/d3-systemOverview.vue";
 import axios from "axios";
-import store from '../../store'
-import global from './global'
+import store from "../../store";
+import global from "./global";
+import fir from "./data/fir.json";
 
 const url = global.url;
 
@@ -417,9 +418,12 @@ export default {
           nodes: this.nodes,
           links: this.links
         };
+
         let formData = new FormData();
         formData.append("stateId", store.state.time);
-        formData.append("data", _tmp);
+        formData.append("transId", store.state.trans);
+        formData.append("patId", store.state.pat);
+        formData.append("data",JSON.stringify(_tmp));
         axios.post(url + "/api/modifyPattern", formData).then(res => {
           console.log(res.data);
         });
