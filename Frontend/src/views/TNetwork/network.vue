@@ -147,7 +147,9 @@ export default {
       node._color="#66c2a5";
       break;           
       }
-     
+           node._svgAttrs={
+        "stroke-width":3,
+      };
       return node;
     },
     lcb(link) {

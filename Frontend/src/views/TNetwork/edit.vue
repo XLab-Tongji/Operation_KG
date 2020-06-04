@@ -2,13 +2,22 @@
   <div>
     <el-alert v-if="alert" title="只可以在entity之间添加关系哦😯" type="error"></el-alert>
     <el-row>
-      <el-col :span="8">
-        <div class="grid-content bg-purple-dark"></div>
+      <el-col :span="20">
+        <div class="grid-content bg-purple-dark">
+          <div v-if="name_change">
+      <el-form :model="form" label-width="80px">
+        <el-form-item label="new name">
+          <el-input v-model="form.name" style="width=50%" class="input"></el-input>
+        </el-form-item>
+        <el-form-item class="ok">
+          <el-button type="primary" @click="onSubmit">ok</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+        </div>
       </el-col>
-      <el-col :span="8">
-        <div class="grid-content bg-purple-dark"></div>
-      </el-col>
-      <el-col :span="4">
+
+      <el-col :span="2">
         <div class="grid-content bg-purple-dark">
           <el-button @click="on">{{button}}</el-button>
         </div>
@@ -20,16 +29,7 @@
       </el-col>-->
     </el-row>
 
-    <div v-if="name_change">
-      <el-form :model="form" label-width="80px">
-        <el-form-item label="new name">
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item class="ok">
-          <el-button type="primary" @click="onSubmit">ok</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+    
     <div>
       <d3-network
         ref="net"
@@ -179,7 +179,7 @@ export default {
       },
       nodeSize: 40,
       fontSize: 14,
-      linkWidth: 4,
+      linkWidth: 1,
       canvas: false,
       notify: {},
       sourceNodeId: 0,
@@ -389,6 +389,9 @@ export default {
       } else {
         this.tplink.name = this.form.name;
         this.tplink._color = "lightgray";
+        this.tplink._svgAttrs={
+          "stroke-width":2,
+        };
         console.log("修改的是link", this.tplink);
       }
       // ##3.在这里调用一个接口，修改名称
@@ -416,10 +419,14 @@ export default {
       this.button = "correct";
     },
     ncb(node) {
+     node._svgAttrs={
+        "stroke-width":3,
+      };
       return node;
     },
     lcb(link) {
       link._color = "lightgray";
+     
       link._svgAttrs = {
         // "stroke-width": this.linkWidth,
         "stroke-width": 2,
@@ -436,6 +443,9 @@ export default {
       // 双击
       if (e.detail == 2) {
         link._color = "red";
+        link._svgAttrs={
+          "stroke-width":4,
+        };
         if (this.edit) {
           this.db = true;
           this.flag = "link";
@@ -512,4 +522,9 @@ export default {
 .el-form-item {
   margin-bottom: 15px;
 }
+.input {
+ width:80%
+}
+
+
 </style>

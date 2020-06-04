@@ -418,7 +418,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" >
   @import 'lib/styl/vars.styl'
 
   .net
@@ -430,12 +430,12 @@ export default {
 
   .node
     stroke alpha($dark, 0.7)
-    stroke-width 3px
+  
     transition fill 0.5s ease
     fill $white
 
   .node.selected
-    stroke $color2
+    stroke $color3
 
   .node.pinned
     stroke alpha($warn, 0.6)
@@ -446,7 +446,7 @@ export default {
   .node, .link
     stroke-linecap round
 
-    &:hover
+    // &:hover
       // stroke $warn
       // stroke-width 8px
 

@@ -34,6 +34,7 @@
 
 <script>
 import D3Network from "../../components/vue-d3-network/src/d3-systemOverview.vue";
+
 import axios from "axios";
 
 HTMLCollection.prototype.forEach = Array.prototype.forEach;
@@ -177,6 +178,9 @@ export default {
             break;
         }
       }
+      node._svgAttrs={
+        "stroke-width":3,
+      };
       return node;
       console.log(nodeLabels);
     },
@@ -184,7 +188,7 @@ export default {
       link._color = "lightgray";
       link._svgAttrs = {
         // "stroke-width": this.linkWidth,
-        "stroke-width": 2,
+        "stroke-width":2,
         opacity: 1,
         "marker-end": "url(#arrow)"
       };
@@ -243,11 +247,58 @@ export default {
   }
 };
 </script>
+<style lang="stylus">
 
-<style>
-.link-label {
-  fill: purple;
-  transform: translate(0, 0.5em);
-  font-size: 0.8em;
-}
+  @import 'lib\vars.styl'
+
+  .net
+    height 100%
+    margin 0
+
+  .net-svg
+    // fill: white // background color to export as image
+
+  .node
+    stroke alpha($dark, 0.7)
+    transition fill 0.5s ease
+    fill $white
+  
+
+
+  .node.selected
+    stroke alpha($color2, 0.6)
+
+  .node.pinned
+    stroke alpha($color, 0.6)
+
+  .link
+    stroke alpha($dark, 0.3)
+
+  .node, .link
+    stroke-linecap round
+
+  //  &:hover
+  //    troke $warn
+      // stroke-width 8px
+
+  .link.selected
+    stroke alpha($color2, 0.6)
+
+  .curve
+    fill none
+
+  .node-label
+    fill $dark
+
+  .link-label
+     fill: purple;
+     transform: translate(0,.5em);
+     font-size: .8em;
+
+  // .link-label
+  //    fill $dark
+  //   // opacity 0
+  //   font-size 0
+  //   // transform translate(10px, 10px)
+  //   text-anchor middle
 </style>
