@@ -14,6 +14,12 @@
           :value="item.value"
         ></el-option>
       </el-select>
+      <el-button round>diagnose</el-button>
+      <el-card class="json-card">
+        <div slot="header" class="clearfix">
+          <span>result</span>
+        </div>
+      </el-card>
     </div>
   </div>
 </template>
