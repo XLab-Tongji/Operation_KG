@@ -1,35 +1,24 @@
 <template>
   <div>
-    <div>
-      <diagnose/>
-    </div>
     <div class="container">
       <Time />
     </div>
     <el-select v-model="selectT" filterable placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
+      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+    </el-select>
 
     <div class="container1">
       <div class="patten">
-        
-         <edit v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope" />
-       
+        <edit v-if="render" :nodes="this.E.nodes" :links="this.E.links" :scope="this.scope" />
+
         <!-- <Trans :nodes="this.P.nodes" :links="this.P.links" :scope="this.scope" @parent="getP" /> -->
-        
       </div>
 
-
-<!-- Trans -->
+      <!-- Trans -->
       <div class="overview">
         <Overview :nodes="this.T.nodes" :links="this.T.links" :scope="this.scope2" />
       </div>
-<!-- pattern -->
+      <!-- pattern -->
       <div class="en">
         <el-card class="box1">
           <div slot="header" class="clearfix">
@@ -40,14 +29,14 @@
           </div>
         </el-card>
       </div>
-
     </div>
     <state />
+    <diagnose />
   </div>
 </template>
 
 <script>
-import diagnose from '../diagnose/diagnose'
+import diagnose from "../diagnose/diagnose";
 import state from "./state";
 import edit from "../edit";
 
@@ -90,11 +79,11 @@ export default {
       options: [],
       selectT: "",
       scope: {
-        x: window.innerHeight*0.5,
-        y: window.innerWidth *0.5
+        x: window.innerHeight * 0.5,
+        y: window.innerWidth * 0.5
       },
       scope1: {
-        x: window.innerHeight*0.65 ,
+        x: window.innerHeight * 0.65,
         y: window.innerWidth * 0.5
       },
       scope2: {
@@ -225,20 +214,18 @@ export default {
 .container1 {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  grid-template-rows: calc(70vh)   calc(10ch)  calc(90vh);
+  grid-template-rows: calc(70vh) calc(10ch) calc(90vh);
   /* grid-template-rows:0.5fr 0.5fr; */
   grid-auto-flow: row;
   grid-column-gap: 20px;
   grid-row-gap: 5px;
-  padding-top:1.5%
+  padding-top: 1.5%;
 }
 
 .patten {
- 
   grid-column-end: 2;
   grid-column-start: 1;
-  grid-row:1/3;
- 
+  grid-row: 1/3;
 }
 .overview {
   grid-row-start: 1;
@@ -252,11 +239,9 @@ export default {
   grid-row-end: 2;
 } */
 .en {
-  
   grid-row-start: 3;
   grid-row-end: 4;
-  grid-column:1/2;
-  
+  grid-column: 1/2;
 }
 /* .box {
   position: fixed;

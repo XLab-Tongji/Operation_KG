@@ -54,9 +54,9 @@ import Trans from "../Trans_compare";
 import Overview from "./overview1";
 import Time from "../timepick";
 import store from "@/store.js";
-import axios from 'axios'
+import axios from "axios";
 
-let url=global.url
+let url = global.url;
 
 import data from "../data/compare.json";
 var c1 = 2;
@@ -104,7 +104,18 @@ export default {
       pat_name: "",
       data: [],
       id: -1,
-      sso: store.state.date
+      sso: [
+        {
+          date: "2020-06-02 03:17",
+          id: "2020-06-02 03:17:25",
+          state: "unknow"
+        },
+        {
+          date: "2020-06-02 03:17",
+          id: "2020-06-02 03:17:45",
+          state: "normal"
+        }
+      ]
     };
   },
   created() {
@@ -187,24 +198,54 @@ export default {
     }
   },
   mounted() {
-    this.id = store.state.date[0].id;
-    this.data = store.state.data[this.id];
+    // this.id = store.state.date[0].id;
+    // this.data = store.state.data[this.id];
+    this.id = "2020-06-02 03:17:25"
+    axios
+      .get(url + "/api/getTransctionData?stateId="+this.id)
+      .then(res => res.data.nodes)
+      .then(nodes => {
+        return nodes.map(i => {
+          return {
+            value: i.id,
+            label: i.name
+          };
+        });
+      })
+      .then(i => {
+        this.options = i;
+      });
+    // this.data = store.state.data[this.id];
 
-    let formData = new FormData();
-    formData.append("state1", '2020-06-02 03:17:25');
-    formData.append("state2", '2020-06-02 03:17:45');
-    axios.post(url + "/api/compareState", formData).then(res => {
-      store.commit("setCompare",res.data)
-    });
-    let state1=store.state.compare['2020-06-02 03:17:25']
-    let state2=store.state.compare['2020-06-02 03:17:45']
+    // let formData = new FormData();
+    // formData.append("state1", "2020-06-02 03:17:25");
+    // formData.append("state2", "2020-06-02 03:17:45");
+    // axios.post(url + "/api/compareState", formData).then(res => {
+    //   store.commit("setCompare", res.data);
+    // });
+    // let state1 = store.state.compare["2020-06-02 03:17:25"];
+    // let state2 = store.state.compare["2020-06-02 03:17:45"];
     // console.log(state1,state2)
     // console.log("两个参数：",res[0],res[1]);
-    console.log("结果2",compareKG(res[0], res[1]));
+    // console.log("结果2", compareKG(res[0], res[1]));
   },
   methods: {
-    change() {
-      this.data = store.state.data[this.id];
+    change(val) {
+      // this.data = store.state.data[this.id];
+      axios
+        .get(url + "/api/getTransctionData?stateId=" + val)
+        .then(res => res.data.nodes)
+        .then(nodes => {
+          return nodes.map(i => {
+            return {
+              value: i.id,
+              label: i.name
+            };
+          });
+        })
+        .then(i => {
+          this.options = i;
+        });
     },
     getP(parent) {
       if (kk1 == 1) {

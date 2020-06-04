@@ -25,7 +25,50 @@
 </template>
 
 <script>
-export default {};
+import global from "../global";
+import axios from "axios";
+
+let url = global.url;
+export default {
+  data() {
+    return {
+      sso: [
+        {
+          date: "2020-06-02 03:17",
+          id: "2020-06-02 03:17:25",
+          state: "unknow"
+        },
+        {
+          date: "2020-06-02 03:17",
+          id: "2020-06-02 03:17:45",
+          state: "normal"
+        }
+      ],
+      options: [],
+      id: "",
+      selectT: "",
+      nodes: {}
+    };
+  },
+  methods: {
+    change(val) {
+      axios
+        .get(url + "/api/getTransctionData?stateId=" + val)
+        .then(res => res.data.nodes)
+        .then(nodes => {
+          return nodes.map(i => {
+            return {
+              value: i.id,
+              label: i.name
+            };
+          });
+        })
+        .then(i => {
+          this.options = i;
+        });
+    }
+  }
+};
 </script>
 
 <style>
