@@ -105,6 +105,11 @@
 <script>
 import D3Network from "../../components/vue-d3-network/src/d3-systemOverview.vue";
 import axios from "axios";
+import store from "../../store";
+import global from "./global";
+import fir from "./data/fir.json";
+
+const url = global.url;
 
 HTMLCollection.prototype.forEach = Array.prototype.forEach;
 Array.prototype.indexOf = function(val) {
@@ -189,7 +194,7 @@ export default {
       finCoor: 0,
       staCoor: 0,
       force: 3000,
-      times:1,
+      times: 1,
       moveable: false
     };
   },
@@ -240,7 +245,7 @@ export default {
 
       this.editEntity = false;
       this.delEntity._color = "#dcfaf3";
-      new_node._color="#e6f598";
+      new_node._color = "#e6f598";
       console.log("添加了一个新attr", new_node);
       // ##5.在这里调用一个接口，添加新attr
       // 参数：{nodes:this.nodes,links:this.links}
@@ -295,37 +300,35 @@ export default {
       } else {
         if (this.edit && node.type == "entity") {
           this.editEntity = true;
-          
-          if(this.times==1){
-              this.change_node=node;
-              this.change_node._color = "red";
-             this.last_node=this.change_node;
-             this.times=2;
-          }
-          else{
-            this.last_node._color="#dcfaf3";
-            this.change_node=node;
+
+          if (this.times == 1) {
+            this.change_node = node;
             this.change_node._color = "red";
-            this.last_node=this.change_node;
+            this.last_node = this.change_node;
+            this.times = 2;
+          } else {
+            this.last_node._color = "#dcfaf3";
+            this.change_node = node;
+            this.change_node._color = "red";
+            this.last_node = this.change_node;
           }
-          console.log("当前修改的节点是",this.change_node)
+          console.log("当前修改的节点是", this.change_node);
           this.delEntity = node;
         }
         if (this.edit && node.type == "attribute") {
           this.editAttr = true;
-          if(this.times==1){
-              this.change_node=node;
-              this.change_node._color = "red";
-             this.last_node=this.change_node;
-             this.times=2;
-          }
-          else{
-            this.last_node._color="#dcfaf3";
-            this.change_node=node;
+          if (this.times == 1) {
+            this.change_node = node;
             this.change_node._color = "red";
-            this.last_node=this.change_node;
+            this.last_node = this.change_node;
+            this.times = 2;
+          } else {
+            this.last_node._color = "#dcfaf3";
+            this.change_node = node;
+            this.change_node._color = "red";
+            this.last_node = this.change_node;
           }
-         
+
           this.delAttr = node;
         }
       }
@@ -397,6 +400,16 @@ export default {
       // ##3.在这里调用一个接口，修改名称
       // 参数：{nodes:this.nodes,links:this.links}
       // 返回：无
+      // let _tmp={
+      //   nodes:this.nodes,
+      //   links:this.links
+      // }
+      // let formData = new FormData();
+      // formData.append("data", "_tmp");
+      // axios.post(url + "/api/getSystemStates", formData).then(res => {
+      //   store.commit("setDate", res.data);
+      // });
+
       this.db = false;
     },
     on() {
@@ -404,17 +417,34 @@ export default {
         this.edit = true;
         this.button = "confirm";
       } else {
+        
+        // let _tmp = {
+        //   nodes: this.nodes,
+        //   links: this.links
+        // };
+        // let formData = new FormData();
+        // formData.append("stateId", store.state.time);
+        // formData.append("transId", store.state.trans);
+        // formData.append("patId", store.state.pat);
+        // formData.append("data",JSON.stringify(_tmp));
+        // axios.post(url + "/api/modifyPattern", formData).then(res => {
+        //   console.log(res.data);
+        // });
+
         this.edit = false;
         this.editR = false;
         this.editEntity = false;
         this.editAttr = false;
-        
+
         // this.change_attr_node._color="#dcfaf3";
         this.button = "correct";
-        this.change_node._color="#dcfaf3";
+        this.change_node._color = "#dcfaf3";
       }
     },
     off() {
+      // ##3.在这里调用一个接口，修改名称
+      // 参数：{nodes:this.nodes,links:this.links}
+      // 返回：无
       this.edit = false;
       this.button = "correct";
     },
