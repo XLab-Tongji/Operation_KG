@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div>
+      <diagnose/>
+    </div>
     <div class="container">
       <Time />
     </div>
@@ -38,6 +41,7 @@
 </template>
 
 <script>
+import diagnose from '../diagnose/diagnose'
 import state from "./state";
 import edit from "../edit";
 
@@ -62,7 +66,8 @@ export default {
     Overview,
     Time,
     state,
-    edit
+    edit,
+    diagnose
   },
   data() {
     return {
