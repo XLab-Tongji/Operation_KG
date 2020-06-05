@@ -140,7 +140,7 @@ export default {
     case "abnormal":
       node._color="red";
       break;
-    case "move":
+    case "remove":
       node._color="blue";
       break;      
     case "delete":
