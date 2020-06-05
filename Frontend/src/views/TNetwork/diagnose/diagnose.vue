@@ -14,11 +14,10 @@
           :value="item.value"
         ></el-option>
       </el-select>
-      <el-button round>diagnose</el-button>
-      <el-card class="json-card">
-        <div slot="header" class="clearfix">
-          <span>result</span>
-        </div>
+      <el-button class="dialog_button" round  style="margin-left: 3% ;width:7%">diagnose</el-button>
+
+      <el-card class="result-card" >
+          <span>result:</span>
       </el-card>
     </div>
   </div>
@@ -72,4 +71,11 @@ export default {
 </script>
 
 <style>
+.result-card {
+  margin-top:20px;
+   max-width: 26%
+}
+ .el-button .dialog_button{
+    width: 70px;
+}
 </style>

@@ -38,8 +38,11 @@
     <div class="json">
       <el-card class="json-card">
         <div slot="header" class="clearfix">
-          <span>json</span>
+          <span>Compare Result</span>
         </div>
+        <el-card class="json-content">
+          
+        </el-card>
       </el-card>
     </div>
   </div>
@@ -338,7 +341,14 @@ export default {
   grid-row-start: 2;
   grid-row-end: 3;
 }
-.json-card .el-card__body {
-  background: lightgrey;
+
+.json-content  .el-card__body {
+    /* border: 1px solid #EBEEF5; */
+    background-color: #f3f0e9;
+    transition: .3s;
+    overflow: auto;
+     min-height: calc(30vh);
+    max-height: calc(30vh)
 }
+
 </style>
