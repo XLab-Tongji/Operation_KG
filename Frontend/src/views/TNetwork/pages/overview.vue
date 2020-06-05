@@ -24,8 +24,7 @@
         </div>
       <div class="infor" style="min-width:40%">
       <el-card class="information" style="min-height=100%"> 
-        <!-- {{this.info}}  -->
-       
+        {{this.info}} 
       </el-card>
       </div>
       </div>
@@ -102,7 +101,7 @@ export default {
 } */
 .information {
     border: 1px solid #EBEEF5;
-    background-color: black;
+     background-color: #f3f0e9;
     color: white;
     transition: .3s;
     overflow: auto;
