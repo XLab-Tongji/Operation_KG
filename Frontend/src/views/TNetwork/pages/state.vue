@@ -137,8 +137,6 @@ export default {
         this.data.nodes[newVal - 1]._color = "#abdda4";
         tra1 = newVal;
       }
-
-      // this.T.nodes[newVal]._color="#ffffbf"
       // pattern-network
       let tmpP = {
         nodes: this.data.nodes[newVal - 1].nodes,
@@ -200,9 +198,9 @@ export default {
   mounted() {
     // this.id = store.state.date[0].id;
     // this.data = store.state.data[this.id];
-    this.id = "2020-06-02 03:17:25"
+    this.id = "2020-06-02 03:17:25";
     axios
-      .get(url + "/api/getTransctionData?stateId="+this.id)
+      .get(url + "/api/getTransctionData?stateId=" + this.id)
       .then(res => res.data.nodes)
       .then(nodes => {
         return nodes.map(i => {
@@ -217,15 +215,42 @@ export default {
       });
     // this.data = store.state.data[this.id];
 
-    // let formData = new FormData();
-    // formData.append("state1", "2020-06-02 03:17:25");
-    // formData.append("state2", "2020-06-02 03:17:45");
-    // axios.post(url + "/api/compareState", formData).then(res => {
-    //   store.commit("setCompare", res.data);
-    // });
-    // let state1 = store.state.compare["2020-06-02 03:17:25"];
-    // let state2 = store.state.compare["2020-06-02 03:17:45"];
+    let formData = new FormData();
+    formData.append("state1", "2020-06-02 03:17:25");
+    formData.append("state2", "2020-06-02 03:17:45");
+    axios
+      .post(url + "/api/compareState", formData)
+      .then(res => res.data)
+      .then(data => {
+        let state1 = data["2020-06-02 03:17:25"];
+        let state2 = data["2020-06-02 03:17:45"];
+        // store.commit("setCompare", res.data);
+        // console.log(res.data)
+        return compareKG(state1, state2);
+      })
+      .then(i => {
+        store.commit("setCompare", i);
+      });
+    console.log(store.state.compare);
     // console.log(state1,state2)
+    // console.log(compareKG(state1,state2))
+    this.data = store.state.compare;
+    let tmpT = {
+      nodes: this.data.nodes,
+      links: this.data.links
+    };
+    this.T = tmpT;
+    let raw = this.data.nodes;
+    let test = raw.map(i => {
+      return {
+        value: i.id,
+        label: i.name
+      };
+    });
+    this.options = test;
+    this.selectT = this.data.nodes[0].id;
+    store.commit("setTrans", this.selectT);
+    console.log(store.state.trans);
     // console.log("两个参数：",res[0],res[1]);
     // console.log("结果2", compareKG(res[0], res[1]));
   },
@@ -246,6 +271,7 @@ export default {
         .then(i => {
           this.options = i;
         });
+      this.data = store.state.compare;
     },
     getP(parent) {
       if (kk1 == 1) {

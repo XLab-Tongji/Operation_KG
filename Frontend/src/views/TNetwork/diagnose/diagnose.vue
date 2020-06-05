@@ -1,11 +1,11 @@
 <template>
   <div>
     <div>
-      <p>请选择想进行比较的system state</p>
-      <el-select v-model="id" @change="change" filterable placeholder="请选择想进行比较的system state">
+      <p>system_state_id</p>
+      <el-select v-model="id" @change="change" filterable placeholder="请选择">
         <el-option v-for="item in sso" :key="item.id" :label="item.id" :value="item.id"></el-option>
       </el-select>
-      <p>请选择transction</p>
+      <p>transction</p>
       <el-select v-model="selectT" filterable placeholder="请选择">
         <el-option
           v-for="item in options"

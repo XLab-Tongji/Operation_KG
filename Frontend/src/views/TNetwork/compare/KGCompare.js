@@ -52,14 +52,14 @@ function findSame(f_normalNode, f_abnormalGraph) {
 
 function compareCyclePart(normalGraph, abnormalGraph) {
 	abnormalNodeTimes = []
-	for (let index = 0; index < normalGraph.length; index++) {
+	for (let index = 0; index < normalGraph.length; index++) {			//遍历正常画像节点数据集
 		const element = normalGraph[index];
 		let normalCycleNodes = normalGraph[index].cycle_children
-
-		let findIndex = findSame(element, abnormalGraph)
+		let findIndex = findSame(element, abnormalGraph)				//找到异常画像中对应的节点
 		if (findIndex != -1) {
 			let abnormalCycleNodes = abnormalGraph[findIndex].cycle_children
-			compareCycleNodes(normalCycleNodes, abnormalCycleNodes)
+			
+			compareCycleNodes(normalCycleNodes, abnormalCycleNodes)		//将循环节点作为日志画像进行比对
 			initLists()
 		} else {
 			if (normalCycleNodes.length !== 0 && normalCycleNodes[0] !== -1) {
@@ -68,7 +68,6 @@ function compareCyclePart(normalGraph, abnormalGraph) {
 				})
 			}
 		}
-
 	}
 }
 
@@ -92,7 +91,6 @@ function bfsMatch(normalGraph, abnormalGraph) {
 		// console.log(findIndex)
 		if (findIndex != -1) {
 			let abnormalChildren = abnormalGraph[findIndex].children; // 返回abnormal的子节点
-			// compareCycleNodes(normalCycleNodes, abnormalCycleNodes)
 			compareChildNode(normalChildren, abnormalChildren, normalGraph, abnormalGraph, nodeIndex)
 		} else {
 			let node = new NodeIndex(nodeIndex, normalGraph[nodeIndex])
@@ -114,7 +112,6 @@ function bfsMatch(normalGraph, abnormalGraph) {
 		});
 	}
 	findRest(abnormalGraph);
-
 }
 
 function compareChildNode(c_normalChildren, c_abnormalChildren, a_normalGraph, a_abnormalGraph, parendIndex) {
@@ -171,14 +168,17 @@ function compareChildNode(c_normalChildren, c_abnormalChildren, a_normalGraph, a
 }
 
 function compareCycleNodes(normalCycleNodes, abnormalCycleNodes) {
-	if ((normalCycleNodes.length === 0 || normalCycleNodes[0] === -1) && (abnormalCycleNodes.length === 0 || normalCycleNodes[0] === -1)) {
+	
+	if ((normalCycleNodes.length === 0 || normalCycleNodes[0] === -1) &&
+		(abnormalCycleNodes.length === 0 || abnormalCycleNodes[0] === -1)) {
 		return
 	} else {
-		compare(normalCycleNodes, abnormalCycleNodes)
-		initLists()
+		
+		compare(normalCycleNodes, abnormalCycleNodes)			//按照日志画像进行比对
+		
 	}
-
 }
+
 
 function findParent(nodeIndex, graph) {
 	for (let index = 0; index < graph.length; index++) {
@@ -215,6 +215,7 @@ function findRest(fr_abnormalGraph) {
 }
 
 let deleteNodeTimes = []
+
 function findRemove(addNode, deletes) {
 	// console.log(addNode)
 	let index = -1
@@ -263,10 +264,8 @@ function sortByIndex() {
 }
 
 function distinguishNode() {
-	// console.log(addlist,deletelist)
 	for (let i = 0; i < addlist.length; i++) {
-
-		let index = findRemove(addlist[i].node, deletelist)
+		let index = findRemove(addlist[i].node, deletelist)       //在deletelist中寻找addlist中的节点数据
 		if (index != -1) {
 			removelist.push(deletelist[index])
 			deletelist.splice(index, 1)
@@ -274,16 +273,17 @@ function distinguishNode() {
 			i = i - 1
 		}
 	}
-
 }
 
 
-function generateOffsetGraph(a_normalGraph, a_abnormalGraph) {
+function generateOffsetGraph(a_normalGraph) {
+	
 	if (GRAPHSTATUS === 'NORMAL' && (addlist != [] || deletelist != [] || removelist != [])) {
 		GRAPHSTATUS = 'ABNORMAL'
 	}
 	let offset = a_normalGraph;
 	for (let i = 0; i < deletelist.length; i++) {
+		
 		offset[deletelist[i].index].type = 'delete'
 		if (offset[deletelist[i].index].cycle_children.length !== 0 && offset[deletelist[i].index].cycle_children[0] !== -1) {
 			for (let index = 0; index < offset[deletelist[i].index].cycle_children.length; index++) {
@@ -309,7 +309,6 @@ function generateOffsetGraph(a_normalGraph, a_abnormalGraph) {
 		offset.push(addlist[i].node)
 		if (addNode.parends[0] != -1) {
 			offset[addNode.parends[0]].children.push(offset.length - 1)
-
 			for (let j = 0; j < addlist.length; j++) {
 				const element = addlist[j];
 				if (element.parends[1] === addlist[i].index) {
@@ -325,23 +324,21 @@ function generateOffsetGraph(a_normalGraph, a_abnormalGraph) {
 				}
 			}
 		}
-
 	}
 	return offset
-
-
 }
 
 //addlist中index对应abnormalGraph
 //deletelist中index对应normalGraph
 //removelist中index对应normalGraph
 function compare(graphA, graphB) {
+	
 	compareCyclePart(graphA, graphB)
 	bfsMatch(graphA, graphB)
 	sortByIndex()
 	distinguishNode()
-	generateOffsetGraph(graphA, graphB)
-
+	generateOffsetGraph(graphA)
+	initLists()
 }
 
 let newKG = {
@@ -370,12 +367,13 @@ function Links(sid, tid) {
 }
 
 
-function compareTA(compareInfo1,compareInfo2) {
+function compareTA(compareInfo1, compareInfo2) {
 	for (let index = 0; index < compareInfo2.length; index++) {
 		const element = compareInfo2[index]
 		for (let i = 0; i < compareInfo1.length; i++) {
 			const item = compareInfo1[i];
 			if (item.name === element.name) {
+				
 				compare(item.content, element.content)
 				break
 			}
