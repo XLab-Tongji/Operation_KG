@@ -200,16 +200,29 @@ function findRest(fr_abnormalGraph) {
 				break
 			}
 		}
+
+		if(!exist){
+			for (let i = 0; i < element.children.length; i++) {
+				const child = fr_abnormalGraph[element.children[i]]
+				let nodeIndex = new NodeIndex(element.children[i],child)
+				nodeIndex.parends[1] = index
+				addlist.push(nodeIndex)
+			}
+		}
+
 		for (let i = 0; i < addlist.length; i++) {
 			if (addlist[i].node.id === element.id && element.id_count === addlist[i].node.id_count) {
 				exist = 1
 				break
 			}
 		}
+		
 		if (!exist) {
+			// console.log(element)
 			let nodeIndex = new NodeIndex(index, element)
 			nodeIndex.parends[1] = findParent(index, fr_abnormalGraph)
 			addlist.push(nodeIndex);
+			
 		}
 	});
 }
@@ -373,7 +386,6 @@ function compareTA(compareInfo1, compareInfo2) {
 		for (let i = 0; i < compareInfo1.length; i++) {
 			const item = compareInfo1[i];
 			if (item.name === element.name) {
-				
 				compare(item.content, element.content)
 				break
 			}
@@ -410,14 +422,15 @@ function analysisP(node, patterns) {
 			existNodes.add(element.id)
 			let newNode = new NodeP(element.name, element.id, element.type)
 			node.nodes.push(newNode)
-		} else if (element.type !== 'normal') {
-			for (let i = 0; i < node.nodes.length; i++) {
-				const item = node.nodes[i];
-				if (item.id === element.id) {
-					item.state = element.type
-				}
-			}
-		}
+		} 
+		// else if (element.type == 'remove') {
+		// 	for (let i = 0; i < node.nodes.length; i++) {
+		// 		const item = node.nodes[i];
+		// 		if (item.id === element.id) {
+		// 			item.state = element.type
+		// 		}
+		// 	}
+		// }
 
 		for (let i = 0; i < element.children.length; i++) {
 			const child = element.children[i];
@@ -442,4 +455,5 @@ export function compareKG(state1, state2) {
 
 
 // compareKG(a.first,a.second)
+// console.log(a.first,a.second)
 // console.log(newKG)
