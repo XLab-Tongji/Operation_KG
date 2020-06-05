@@ -5,15 +5,15 @@
       <el-col :span="20">
         <div class="grid-content bg-purple-dark">
           <div v-if="name_change">
-      <el-form :model="form" label-width="80px">
-        <el-form-item label="new name">
-          <el-input v-model="form.name" style="width=50%" class="input"></el-input>
-        </el-form-item>
-        <el-form-item class="ok">
-          <el-button type="primary" @click="onSubmit">ok</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+            <el-form :model="form" label-width="80px">
+              <el-form-item label="new name">
+                <el-input v-model="form.name" style="width=50%" class="input"></el-input>
+              </el-form-item>
+              <el-form-item class="ok">
+                <el-button type="primary" @click="onSubmit">ok</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
       </el-col>
 
@@ -29,7 +29,6 @@
       </el-col>-->
     </el-row>
 
-    
     <div>
       <d3-network
         ref="net"
@@ -392,8 +391,8 @@ export default {
       } else {
         this.tplink.name = this.form.name;
         this.tplink._color = "lightgray";
-        this.tplink._svgAttrs={
-          "stroke-width":2,
+        this.tplink._svgAttrs = {
+          "stroke-width": 2
         };
         console.log("修改的是link", this.tplink);
       }
@@ -417,22 +416,34 @@ export default {
         this.edit = true;
         this.button = "confirm";
       } else {
-        
         let _tmp = {
           nodes: this.nodes,
           links: this.links
         };
-        console.log(this.nodes)
+
+        console.log(data.data)
         let formData = new FormData();
         formData.append("stateId", store.state.time);
         formData.append("workflowId", store.state.trans);
         formData.append("patternId", store.state.pat);
-        formData.append("data",JSON.stringify(_tmp));
-        axios.post(url + "/api/modifyPattern", formData).then(res => {
-          console.log(res.data);
-        }).catch(err=>{
-          console.log(err)
-        })
+        formData.append("data", JSON.stringify(_tmp));
+        axios
+          .post(url + "/api/modifyPattern", formData)
+          .then(res => {
+            console.log(res.data);
+            axios
+              .get(url + "/api/getTransctionData?stateId=2020-06-02 03:17:45")
+              .then(res => {
+                store.commit("setFir", res.data);
+                return store.state.fir
+              })
+              .then(i=>{
+                console.log(i)
+              })
+          })
+          .catch(err => {
+            console.log(err);
+          });
 
         this.edit = false;
         this.editR = false;
@@ -452,14 +463,14 @@ export default {
       this.button = "correct";
     },
     ncb(node) {
-     node._svgAttrs={
-        "stroke-width":3,
+      node._svgAttrs = {
+        "stroke-width": 3
       };
       return node;
     },
     lcb(link) {
       link._color = "lightgray";
-     
+
       link._svgAttrs = {
         // "stroke-width": this.linkWidth,
         "stroke-width": 2,
@@ -476,8 +487,8 @@ export default {
       // 双击
       if (e.detail == 2) {
         link._color = "red";
-        link._svgAttrs={
-          "stroke-width":4,
+        link._svgAttrs = {
+          "stroke-width": 4
         };
         if (this.edit) {
           this.db = true;
@@ -556,8 +567,6 @@ export default {
   margin-bottom: 15px;
 }
 .input {
- width:80%
+  width: 80%;
 }
-
-
 </style>

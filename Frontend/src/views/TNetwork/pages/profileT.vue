@@ -48,8 +48,8 @@ import Time from "../timepick";
 import store from "@/store.js";
 // import data1 from "../data/compare.json";
 
-import data from "../data/trans.json";
-import fir from "../data/fir.json";
+// import data from "../data/trans.json";
+// import fir from "../data/fir.json";
 
 const url = global.url;
 import axios from "axios";
@@ -99,15 +99,12 @@ export default {
   watch: {
     selectT(newVal) {
       store.commit("setTrans", newVal);
-      console.log(store.state.trans);
-      //  console.log(parent,kk)
+      console.log("T",store.state.trans)
       if (tr == 1) {
-        // console.log("tr是1",tr)
         this.data.nodes[newVal]._color = "#abdda4";
         tra = newVal;
         tr = tr + 3;
       } else {
-        console.log("tr不是1", tr);
         this.data.nodes[tra]._color = "#dcfaf3";
         this.data.nodes[newVal]._color = "#abdda4";
         tra = newVal;
@@ -123,8 +120,8 @@ export default {
       // console.log(col)
       this.tran_name = this.data.nodes[newVal].name;
 
-      store.commit("setTrans", 0);
-      console.log(store.state.trans);
+      store.commit("setPat", 0);
+      console.log('pat',store.state.pat);
       // entity-network
       let tmpE = {
         nodes: this.P.nodes[0].nodes,
@@ -149,9 +146,8 @@ export default {
       .then(res => {
         store.commit("setFir", res.data);
       });
-    store.commit("setData", data);
-
     this.data = store.state.fir;
+
     let tmpT = {
       nodes: this.data.nodes,
       links: this.data.links
@@ -172,26 +168,18 @@ export default {
   methods: {
     getP(parent) {
       store.commit("setPat", parent.id);
-      console.log(store.state.pat);
       //  console.log(parent,kk)
       if (kk == 1) {
-        console.log("kk是1", kk);
         col = this.P.nodes[parent.id]._color;
         this.P.nodes[parent.id]._color = "#a78cb7";
         c = parent.id;
         kk = kk + 3;
       } else {
-        console.log("kk不是1", kk);
         this.P.nodes[c]._color = col;
         col = this.P.nodes[parent.id]._color;
         this.P.nodes[parent.id]._color = "#a78cb7";
         c = parent.id;
       }
-
-      // col=this.P.nodes[parent.id-1]._color
-      // this.P.nodes[c-1]._color=col;
-      // this.P.nodes[parent.id-1]._color="red";
-      // c=parent.id;
 
       let id = parent.id;
       let tmp = {
