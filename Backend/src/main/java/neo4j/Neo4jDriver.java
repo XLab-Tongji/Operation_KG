@@ -1259,6 +1259,55 @@ public class Neo4jDriver {
         driver.close();
     }
 
+    public static List<List<String>> getKPIServiceList(List<String> list){
+        Driver driver = GraphDatabase.driver(neo4japi+":"+neo4jPort,
+                AuthTokens.basic( "neo4j", "1234" ));
+        String tag,name,request;
+        List<String>requestList=new ArrayList<>();
+        List<List<String>>resultList=new ArrayList<>();
+        for(String searchWord:list){
+            String[]wordList=searchWord.split("/");
+            tag=wordList[0];
+            name=wordList[1];
+            if(tag.equals("service")){
+                request="match (q) where q.uri='http://services/10.60.38.181/sock-shop/"+name+"' return q";
+                requestList.add(request);
+            }
+            else if(tag.equals("container")){
+                request="match(m:__Container)--(n:__Pod)--(q:__Service) where m.uri='http://containers/10.60.38.181/sock-shop/"
+                        +name+"' return q";
+                requestList.add(request);
+            }
+            else if(tag.equals("node")) {
+                request = "match(m:__Server)--(n:__Pod)--(q:__Service) where m.uri='http://server/10.60.38.181/"
+                        + name + "' return q";
+                requestList.add(request);
+            }
+            else{
+                continue;
+            }
+        }
+
+        //初始化驱动器
+        try (Session session = driver.session()) {
+            try (Transaction tx = session.beginTransaction()) {
+                for(String req:requestList){
+                    List<String>serviceList=new ArrayList<>();
+                    StatementResult result= tx.run(req);
+                    while(result.hasNext()){
+                        Record record = result.next();
+                        Node node = record.get("q").asNode();
+                        String[] service=node.asMap().get("uri").toString().split("/");
+                        serviceList.add(service[service.length-1]);
+                    }
+                    resultList.add(serviceList);
+                }
+            }
+        }
+        driver.close();
+        return resultList;
+    }
+
     public static void main(String[] args) {
 
         new Neo4jDriver().getAllNodesandlinks("k8s-409");

@@ -175,6 +175,12 @@ public class Neo4jController {
         Neo4jDriver.sendEvent(type,time,situation,timeout,command,id);
     }
 
+    //获取kpi对应服务接口(为了list使用post)
+    @RequestMapping(value = "/api/getKPIService",method = RequestMethod.POST,produces = "application/json")
+    public List<List<String>> getKPIService(@RequestBody List<String>list){
+        return Neo4jDriver.getKPIServiceList(list);
+    }
+
     //以下为Fuseki部分
     @RequestMapping(value = "/api/getNodesAndLinks",method = RequestMethod.GET,produces = "application/json")
     public Map<String, Object> getNodesAndLinks(){
