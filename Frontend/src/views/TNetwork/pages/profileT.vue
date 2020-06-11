@@ -1,5 +1,6 @@
 <template>
   <div>
+    <algo/>
     <div class="container">
       <Time />
     </div>
@@ -46,6 +47,7 @@ import Trans from "../Trans";
 import Overview from "./overview";
 import Time from "../timepick";
 import store from "@/store.js";
+import algo from '../algo/algo'
 // import data1 from "../data/compare.json";
 
 // import data from "../data/trans.json";
@@ -53,6 +55,7 @@ import store from "@/store.js";
 
 const url = global.url;
 import axios from "axios";
+const pic=global.pic;
 
 var c = 2;
 var tra = 1;
@@ -66,7 +69,8 @@ export default {
     Time,
     state,
     edit,
-    diagnose
+    diagnose,
+    algo
   },
   data() {
     return {
