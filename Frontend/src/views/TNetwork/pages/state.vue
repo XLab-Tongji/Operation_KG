@@ -41,7 +41,7 @@
           <span>Compare Result</span>
         </div>
         <el-card class="json-content">
-          
+          {{this.result}}
         </el-card>
       </el-card>
     </div>
@@ -82,6 +82,7 @@ export default {
   },
   data() {
     return {
+      result:'',
       P: {
         nodes: [],
         links: []
@@ -227,14 +228,18 @@ export default {
       .then(data => {
         let state1 = data["2020-06-02 03:17:25"];
         let state2 = data["2020-06-02 03:17:45"];
+        state1.compareInfo=[]
+        state2.compareInfo=[]
         // store.commit("setCompare", res.data);
         // console.log(res.data)
         return compareKG(state1, state2);
+        // console.log("Fsfs")
       })
       .then(i => {
-        store.commit("setCompare", i);
+        store.commit("setCompare", i.graph);
+        this.result=i.result;
       });
-    console.log(store.state.compare);
+    // console.log('state',store.state.compare);
     // console.log(state1,state2)
     // console.log(compareKG(state1,state2))
     this.data = store.state.compare;
@@ -253,7 +258,8 @@ export default {
     this.options = test;
     this.selectT = this.data.nodes[0].id;
     store.commit("setTrans", this.selectT);
-    console.log(store.state.trans);
+    // console.log(store.state.trans);
+
     // console.log("两个参数：",res[0],res[1]);
     // console.log("结果2", compareKG(res[0], res[1]));
   },

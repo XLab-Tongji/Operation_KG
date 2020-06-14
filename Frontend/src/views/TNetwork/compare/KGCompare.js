@@ -3,6 +3,22 @@ let deletelist = new Array();
 let removelist = new Array();
 let abnormalNodeTimes = []
 let GRAPHSTATUS = 'NORMAL'
+let newKG = {
+	nodes: [],
+	links: []
+}
+
+let finalData = {
+	graph: {
+
+	},
+	result: {
+		add: [],
+		delete: [],
+		remove: [],
+		abnormal: []
+	}
+}
 
 function NodeIndex(index, node) {
 	this.node = node
@@ -16,7 +32,64 @@ function NodeTime(id) {
 	this.time = 1
 }
 
+function checkExist(item) {
+
+}
+
 function initLists() {
+	addlist.forEach(item => {
+		let exist = 0
+		for (let index = 0; index < finalData.result.add.length; index++) {
+			const element = finalData.result.add[index];
+			if (element.id === item.node.id && element.name === item.node.name) {
+				exist = 1
+				break
+			}
+		}
+		if (!exist) {
+			let newNode = {
+				id: item.node.id,
+				name: item.node.name
+			}
+			finalData.result.add.push(newNode)
+		}
+
+	})
+	deletelist.forEach(item => {
+		let exist = 0
+		for (let index = 0; index < finalData.result.delete.length; index++) {
+			const element = finalData.result.delete[index];
+			if (element.id === item.node.id && element.name === item.node.name) {
+				exist = 1
+				break
+			}
+		}
+		if (!exist) {
+			let newNode = {
+				id: item.node.id,
+				name: item.node.name
+			}
+			finalData.result.delete.push(newNode)
+		}
+	})
+	removelist.forEach(item => {
+		let exist = 0
+		for (let index = 0; index < finalData.result.remove.length; index++) {
+			const element = finalData.result.remove[index];
+			if (element.id === item.node.id && element.name === item.node.name) {
+				exist = 1
+				break
+			}
+		}
+		if (!exist) {
+			let newNode = {
+				id: item.node.id,
+				name: item.node.name
+			}
+			finalData.result.remove.push(newNode)
+		}
+	})
+	
 	addlist = []
 	deletelist = []
 	removelist = []
@@ -58,7 +131,7 @@ function compareCyclePart(normalGraph, abnormalGraph) {
 		let findIndex = findSame(element, abnormalGraph)				//找到异常画像中对应的节点
 		if (findIndex != -1) {
 			let abnormalCycleNodes = abnormalGraph[findIndex].cycle_children
-			
+
 			compareCycleNodes(normalCycleNodes, abnormalCycleNodes)		//将循环节点作为日志画像进行比对
 			initLists()
 		} else {
@@ -168,14 +241,14 @@ function compareChildNode(c_normalChildren, c_abnormalChildren, a_normalGraph, a
 }
 
 function compareCycleNodes(normalCycleNodes, abnormalCycleNodes) {
-	
+
 	if ((normalCycleNodes.length === 0 || normalCycleNodes[0] === -1) &&
 		(abnormalCycleNodes.length === 0 || abnormalCycleNodes[0] === -1)) {
 		return
 	} else {
-		
+
 		compare(normalCycleNodes, abnormalCycleNodes)			//按照日志画像进行比对
-		
+
 	}
 }
 
@@ -201,10 +274,10 @@ function findRest(fr_abnormalGraph) {
 			}
 		}
 
-		if(!exist){
+		if (!exist) {
 			for (let i = 0; i < element.children.length; i++) {
 				const child = fr_abnormalGraph[element.children[i]]
-				let nodeIndex = new NodeIndex(element.children[i],child)
+				let nodeIndex = new NodeIndex(element.children[i], child)
 				nodeIndex.parends[1] = index
 				addlist.push(nodeIndex)
 			}
@@ -216,13 +289,13 @@ function findRest(fr_abnormalGraph) {
 				break
 			}
 		}
-		
+
 		if (!exist) {
 			// console.log(element)
 			let nodeIndex = new NodeIndex(index, element)
 			nodeIndex.parends[1] = findParent(index, fr_abnormalGraph)
 			addlist.push(nodeIndex);
-			
+
 		}
 	});
 }
@@ -290,13 +363,13 @@ function distinguishNode() {
 
 
 function generateOffsetGraph(a_normalGraph) {
-	
+
 	if (GRAPHSTATUS === 'NORMAL' && (addlist != [] || deletelist != [] || removelist != [])) {
 		GRAPHSTATUS = 'ABNORMAL'
 	}
 	let offset = a_normalGraph;
 	for (let i = 0; i < deletelist.length; i++) {
-		
+
 		offset[deletelist[i].index].type = 'delete'
 		if (offset[deletelist[i].index].cycle_children.length !== 0 && offset[deletelist[i].index].cycle_children[0] !== -1) {
 			for (let index = 0; index < offset[deletelist[i].index].cycle_children.length; index++) {
@@ -345,7 +418,7 @@ function generateOffsetGraph(a_normalGraph) {
 //deletelist中index对应normalGraph
 //removelist中index对应normalGraph
 function compare(graphA, graphB) {
-	
+
 	compareCyclePart(graphA, graphB)
 	bfsMatch(graphA, graphB)
 	sortByIndex()
@@ -354,10 +427,7 @@ function compare(graphA, graphB) {
 	initLists()
 }
 
-let newKG = {
-	nodes: [],
-	links: []
-}
+
 
 function NodesT(name, id) {
 	this.name = name
@@ -422,7 +492,7 @@ function analysisP(node, patterns) {
 			existNodes.add(element.id)
 			let newNode = new NodeP(element.name, element.id, element.type)
 			node.nodes.push(newNode)
-		} 
+		}
 		// else if (element.type == 'remove') {
 		// 	for (let i = 0; i < node.nodes.length; i++) {
 		// 		const item = node.nodes[i];
@@ -450,10 +520,12 @@ function analysisP(node, patterns) {
 export function compareKG(state1, state2) {
 	compareTA(state1.compareInfo, state2.compareInfo)
 	analysisT(state1.compareInfo)
-	return newKG
+	finalData.result.abnormal.push(...finalData.result.add, ...finalData.result.delete, ...finalData.result.remove)
+	finalData.graph = newKG
+	return finalData
 }
 
 
-// compareKG(a.first,a.second)
-// console.log(a.first,a.second)
+// compareKG(a.first, a.second)
+// console.log(a.first, a.second)
 // console.log(newKG)

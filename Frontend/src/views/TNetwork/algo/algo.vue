@@ -5,19 +5,22 @@
     </el-select>
     <el-button @click="click">默认按钮</el-button>
     <div v-if="show">
-      fsfsdf
       <img src="http://10.60.38.173:10081/get_cluster_img" alt />
       <img src="http://10.60.38.173:10081/get_cluster_sst_img" alt />
 
-      <el-table :data="tableData" style="width: 100%" show-header="false">
-        <el-table-column prop="name" label="name" width="180"></el-table-column>
-        <el-table-column prop="num" label="num" width="180"></el-table-column>
-      </el-table>
+      <div>
+        根因服务表
+        <el-table :data="tableData" style="width: 100%">
+          <el-table-column prop="name" label="服务名" width="180"></el-table-column>
+          <el-table-column prop="num" label="有granger因果关系的相关度量个数" width="180"></el-table-column>
+        </el-table>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import algo from "../algo/algo";
 import global from "../global";
 
@@ -196,8 +199,9 @@ export default {
       if (this.value != "") {
         this.show = true;
 
-        axios.get(pic + "/get_cuase_sort").then(res => {
+        axios.get(pic + "/get_cause_sort").then(res => {
           console.log(res.data);
+          this.tableData = res.data;
         });
       }
     }
