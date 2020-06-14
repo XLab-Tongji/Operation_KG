@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import static global.globalvalue.getFilePath;
-import static neo4j.MongoDriver.getOriginalWorkflowInfoByStateId;
-import static neo4j.MongoDriver.saveOriginalWorkflowInfo2Mongo;
+import static neo4j.MongoDriver.*;
 
 class PatternNode{
 
@@ -55,8 +54,8 @@ public class Vectorize5GUtil {
         return JSON.parseArray(jsonInput.replace("\r\n", ""));
     }
 
-    public static JSONArray readFile(String txtName, String stateId){
-        return readFile(txtName, null, stateId);
+    public static JSONArray readFile(String stateId){
+        return readFile(getFilePath("new2vectorize")+stateId+".txt", null, stateId);
     }
 
     public static JSONArray readFile(String txtName, String jsonName, String stateId) {
@@ -70,6 +69,7 @@ public class Vectorize5GUtil {
         }else {
             transctionData = getOriginalWorkflowInfoByStateId(stateId);
         }
+        JSONArray generateWorkflowInfo = getGenerateWorkflowInfoByStateId(stateId).getJSONArray("nodes");
         try {
             String csvLine,txtLine;
             //CSV部分
@@ -174,6 +174,7 @@ public class Vectorize5GUtil {
                 }
                 nextNode = startNode;
                 int front_end_id = 0;
+                JSONArray generatePatternInfo = generateWorkflowInfo.getJSONObject(j).getJSONArray("nodes");
                 while (nextNode != null) {
 //                    System.out.println(1);
                     Map<String, Object> pattern = new HashMap<>();
@@ -181,7 +182,10 @@ public class Vectorize5GUtil {
                     pattern.put("id_count", nextNode.id_count);
                     pattern.put("type", nextNode.type);
                     pattern.put("name", id2Name.get(nextNode.id));
-                    pattern.put("front_end_id", front_end_id);
+                    JSONObject attr = new JSONObject();
+                    attr.put("nodes", generatePatternInfo.getJSONObject(front_end_id).getJSONArray("nodes"));
+                    attr.put("links", generatePatternInfo.getJSONObject(front_end_id).getJSONArray("links"));
+                    pattern.put("attr", attr);
                     front_end_id += 1;
                     List cyc_child = new ArrayList<>();
                     if (nextNode.cycle_child && nextNode.cycleChildren.isEmpty()){
@@ -197,9 +201,12 @@ public class Vectorize5GUtil {
                             iPattern.put("id_count", iPNode.id_count);
                             iPattern.put("type", iPNode.type);
                             iPattern.put("cycle_children", iPNode.cycleChildren);
-                            iPattern.put("attr", iPNode.attr);
+//                            iPattern.put("attr", iPNode.attr);
                             iPattern.put("children", new ArrayList<Integer>());
-                            iPattern.put("front_end_id", front_end_id);
+                            attr = new JSONObject();
+                            attr.put("nodes", generatePatternInfo.getJSONObject(front_end_id).getJSONArray("nodes"));
+                            attr.put("links", generatePatternInfo.getJSONObject(front_end_id).getJSONArray("links"));
+                            iPattern.put("attr", attr);
                             front_end_id += 1;
                             Map<String, Object> cPattern = null;
                             if (iPNode.concurrencyNode != null){
@@ -209,9 +216,12 @@ public class Vectorize5GUtil {
                                 cPattern.put("id_count", iPNode.concurrencyNode.id_count);
                                 cPattern.put("type", iPNode.concurrencyNode.type);
                                 cPattern.put("cycle_children", iPNode.concurrencyNode.cycleChildren);
-                                cPattern.put("attr", iPNode.concurrencyNode.attr);
+//                                cPattern.put("attr", iPNode.concurrencyNode.attr);
                                 cPattern.put("children", new ArrayList<Integer>());
-                                cPattern.put("front_end_id", front_end_id);
+                                attr = new JSONObject();
+                                attr.put("nodes", generatePatternInfo.getJSONObject(front_end_id).getJSONArray("nodes"));
+                                attr.put("links", generatePatternInfo.getJSONObject(front_end_id).getJSONArray("links"));
+                                cPattern.put("attr", attr);
                                 front_end_id += 1;
                                 if (last){
 //                                    ((List)cPattern.get("children")).add(-1);
@@ -239,7 +249,7 @@ public class Vectorize5GUtil {
                         }
                     }
                     pattern.put("cycle_children", cyc_child);
-                    pattern.put("attr", nextNode.attr);
+//                    pattern.put("attr", nextNode.attr);
                     pattern.put("children", new ArrayList<>());
                     boolean nextCon = nextNode.nextNode != null && nextNode.nextNode.concurrencyNode != null;
                     Map<String, Object> cPattern = null;
@@ -250,9 +260,12 @@ public class Vectorize5GUtil {
                         cPattern.put("id_count", nextNode.concurrencyNode.id_count);
                         cPattern.put("type", nextNode.concurrencyNode.type);
                         cPattern.put("cycle_children", nextNode.concurrencyNode.cycleChildren);
-                        cPattern.put("attr", nextNode.concurrencyNode.attr);
+//                        cPattern.put("attr", nextNode.concurrencyNode.attr);
                         cPattern.put("children", new ArrayList<Integer>());
-                        cPattern.put("front_end_id", front_end_id);
+                        attr = new JSONObject();
+                        attr.put("nodes", generatePatternInfo.getJSONObject(front_end_id).getJSONArray("nodes"));
+                        attr.put("links", generatePatternInfo.getJSONObject(front_end_id).getJSONArray("links"));
+                        cPattern.put("attr", attr);
                         front_end_id += 1;
                         if (nextNode.nextNode != null){
                             ((List)pattern.get("children")).add(content.size()+2);
@@ -338,6 +351,7 @@ public class Vectorize5GUtil {
         JSONArray transctionData = null;
         if (jsonPath != null){
             transctionData = getJsonInfo(jsonPath);
+            saveOriginalWorkflowInfo2Mongo(transctionData, stateId);
         }else {
             transctionData = getOriginalWorkflowInfoByStateId(stateId);
         }
@@ -470,7 +484,6 @@ public class Vectorize5GUtil {
         Map data = new HashMap();
         data.put("nodes", transctions);
         data.put("links", transctionLinks);
-
         try {
             File writename = new File(getFilePath("generateWorkflowInfo")+stateId+".json");
             writename.createNewFile(); // 创建新文件

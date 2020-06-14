@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.io.FileUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import util.Vectorize5GUtil;
 
 import java.io.*;
@@ -21,6 +18,7 @@ import static global.globalvalue.getFilePath;
 import static neo4j.MongoDriver.*;
 import static util.Vectorize5GUtil.*;
 
+@CrossOrigin
 @RestController
 public class AlgorithmController {
 
@@ -146,8 +144,8 @@ public class AlgorithmController {
 
     //transction相关
     @RequestMapping(value = "/api/getTransctionData",method = RequestMethod.GET,produces = "application/json")
-    public Map getTransctionDataFirstTime(@RequestParam("stateId") String id){
-        return readInforJson(getFilePath("new2vectorize")+id+".txt", id);
+    public JSONObject getTransctionDataFirstTime(@RequestParam("stateId") String id){
+        return getGenerateWorkflowInfoByStateId(id);
 //        File jsonFilePath = new File(getFilePath("originalWorkflowInfo")+"6675.json");
 //        String jsonInput = null;
 //        try {
@@ -179,10 +177,12 @@ public class AlgorithmController {
             System.out.println("已重命名");
         } else {
             System.out.println("Error");
+            System.out.println(newName.getAbsolutePath());
+            System.out.println(newName2.getAbsolutePath());
             return false;
         }
-        return saveCompareInfo2Mongo(readFile(newName.getAbsolutePath(), newName2.getAbsolutePath(), time),
-                time);
+        return saveGenerateWorkflowInfo2Mongo(JSONObject.toJSONString(readInforJson(newName.getAbsolutePath(), newName2.getAbsolutePath(), time))
+                , time);
     }
 
     @RequestMapping(value = "/api/compareState",method = RequestMethod.POST,produces = "application/json")
@@ -190,10 +190,10 @@ public class AlgorithmController {
         Map re = new HashMap();
         Map s1 = new HashMap();
         Map s2 = new HashMap();
-        s1.put("compareInfo", getCompareInfoByStateId(state1));
-        s1.put("patternInfo", getOriginalWorkflowInfoByStateId(state1));
-        s2.put("compareInfo", getCompareInfoByStateId(state2));
-        s2.put("patternInfo", getOriginalWorkflowInfoByStateId(state2));
+        s1.put("compareInfo", readFile(state1));
+        s1.put("patternInfo", "");
+        s2.put("compareInfo", readFile(state2));
+        s2.put("patternInfo", "");
         re.put(state1, s1);
         re.put(state2, s2);
         return re;
@@ -203,6 +203,13 @@ public class AlgorithmController {
     public boolean changeState(@RequestParam("stateId") String stateId, @RequestParam("state") String state) {
         return modifyState(stateId, state);
     }
+
+    @RequestMapping(value = "/api/modifyPattern",method = RequestMethod.POST,produces = "application/json")
+    public boolean modifyPattern(@RequestParam("stateId") String stateId, @RequestParam("workflowId") int workflowId,
+                                 @RequestParam("patternId") int patternId, @RequestParam("data") String newData) {
+        return changeGenerateWorkflowInfo(stateId, workflowId, patternId, newData);
+    }
+
 
     @RequestMapping(value = "/api/changeEntityName",method = RequestMethod.POST,produces = "application/json")
     public boolean changeEntity(@RequestParam("stateId") String stateId, @RequestParam("workflowId") int workflowId,

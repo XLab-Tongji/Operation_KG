@@ -503,63 +503,6 @@ public class MongoDriver {
         return jsonArray;
     }
 
-    public static List getAllStateId(String start, String end){
-        start = start + " 00:00:00";
-        end = end + " 24:00:00";
-        List ls = new ArrayList<>();
-        try {
-            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);//连接到数据库
-            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
-            MongoCollection<Document> collection = mongoDatabase.getCollection("originalWorkflowInfo");
-            FindIterable<Document> findIterable = collection.find();
-            MongoCursor<Document> mongoCursor = findIterable.iterator();
-            while (mongoCursor.hasNext()){
-                Document d=mongoCursor.next();
-                String stateid = JSONObject.parseObject(d.toJson()).getString("stateId");
-                if (stateid.compareTo(start) >= 0 && stateid.compareTo(end) <= 0){
-                    Map js = new HashMap();
-                    js.put("date", stateid.substring(0, stateid.length() -3));
-                    js.put("id", stateid);
-                    js.put("state", JSONObject.parseObject(d.toJson()).getString("state"));
-                    ls.add(js);
-                }
-            }
-            mongoClient.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return ls;
-
-    }
-
-    public static boolean modifyState(String stateid, String state){
-        try {
-            //连接到mongodb服务
-            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
-            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
-            MongoCollection<Document> collection = mongoDatabase.getCollection("originalWorkflowInfo");
-            //多条件查询
-            BasicDBObject query = new BasicDBObject();
-            query.put("stateId", stateid);
-            FindIterable<Document> findIterable = collection.find(query);
-            MongoCursor<Document> mongoCursor = findIterable.iterator();
-            if (mongoCursor.hasNext()){
-                Document d = mongoCursor.next();
-                JSONObject jb = JSONObject.parseObject(d.toJson());
-                jb.put("state", state);
-                jb.remove("_id");
-//                System.out.println(jb);
-                collection.replaceOne(query, new Document(jb));
-                System.out.println("文档修改成功");
-            }
-            mongoClient.close();
-        } catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
     public static boolean changeEntityName(String stateid, int workflowId, int patternId, String oldName, String newName){
         try {
             //连接到mongodb服务
@@ -809,6 +752,141 @@ public class MongoDriver {
         return true;
     }*/
 
+    public static boolean saveGenerateWorkflowInfo2Mongo(String data, String stateId){
+        try {
+            //连接到mongodb服务
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
+            //连接到数据库
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("generateWorkflowInfo");
+            Map info = new HashMap();
+            info.put("data", data);
+            info.put("stateId", stateId);
+            info.put("state", "unknow");
+            //插入文档
+            Document document = new Document(info);
+            collection.insertOne(document);
+            System.out.println("文档插入成功");
+            mongoClient.close();
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static JSONObject getGenerateWorkflowInfoByStateId(String stateId){
+        JSONObject jsonArray = null;
+        try {
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);//连接到数据库
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("generateWorkflowInfo");
+            FindIterable<Document> findIterable = collection.find(new BasicDBObject("stateId", stateId));
+            MongoCursor<Document> mongoCursor = findIterable.iterator();
+            if (mongoCursor.hasNext()){
+                Document d = mongoCursor.next();
+                jsonArray = JSONObject.parseObject(d.toJson()).getJSONObject("data");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return jsonArray;
+    }
+
+    public static boolean modifyState(String stateid, String state){
+        try {
+            //连接到mongodb服务
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("generateWorkflowInfo");
+            //多条件查询
+            BasicDBObject query = new BasicDBObject();
+            query.put("stateId", stateid);
+            FindIterable<Document> findIterable = collection.find(query);
+            MongoCursor<Document> mongoCursor = findIterable.iterator();
+            if (mongoCursor.hasNext()){
+                Document d = mongoCursor.next();
+                JSONObject jb = JSONObject.parseObject(d.toJson());
+                jb.put("state", state);
+                jb.remove("_id");
+//                System.out.println(jb);
+                collection.replaceOne(query, new Document(jb));
+                System.out.println("文档修改成功");
+            }
+            mongoClient.close();
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static List getAllStateId(String start, String end){
+        start = start + " 00:00:00";
+        end = end + " 24:00:00";
+        List ls = new ArrayList<>();
+        try {
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);//连接到数据库
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("generateWorkflowInfo");
+            FindIterable<Document> findIterable = collection.find();
+            MongoCursor<Document> mongoCursor = findIterable.iterator();
+            while (mongoCursor.hasNext()){
+                Document d=mongoCursor.next();
+                String stateid = JSONObject.parseObject(d.toJson()).getString("stateId");
+                if (stateid.compareTo(start) >= 0 && stateid.compareTo(end) <= 0){
+                    Map js = new HashMap();
+                    js.put("date", stateid.substring(0, stateid.length() -3));
+                    js.put("id", stateid);
+                    js.put("state", JSONObject.parseObject(d.toJson()).getString("state"));
+                    ls.add(js);
+                }
+            }
+            mongoClient.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ls;
+
+    }
+
+    public static boolean changeGenerateWorkflowInfo(String stateid, int workflowId, int patternId, String newData){
+        try {
+            //连接到mongodb服务
+            MongoClient mongoClient = new MongoClient(globalvalue.mongosapi, globalvalue.mongosPort);
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("knowledgegraph");
+            MongoCollection<Document> collection = mongoDatabase.getCollection("generateWorkflowInfo");
+            BasicDBObject query = new BasicDBObject();
+            query.put("stateId", stateid);
+            FindIterable<Document> findIterable = collection.find(query);
+            MongoCursor<Document> mongoCursor = findIterable.iterator();
+            if (mongoCursor.hasNext()){
+                Document d = mongoCursor.next();
+                JSONObject jb = JSONObject.parseObject(d.toJson());
+                jb.remove("_id");
+//                JSONArray entities = data.getJSONObject(workflowId).getJSONArray("transactionlist").getJSONObject(0).getJSONArray("patternlist").getJSONObject(patternId).getJSONArray("entities");
+//                jb.put("data", newData);
+                JSONObject data = jb.getJSONObject("data");
+                JSONObject pattern = data.getJSONArray("nodes").getJSONObject(workflowId).getJSONArray("nodes").getJSONObject(patternId);
+                JSONObject newPattern = JSONObject.parseObject(newData);
+                pattern.put("nodes", newPattern.getJSONArray("nodes"));
+                pattern.put("links", newPattern.getJSONArray("links"));
+                data.getJSONArray("nodes").getJSONObject(workflowId).getJSONArray("nodes").remove(patternId);
+                data.getJSONArray("nodes").getJSONObject(workflowId).getJSONArray("nodes").add(patternId, pattern);
+                jb.put("data", data.toJSONString());
+//                jb.getJSONObject("data").getJSONArray("nodes").getJSONObject(workflowId).getJSONArray("nodes").remove(patternId);
+//                jb.getJSONObject("data").getJSONArray("nodes").getJSONObject(workflowId).getJSONArray("nodes").add(patternId, pattern);
+                collection.replaceOne(query, new Document(jb));
+                System.out.println("文档修改成功");
+            }
+            mongoClient.close();
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
 
 
     public static void main(String[] args) throws Exception{
@@ -819,6 +897,9 @@ public class MongoDriver {
 //        System.out.println(getOriginalWorkflowInfoByStateId(time));
 //        System.out.println(getAllStateId("2020-05-07", "2020-06-07"));
 //        modifyState("2020-05-26 10:12:40", "normal");
-        changeEntityName("2020-05-26 10:19:48", 0, 0, "startup", "startup2");
+//        changeEntityName("2020-05-26 10:19:48", 0, 0, "startup", "startup2");
+
+        System.out.println(changeGenerateWorkflowInfo("2020-06-02 03:17:45", 0, 0,
+                "{\"nodes\":[],\"links\":[]}"));
     }
 }
