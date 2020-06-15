@@ -1,6 +1,6 @@
 <template>
   <div>
-    <algo/>
+ 
     <div class="container">
       <Time />
     </div>
@@ -31,8 +31,15 @@
         </el-card>
       </div>
     </div>
+
     <state />
+ 
+    <el-card  style="margin-top:4%">
     <diagnose />
+    </el-card>
+    <el-card  class="algotype" style="margin-top:4%">
+    <algo/>
+    </el-card>
   </div>
 </template>
 
@@ -234,6 +241,9 @@ export default {
   grid-row-start: 3;
   grid-row-end: 4;
   grid-column: 1/2;
+}
+.algotype{
+   min-height:20rem
 }
 /* .box {
   position: fixed;
