@@ -102,7 +102,7 @@ export default {
 .information {
     border: 1px solid #EBEEF5;
      background-color: #f3f0e9;
-    color: white;
+    color: black;
     transition: .3s;
     overflow: auto;
      min-height: calc(78vh);
