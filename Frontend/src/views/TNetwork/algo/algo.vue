@@ -3,13 +3,13 @@
     <el-select v-model="value" placeholder="请选择">
       <el-option v-for="item in options" :key="item" :label="item" :value="item"></el-option>
     </el-select>
-    <el-button @click="click">默认按钮</el-button>
+    <el-button @click="click" style="margin-left:5%">默认按钮</el-button>
     <div v-if="show">
       <img src="http://10.60.38.173:10081/get_cluster_img" alt />
       <img src="http://10.60.38.173:10081/get_cluster_sst_img" alt />
 
       <div>
-        根因服务表
+        <h3 style="padding-left:5px">  根因服务表</h3>
         <el-table :data="tableData" style="width: 100%">
           <el-table-column prop="name" label="服务名" width="180"></el-table-column>
           <el-table-column prop="num" label="有granger因果关系的相关度量个数" width="180"></el-table-column>
