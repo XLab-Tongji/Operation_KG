@@ -14,10 +14,10 @@
           :value="item.value"
         ></el-option>
       </el-select>
-      <el-button class="dialog_button" round  style="margin-left: 3% ;width:7%">diagnose</el-button>
+      <el-button class="dialog_button" round  style="margin-left: 3% ;width:7%" @click="click">diagnose</el-button>
 
       <el-card class="result-card" >
-          <span>result:</span>
+          <span>result: {{result}} </span>
       </el-card>
     </div>
   </div>
@@ -46,10 +46,14 @@ export default {
       options: [],
       id: "",
       selectT: "",
-      nodes: {}
+      nodes: {},
+      result:""
     };
   },
   methods: {
+    click(){
+      this.result="abnormal";
+    },
     change(val) {
       axios
         .get(url + "/api/getTransctionData?stateId=" + val)

@@ -223,9 +223,10 @@ export default {
     formData.append("state1", "2020-06-02 03:17:25");
     formData.append("state2", "2020-06-02 03:17:45");
     axios
-      .post(url + "/api/compareState", formData)
+      .post(url + ""/api/compareState, formData)
       .then(res => res.data)
       .then(data => {
+        console.log(data)
         let state1 = data["2020-06-02 03:17:25"];
         let state2 = data["2020-06-02 03:17:45"];
         state1.compareInfo=[]
@@ -239,6 +240,7 @@ export default {
         store.commit("setCompare", i.graph);
         this.result=i.result;
       });
+      console.log(store.state.compare)
     // console.log('state',store.state.compare);
     // console.log(state1,state2)
     // console.log(compareKG(state1,state2))
