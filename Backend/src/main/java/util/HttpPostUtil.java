@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 
 public class HttpPostUtil {
@@ -89,6 +90,27 @@ public class HttpPostUtil {
         return outStream.toByteArray();
     }
 
+    public static boolean postRootData(String con1) {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.MINUTES)
+                .readTimeout(10, TimeUnit.MINUTES)
+                .writeTimeout(10, TimeUnit.MINUTES)
+                .build();
+        MediaType mediaType = MediaType.parse("application/json,application/json");
+        RequestBody body = RequestBody.create(mediaType, con1);
+        Request request = new Request.Builder()
+                .url("http://10.60.38.173:10081/root_cause")
+                .post(body)
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+        }catch (Exception e){
+            System.out.println(e);
+            return false;
+        }
+        return true;
+    }
 
 
     public static void main(String[] args) {

@@ -3,9 +3,8 @@ package web;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.io.FileUtils;
 import org.springframework.web.bind.annotation.*;
-import util.Vectorize5GUtil;
+import global.InitData;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -16,6 +15,7 @@ import java.util.Map;
 
 import static global.globalvalue.getFilePath;
 import static neo4j.MongoDriver.*;
+import static util.HttpPostUtil.postRootData;
 import static util.Vectorize5GUtil.*;
 
 @CrossOrigin
@@ -253,9 +253,31 @@ public class AlgorithmController {
         return removeAttributeName(stateId, workflowId, patternId, entityName, attribute);
     }
 
+    @RequestMapping(value = "/api/getPatternLog",method = RequestMethod.GET,produces = "application/json")
+    public HashMap getKpiName(@RequestParam("pattern") String patternId){
+        HashMap map = new HashMap();
+        map.put("data", InitData.getLog().getString(patternId.split("_")[0]));
+        return map;
+    }
+
+    // 算法 root_cause
+    @RequestMapping(value = "/api/getKpiName",method = RequestMethod.GET,produces = "application/json")
+    public JSONArray getKpiName(){
+        return InitData.getKpiName();
+    }
+
+    @RequestMapping(value = "/api/getKpiRootCause",method = RequestMethod.GET,produces = "application/json")
+    public boolean getRootCause(@RequestParam("kpi") String kpi){
+        JSONObject jb = new JSONObject();
+        jb.put("anomaly", kpi);
+        jb.put("kpi_series", InitData.getKpiData());
+        return postRootData(jb.toString());
+    }
+
 
 
     public static void main(String[] args) {
-        new AlgorithmController().addNewState("new2vectorize(2)", "");
+//        new AlgorithmController().addNewState("new2vectorize(2)", "");
+        new AlgorithmController().getRootCause("service/carts/qps(2xx)");
     }
 }
