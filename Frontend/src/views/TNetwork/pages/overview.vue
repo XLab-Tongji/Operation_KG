@@ -81,7 +81,7 @@ export default {
        node._svgAttrs = {
         "stroke-width": 7,
        }
-      this.info=node.info;
+      this.info="03:10.6 / INFO / [carts,,,] / 6 /  [           main] / o.s.j.e.a.AnnotationMBeanExporter	Bean with name 'configurationPropertiesRebinder' has been autodetected for JMX exposure";
     }
   }
 };

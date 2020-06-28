@@ -218,29 +218,31 @@ export default {
         this.options = i;
       });
     // this.data = store.state.data[this.id];
-
-    let formData = new FormData();
-    formData.append("state1", "2020-06-02 03:17:25");
-    formData.append("state2", "2020-06-02 03:17:45");
+    let formData1 = new FormData();
+    formData1.append("state1", "2020-06-02 03:17:25");
+    formData1.append("state2", "2020-06-02 03:17:45");
+    // axios
+    //   .post(url + "/api/compareState", formData1)
+    //   .then(res => {
+    //     console.log(res.data)
+    //   })
     axios
-      .post(url + ""/api/compareState, formData)
+      .post(url + "/api/compareState", formData1)
       .then(res => res.data)
-      .then(data => {
-        console.log(data)
-        let state1 = data["2020-06-02 03:17:25"];
-        let state2 = data["2020-06-02 03:17:45"];
-        state1.compareInfo=[]
-        state2.compareInfo=[]
-        // store.commit("setCompare", res.data);
-        // console.log(res.data)
+      .then(i => {
+        console.log('fsdfsdfd',i)
+        let state1 = i["2020-06-02 03:17:25"];
+        let state2 = i["2020-06-02 03:17:45"];
+        state1.patternInfo=[]
+        state2.patternInfo=[]
+        
         return compareKG(state1, state2);
-        // console.log("Fsfs")
       })
       .then(i => {
         store.commit("setCompare", i.graph);
         this.result=i.result;
       });
-      console.log(store.state.compare)
+      console.log("compare",store.state.compare)
     // console.log('state',store.state.compare);
     // console.log(state1,state2)
     // console.log(compareKG(state1,state2))
