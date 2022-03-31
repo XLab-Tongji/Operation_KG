@@ -11,7 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <file.encoding>UTF-8</file.encoding>
-        <spring.version>4.3.9.RELEASE</spring.version>
+        <spring.version>5.3.18</spring.version>
         <mysql.version>5.1.29</mysql.version>
         <servlet.version>2.5</servlet.version>
         <aspectj.version>1.8.1</aspectj.version>
