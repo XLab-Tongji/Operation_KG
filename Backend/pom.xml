@@ -225,7 +225,7 @@
         <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency> <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.47</version>
+            <version>1.2.83</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -298,7 +298,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.47</version>
+            <version>1.2.83</version>
         </dependency>
         <!--dependency for mongodb-->
         <dependency>
